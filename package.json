@@ -1,0 +1,26 @@
+{
+    "name": "djs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "nodemon index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+<<<<<<< HEAD
+        "discord.js": "^13.2.0-dev.1633046707.fe95005",
+        "fetch": "^0.2.9",
+=======
+        "discord.js": "^13.2.0",
+>>>>>>> 06ad2a092ec3e2d953166797047f993b613ed896
+        "glob": "^7.1.7",
+        "moment": "^2.29.1",
+        "mongoose": "^6.0.2",
+        "node-fetch": "^2.6.1",
+        "reconlx": "^2.4.3"
+    }
+}

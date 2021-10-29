@@ -1,0 +1,31 @@
+const fetch = require('fetch')
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Client, CommandInteraction } = require('discord.js');
+const { Message } = require("discord.js/src");
+
+module.exports = {
+    ...new SlashCommandBuilder()
+        .setName('bazaar')
+        .setDescription('get price of items on bazaar')
+        .addStringOption((option) =>
+            option
+            .setName('Item')
+            .setDescription('the item you want to check')
+            .setRequired(true)
+        ),
+
+       run: async  (client, interaction, args) => {
+           let item = args[0];
+           async function getproductdata() {
+           const response = await fetch(`https://api.slothpixel.me/api/skyblock/bazaar/${item}`);
+           const data = await response.json();
+           const { quick_status } = data;
+           let number1 = quick_status.sellPrice
+           let num1 = number1.toFixed(1);
+           let number2 = quick_status.buyPrice
+           let num2 = number2.toFixed(1);
+           interaction.followUp({content: `The Current price for ${item} is ${num2} and it's sell price is ${num1}`}
+           )}
+           getproductdata();
+       },
+};

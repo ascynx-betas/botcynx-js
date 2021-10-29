@@ -1,0 +1,58 @@
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Client, CommandInteraction, Message } = require("discord.js");
+const interaction = CommandInteraction
+
+module.exports = {
+    name: 'echo',
+    description: 'allows the person to send a message via the bot',
+    userPermissions: ["MANAGE_MESSAGES"],
+    options: [
+        {
+            name: 'message',
+            description: 'the message you want to send',
+            type: 'STRING',
+            required: true,
+        },
+        {
+            name: 'channel',
+            description: 'in what channel you want to send it',
+            type: 'CHANNEL',
+            channelTypes: ['GUILD_TEXT'],
+            required: false,
+        },
+        {
+            name: 'target',
+            description: 'to who you want to send it',
+            type: 'USER',
+            required: false,
+        },
+    ],
+  
+
+
+run: async (member, client, interaction, args) => {
+    const message = interaction.options.getString('message');
+    const user = interaction.options.getUser('target');
+    const channel = interaction.options.getChannel('channel');
+     try {
+    if(user) {
+        user.send({ content: message });
+        interaction.followUp({content: `sent message to ${user.tag}`});
+
+    } if (channel) {
+        if((channel).permissionsFor(member.guild.me).has("SEND_MESSAGES")) {
+            channel.send({ content: message})
+            interaction.followUp({content: `sent message in ${channel}`})
+        } else interaction.followUp(`I do not have permission to send a message in ${channel}`)
+        
+    } else {interaction.followUp({ content: MessageToSend }) 
+    }
+     }catch(err){
+         interaction.followUp(`Command failed to execute`)
+     }
+
+    },
+};
+
+
+//currently breaks at line 33
