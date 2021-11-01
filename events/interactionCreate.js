@@ -1,4 +1,5 @@
 const client = require("../index");
+const config = require("../config");
 
 client.on("interactionCreate", async (interaction) => {
     // Slash Command Handling
@@ -21,9 +22,10 @@ client.on("interactionCreate", async (interaction) => {
         }
         interaction.member = interaction.guild.members.cache.get(interaction.user.id);
 
-        if(!interaction.member.permissions.has(cmd.userPermissions || [])) return interaction.followUp({ content: "you do not have permission to execute this command"})
 
-        cmd.run(client, interaction, args);
+        if(!interaction.member.permissions.has(cmd.userPermissions || []) || !interaction.member.id === config.developer) return interaction.followUp({ content: "you do not have permission to execute this command"})
+
+        cmd.run({ client, interaction, args });
     }
 
     // Context Menu Handling

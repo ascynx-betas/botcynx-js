@@ -1,8 +1,8 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { Client, CommandInteraction, Message } = require("discord.js");
-const interaction = CommandInteraction
 
-module.exports = {
+const { Command } = require('reconlx')
+
+
+module.exports = new Command ({
     name: 'echo',
     description: 'allows the person to send a message via the bot',
     userPermissions: ["MANAGE_MESSAGES"],
@@ -30,7 +30,7 @@ module.exports = {
   
 
 
-run: async (member, client, interaction, args) => {
+run: async ({ client, interaction }) => {
     const message = interaction.options.getString('message');
     const user = interaction.options.getUser('target');
     const channel = interaction.options.getChannel('channel');
@@ -40,19 +40,23 @@ run: async (member, client, interaction, args) => {
         interaction.followUp({content: `sent message to ${user.tag}`});
 
     } if (channel) {
-        if((channel).permissionsFor(member.guild.me).has("SEND_MESSAGES")) {
-            channel.send({ content: message})
+        try {
+            channel.send({ content: message, allowedMentions: {parse :[]}})
             interaction.followUp({content: `sent message in ${channel}`})
-        } else interaction.followUp(`I do not have permission to send a message in ${channel}`)
+        } catch (err) {
+            interaction.followUp({content: `failed to send message to ${channel}`});
+            console.log(err)
+        }
         
     } else {interaction.followUp({ content: MessageToSend }) 
     }
      }catch(err){
          interaction.followUp(`Command failed to execute`)
+         console.log(err)
      }
 
     },
-};
+});
 
 
 //currently breaks at line 33

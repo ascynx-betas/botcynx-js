@@ -1,6 +1,7 @@
 const { Client, CommandInteraction } = require("discord.js");
+const { Command } = require('reconlx');
 
-module.exports = {
+module.exports = new Command ({
     name: 'kick',
     description: 'kick a member',
     userPermissions: ['KICK_MEMBERS'],
@@ -18,15 +19,10 @@ module.exports = {
             required: false
         },
     ],
-    run: async(client, interaction, args) => {
+    run: async({ interaction }) => {
         const target = interaction.options.getMember('target');
         const reason = interaction.options.getString('reason') || "no reason provided";
-        if(target.roles.highest.position >=
-             interaction.member.roles.highest.position
-             )
-              return interaction.followUp({
-            content: "You can't kick this user as their role is higher or equal to yours",
-        });
+        if(target.roles.highest.position >= interaction.member.roles.highest.position)return interaction.followUp({content: "You can't kick this user as their role is higher or equal to yours",});
 
         target.send(
             `You have been kicked from ${interaction.guild.name}, reason: ${reason}`
@@ -37,4 +33,4 @@ module.exports = {
 
         interaction.followUp({ content: `Kicked ${target.user.tag} successfully! reason: ${reason}`});
     },
-}
+})

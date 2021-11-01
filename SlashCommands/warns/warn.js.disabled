@@ -1,4 +1,5 @@
 const warnmodel = require('../../models/warnmodel.js');
+const Command = require('reconlx');
 module.exports = {
     name: 'warn',
     description: 'warn a user',
@@ -18,7 +19,7 @@ module.exports = {
         },
     ],
 
-    run: async(client, interaction, args) => {
+    run: async({ interaction }) => {
         const user = interaction.options.getUser('target');
         const reason = interaction.options.getString('reason');
 

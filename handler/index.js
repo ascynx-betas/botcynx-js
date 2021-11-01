@@ -38,54 +38,21 @@ module.exports = async (client) => {
         client.slashCommands.set(file.name, file);
 
         if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
-        if(file.userPermissions) file.defaultPermission = false;
         arrayOfSlashCommands.push(file);
     });
     client.on("ready", async () => {
         //add bot name / activity to here
-        client.user.setPresence({ activities: [{name: 'existing'}]});
-        client.user.setStatus('idle');
+        client.user.setPresence({ activities: [{name: 'looking for commands'}]});
+        client.user.setStatus('online');
+
         // Register for a single guild
-        const guild = client.guilds.cache
-            .get("779489942899785748")
-            await guild.commands.set(arrayOfSlashCommands).then((cmd) => {
-                const getRoles = (commandName) => {
-                    const permissions = arrayOfSlashCommands.find(x => x.name === commandName).userPermissions;
-                    if(!permissions) return null;
-                    return guild.roles.cache.filter(x => x.permissions.has(permissions) && !x.managed
-                    );
-                };
-
-                const fullPermissions = cmd.reduce((accumulator, x) => {
-                    const roles = getRoles(x.name);
-                    if(!roles) return accumulator;
-
-                    const permissions = roles.reduce((a, v) => {
-                        return [
-                            ...a,
-                            {
-                                id: v.id,
-                                type: "ROLE",
-                                permission: true,
-                            },
-                        ];
-                    }, []);
-
-                    return [
-                        ...accumulator,
-                        {
-                            id: x.id,
-                            permissions,
-                        },
-                    ]
-                }, []);
-
-                guild.commands.permissions.set({ fullPermissions });
-            });
+        //const guild = client.guilds.cache
+            //.get("779489942899785748")
+            //await guild.commands.set([])
         
-
         // Register for all the guilds the bot is in
-        // await client.application.commands.set(arrayOfSlashCommands);
+         client.application.commands.set(arrayOfSlashCommands);
+
     });
 
     // mongoose

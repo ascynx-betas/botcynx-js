@@ -16,6 +16,6 @@
         "moment": "^2.29.1",
         "mongoose": "^6.0.2",
         "node-fetch": "^2.6.1",
-        "reconlx": "^2.4.3"
+        "reconlx": "^2.5.1"
     }
 }

@@ -1,6 +1,7 @@
 const warnmodel = require('../../models/warnmodel');
+const { Command } = require('reconlx');
 
-module.exports = {
+module.exports = new Command ({
     name: 'remove-warn',
     description: 'remove a warning',
     userPermissions: ["MANAGE_MESSAGES"],
@@ -13,7 +14,7 @@ module.exports = {
     },
     ],
 
-    run: async(client, interaction,args) => {
+    run: async({ interaction }) => {
         const warnId = interaction.options.getString('warnid');
         const data = await warnmodel.findById(warnId);
 
@@ -25,4 +26,4 @@ module.exports = {
         const user = interaction.guild.members.cache.get(data.userId);
         return interaction.followUp({content: `Removed the warning ${warnId} from ${user}`});
     },
-};
+});

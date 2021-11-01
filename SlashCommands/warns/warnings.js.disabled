@@ -1,7 +1,9 @@
 const warnmodel = require('../../models/warnmodel');
 const moment = require('moment');
-const {MessageEmbed} = require('discord.js')
-module.exports = {
+const { MessageEmbed } = require('discord.js');
+const { Command } = require('reconlx');
+
+module.exports = new Command ({
     name: 'warnings',
     description: 'display the warnings',
     userPermissions: ['MANAGE_MESSAGES'],
@@ -14,7 +16,7 @@ module.exports = {
         },
     ],
 
-    run: async(client, interaction, args) => {
+    run: async({ interaction }) => {
         const user = interaction.options.getUser('target');
 
         const userWarnings = await warnmodel.find({
@@ -45,4 +47,4 @@ module.exports = {
         interaction.followUp({embeds: [embed]});
     },
 
-}
+})
