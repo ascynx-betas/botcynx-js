@@ -34,7 +34,7 @@ module.exports = new Command ({
         }
     ],
 
-    run: async({ interaction }) => {
+    run: async({client, interaction }) => {
         try {
 
             const fs = require('fs');
@@ -134,7 +134,7 @@ module.exports = new Command ({
                     }
                 })
                 }
-
+                client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}});
 
         }catch (err) {
             console.log(err)

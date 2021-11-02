@@ -46,9 +46,9 @@ module.exports = async (client) => {
         client.user.setStatus('online');
 
         // Register for a single guild
-        //const guild = client.guilds.cache
-            //.get("779489942899785748")
-            //await guild.commands.set([])
+        const guild = client.guilds.cache
+            .get("779489942899785748")
+            await guild.commands.set(arrayOfSlashCommands)
         
         // Register for all the guilds the bot is in
          client.application.commands.set(arrayOfSlashCommands);

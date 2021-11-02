@@ -33,7 +33,7 @@ module.exports = new Command ({
     },
 ],
 
-run: async({ interaction }) => {
+run: async({client, interaction }) => {
     try {
         const fs = require('fs');
         const role = interaction.options.getRole('role');
@@ -85,7 +85,7 @@ var success = false;
             
         };        
 
-interaction.followUp({content: `trying to modify, please wait...`})
+interaction.editReply({content: `trying to modify, please wait...`})
 
 if (successful === true) {
     if (removable.length > 1) {
@@ -143,6 +143,7 @@ fs.writeFile(`guild-only/${guildId}/config.json`, fullitem, function(err) {
     }
 })
 } 
+client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}});
     } catch (err) {
         console.log(err); 
         interaction.editReply({ content: `there was an error executing this command`})

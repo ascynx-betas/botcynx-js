@@ -5,7 +5,7 @@ const { Command } = require('reconlx')
 module.exports = new Command ({
     name: 'echo',
     description: 'allows the person to send a message via the bot',
-    userPermissions: ["MANAGE_MESSAGES"],
+    userPermissions: ["ADMINISTRATOR"],
     options: [
         {
             name: 'message',

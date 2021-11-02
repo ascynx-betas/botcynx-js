@@ -13,7 +13,6 @@ module.exports = new Command ({
             const removable = guildconfig.removable;
             const trigger = guildconfig.trigger;
             const bypass = guildconfig.bypass;
-            const channel = guildconfig.logchannel;
             var removablespliced = [""];
             var bypassspliced = [""];
             var triggerspliced = [""];
@@ -27,8 +26,10 @@ module.exports = new Command ({
                     test += 1;
                     return removablespliced
                 });
-                } else {
+                } else if (removable.length = 1){
                     var removablespliced = `<@${removable}>`
+                } else {
+                    var removablespliced;
                 }
                 test = 0;
                 if (bypass.length > 1) {
@@ -38,8 +39,10 @@ module.exports = new Command ({
                     test += 1;
                     return bypassspliced
                 });
-            } else {
+            } else if (bypass.length = 1){
                 var bypassspliced = `<@${bypass}>`
+            } else {
+                var bypassspliced;
             }
                 test = 0;
                 if (trigger.length > 1) {
@@ -50,11 +53,13 @@ module.exports = new Command ({
                     test += 1;
                     return triggerspliced
                 });
-            } else {
+            } else if (trigger.length = 1){
                 var triggerspliced = `<@&${trigger}>`
+            } else {
+                var triggerspliced;
             }
 
-            interaction.editReply({content: `${name || `not set`}'s config \n \`\`guild id:\`\` ${guildId || `unset value`} \n \`\`removable(s):\`\` ${removablespliced || `no removables set`} \n \`\`trigger(s):\`\` ${triggerspliced || `no triggers set`} \n \`\`bypass(es):\`\` ${bypassspliced || `no bypasses set`} \n \`\`(when using the /delconfig command, a slot is 1 role (it's id))\`\``, allowedMentions: {parse :[]}})
+            interaction.editReply({content: `${name || `not set`}'s config \n \`\`guild id:\`\` ${guildId || `unset value`} \n \`\`removable(s):\`\` ${removablespliced || `no removables set`} \n \`\`trigger(s):\`\` ${triggerspliced || `no triggers set`} \n \`\`bypass(es):\`\` ${bypassspliced || `no bypasses set`} \n \`\`(when using the /delconfig command, a slot is 1 role (it's id)), as it's an array each config starts with the slot [0]\`\``, allowedMentions: {parse :[]}})
 
         }catch (err) {
             console.log(err)
