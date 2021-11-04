@@ -1,7 +1,8 @@
 const client = require("../index");
 const config = require("../config");
-
-client.on("interactionCreate", async (interaction) => {
+const { MessageActionRow, MessageButton } = require('discord.js');
+try {
+client.on("interactionCreate", async (interaction, message) => {
     // Slash Command Handling
     if (interaction.isCommand()) {
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
@@ -22,10 +23,64 @@ client.on("interactionCreate", async (interaction) => {
         }
         interaction.member = interaction.guild.members.cache.get(interaction.user.id);
 
+        if(cmd.devonly) {
+            if (interaction.member.id != config.developerId) return interaction.followUp({content: `this command is only available to developers as it's either dangerous or in developement`})
+        } else {
+        if(!interaction.member.permissions.has(cmd.userPermissions || []) && interaction.member.id != config.developerId) return interaction.followUp({ content: "you do not have permission to execute this command"})
+        }
+        cmd.run({ client, interaction, args, message });
+        
+    }
+    if(interaction.isButton()) {
 
-        if(!interaction.member.permissions.has(cmd.userPermissions || []) || !interaction.member.id === config.developer) return interaction.followUp({ content: "you do not have permission to execute this command"})
 
-        cmd.run({ client, interaction, args });
+        const guildId = interaction.guild.id
+        const guild = interaction.guild
+        const channel = interaction.channel
+        console.log(interaction.customId)
+        if (interaction.customId != "close") {
+            const buttonrow = new MessageActionRow()
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId(`close`)
+                        .setLabel('close ticket')
+                        .setStyle('PRIMARY')
+                );
+            const config = require(`../guild-only/${guildId}/${interaction.customId}.json`)
+            if (guild.features.includes('PRIVATE_THREADS')) {
+                const thread = await channel.threads.create({
+                    name: `${interaction.user.username}-${interaction.customId}`,
+                    autoArchiveDuration: 60,
+                    type: 'GUILD_PRIVATE_THREAD',
+                    reason: `dafuk is a reason`
+                }).catch(() => console.log(`I don't have permission to create a private thread in ${channel} in ${guild.name}`))
+                    thread.send({content: `${config.welcomemessage}`, components: [buttonrow]}),
+                    thread.members.add(`${interaction.user.id}`)
+    
+            } else {
+            const thread = await channel.threads.create({
+                name: `${interaction.user.username}-${interaction.customId}`,
+                autoArchiveDuration: 60,
+                reason: `dafuk is a reason`
+            }).catch(() => console.log(`I don't have permission to create a thread in ${channel} in ${guild.name}`))
+                thread.send({content: `${config.welcomemessage}`, components: [buttonrow]})
+                thread.members.add(`${interaction.user.id}`)
+        }
+            
+        } else {
+            const thread = interaction.channel
+            if (interaction.channel.type === 'GUILD_PRIVATE_THREAD') {
+                channel.send({content: `Locking thread...`, ephemeral: true}).then(thread.setLocked()).then(thread.setArchived());
+
+            } else if (interaction.channel.type === 'GUILD_PUBLIC_THREAD'){
+                channel.send({content: `Locking thread...`, ephemeral: true}).then(thread.setLocked()).then(thread.setArchived());
+                //channel.send({content: `Locking thread...`, ephemeral: true});
+                //thread.setLocked();
+                //thread.setArchived();
+            } else {
+                channel.send({content: `this is not a thread`, ephemeral: true})
+            }
+    }
     }
 
     // Context Menu Handling
@@ -35,3 +90,4 @@ client.on("interactionCreate", async (interaction) => {
         if (command) command.run(client, interaction);
     }
 });
+}catch(err){console.log}

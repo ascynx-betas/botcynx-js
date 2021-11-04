@@ -16,7 +16,6 @@ module.exports = new Command ({
             var bypasscheck = 0;
             var newbypasscheck = false;
             var removablelist = [""];
-            const disabledcommands = guildconfig.disabledcommands;
             interaction.followUp({content: `starting interaction`, ephemeral:true})
             guild.members.fetch().then((members) => {})
             removable.forEach(function(removable){
@@ -33,8 +32,8 @@ module.exports = new Command ({
                     var newbypasscheck = false
                 }
                 if (newbypasscheck === false) {
-                    list.roles.remove(removable)
-                client.channels.cache.get(channel).send({content: `<@&${removable}> was removed from ${list.user.tag}`, allowedMentions: {parse :[]}})
+                    list.roles.remove(removable).catch(() => interaction.followUp("I don't have permission to remove that role"))
+                client.channels.cache.get(channel).send({content: `<@&${removable}> was removed from ${list.user.tag}`, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 interaction.followUp({content: `<@&${removable}> has been removed from ${list.user.tag}`, allowedMentions: {parse :[]}})
                 }
             })

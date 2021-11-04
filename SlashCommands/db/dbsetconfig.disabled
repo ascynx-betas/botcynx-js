@@ -1,9 +1,10 @@
 const { Command } = require("reconlx");
+const configmodel = require('../../models/config.js');
 
 module.exports = new Command ({
-    name: 'setconfig',
+    name: 'devsetconfig',
     description: "store a certain role for uses in the bot",
-    userPermissions: ['MANAGE_ROLES'],
+    devonly: true,
     options: [
         {
             name: 'type',
@@ -50,6 +51,13 @@ run: async({client, interaction }) => {
         const role = interaction.options.getRole('role');
         const type = interaction.options.getString('type');
         const channel = interaction.options.getChannel('channel');
+        //get info from database here
+
+        const userWarnings = await warnmodel.find({
+            guildId: interaction.guildId,
+        });
+
+
         const guildId = interaction.guild.id;
         const guildconfig = require(`../../guild-only/${guildId}/config`);
         const editvalue = 0;
@@ -143,28 +151,21 @@ if (successful === true) {
     } else {
         var triggerspliced = `"${trigger}"`
     }
-const fullitem = `{
-    "name": "${name}",
-    "guildId": "${guildId}",
-    "trigger": [${triggerspliced}],
-    "bypass": [${bypassspliced}],
-    "removable": [${removablespliced}],
-    "logchannel": "${logchannel}"
-}`
 
-success = true;
-fs.writeFile(`guild-only/${guildId}/config.json`, fullitem, function(err) {
-    if (err) {
-     console.log(err);
-     success = false;
-    };
-    if (success === true) {
-        interaction.editReply('successfully added');
-    } else {
-        interaction.editReply('failed to edit')
-    }
-})
-} 
+    //put the write to database here
+    new warnmodel({
+        name: String,
+        guildId: String,
+        trigger: Array,
+        bypass: Array,
+        removable: Array,
+        logchannel: String
+    }).save();
+        interaction.followUp({ content: `${user} has been warned for ${reason}` })
+}
+
+
+
 client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}});
     } catch (err) {
         console.log(err); 

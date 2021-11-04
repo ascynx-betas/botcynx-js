@@ -1,9 +1,10 @@
 const { Command } = require('reconlx')
+const configmodel = require('../../models/config.js');
 
 module.exports = new Command ({
-    name: 'checkconfig',
+    name: 'devcheckconfig',
     description: 'allows the user to check the configuration of the current guild',
-    userPermissions: ['MANAGE_ROLES'],
+    devonly: true,
 
     run: async({ interaction }) => {
         try {

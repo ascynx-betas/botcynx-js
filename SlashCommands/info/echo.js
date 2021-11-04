@@ -5,7 +5,7 @@ const { Command } = require('reconlx')
 module.exports = new Command ({
     name: 'echo',
     description: 'allows the person to send a message via the bot',
-    userPermissions: ["ADMINISTRATOR"],
+    userPermissions: ["MANAGE_MESSAGES"],
     options: [
         {
             name: 'message',
@@ -36,19 +36,19 @@ run: async ({ client, interaction }) => {
     const channel = interaction.options.getChannel('channel');
      try {
     if(user) {
-        user.send({ content: message });
-        interaction.followUp({content: `sent message to ${user.tag}`});
+        user.send({ content: message }).catch(() => interaction.followUp("Can't send DM to specified user"))
+        interaction.followUp({content: `sent message '${message}' to ${user.tag}`});
 
-    } if (channel) {
+    }else if (channel) {
         try {
-            channel.send({ content: message, allowedMentions: {parse :[]}})
+            channel.send({ content: message, allowedMentions: {parse :[]}}).catch(() => interaction.followUp("I don't have permission to send a message in the specified channel"))
             interaction.followUp({content: `sent message in ${channel}`})
         } catch (err) {
             interaction.followUp({content: `failed to send message to ${channel}`});
             console.log(err)
         }
         
-    } else {interaction.followUp({ content: MessageToSend }) 
+    } else {interaction.followUp({ content: message }) 
     }
      }catch(err){
          interaction.followUp(`Command failed to execute`)
@@ -57,6 +57,3 @@ run: async ({ client, interaction }) => {
 
     },
 });
-
-
-//currently breaks at line 33
