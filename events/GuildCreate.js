@@ -12,7 +12,8 @@ client.on("guildCreate", (guild) => {
             "trigger": [""],
             "bypass": [""],
             "removable": [""],
-            "logchannel": ""
+            "logchannel": "",
+            "su": [""]
     }`
     fs.open(`${filepath}`, (err) => {
         if (err) {

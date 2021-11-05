@@ -29,9 +29,9 @@ module.exports = new Command ({
             }
 
 
-            const discord = await hypixel.getDiscord(ign);
+            const discord = await hypixel.getDiscord(ign).catch(() => (`there was an error while trying to fetch the discord tag`))
 
-            const uuid = await hypixel.getuuid(ign);
+            const uuid = await hypixel.getuuid(ign).catch(() =>  (`there was an error while trying to fetch the uuid`))
 
             if (discord === null) {
                 interaction.followUp({content: `Player not found`});
@@ -43,9 +43,10 @@ module.exports = new Command ({
                 return;
             }
 
-            interaction.followUp({content: `username: ${ign}\n uuid: \`\`${uuid}\`\`\nlinked discord: ${discord}`});
+            interaction.followUp({content: `Username: \`\`${ign}\`\`\nUUID: \`\`${uuid}\`\`\nLinked discord account: \`\`${discord}\`\``});
 
         }catch(err){console.log(err)}
 
     }
 })
+//this command sucks
