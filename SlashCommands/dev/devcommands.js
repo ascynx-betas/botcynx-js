@@ -28,16 +28,23 @@ module.exports = new Command ({
             type: 'INTEGER',
             description: 'provides an integer option',
             required: false,
+        },
+        {
+            name: 'string-option',
+            type: 'STRING',
+            description: 'provides a string option if the command requires it',
+            required: false,
         }
     ],
 
-    run: async ({ interaction }) => {
+    run: async ({ interaction, client }) => {
         try {
 
         const action = interaction.options.getString('action');
         const integerOption = interaction.options.getInteger('integer-option');
         const integerOption2 = interaction.options.getInteger('int-option2');
         const integerOption3 = interaction.options.getInteger('int-option3');
+        const stringOption = interaction.options.getString('string-option');
         if (action == 'meme') {
             if (integerOption == null) {
             var number = Math.floor(Math.random()*23) +1;
@@ -97,11 +104,89 @@ module.exports = new Command ({
             }
         } else if (action == 'mee6level') {
           interaction.followUp({content: `this is not coded in yet`})
-            
+            const chosenlevel = integerOption2
+            const currentlevel = integerOption
+            const overflowexp = integerOption3
+          var level = 0;
+          var levelexp = 5*(level*level)+(50*level)+100;
+            var oldlevel = levelexp
+            var fullexp = oldlevel+levelexp
+
+            const levelchosen = new Promise(function(resolve, reject) {
+                function foo() {
+                    if (typeof level == 'undefined') {
+                       var level = 0;
+                    }
+                    if (typeof foo.oldlevel != 'undefined') {
+                        var oldlevel = 0;
+                    }
+                    var levelc = levelexp + oldlevel
+                    var levelexp = 5*(level*level)+(50*level)+100;
+                    var oldlevel = levelexp
+                    if (level < chosenlevel) {
+                        foo(level + 1);
+                        window.setTimeout(foo, 1000)
+                    }
+                }
+                //need to fix the fact that it can't take the value from the function inside
+
+                if (level >= chosenlevel) {
+                    resolve(levelc);
+                } else {
+                    reject(`promise failed`);
+                }
+            });
+
+
+            const levelcurrent = new Promise(function(resolve, reject) {
+                function foo() {
+                    if (typeof level == 'undefined') {
+                       var level = 0;
+                    }
+                    if (typeof oldlevel != 'undefined') {
+                        var oldlevel = 0;
+                    }
+
+                    var clevel = levelexp + oldlevel
+                    var levelexp = 5*(level*level)+(50*level)+100;
+                    var oldlevel = clevel
+
+                    if (level < currentlevel) {
+                        foo(level + 1);
+                        window.setTimeout(foo, 1000)
+                    }
+                    //need to fix the fact that it can't take the value from the function inside
+                }
+
+                    if (level >= currentlevel) {
+                        resolve(clevel);
+                    } else {
+                        reject(`promise failed`)
+                    }
+            });
+
+
+            const calculated = levelchosen - (clevel + overflowexp)
 
 
             
-        } else {
+        }else if (action == 'setusername'){
+            if (stringOption !== null) {
+                client.user.setUsername(stringOption).catch(() => console.log())
+                interaction.followUp({content: `successfully set bot name to ${stringOption}`})
+                console.log(`username was update to ${stringOption} from ${client.user.tag}, by ${interaction.user.tag}`)
+            } else {
+                interaction.followUp({content: `you need to set a string option`})
+            }
+
+     } else if (action == 'getPermissionlist') {
+         const guild = interaction.guild
+        const perms = guild.me.permissions.toArray();
+        
+        interaction.followUp({content:`\`\`${perms.toString()}\`\``}).catch(() => console.log())
+
+
+    }else {
             interaction.followUp({content: `there's no ${action} currently`, allowedMentions: {parse :[]}});
         }
     }catch (err) {console.log(err)};

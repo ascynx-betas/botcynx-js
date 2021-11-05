@@ -54,12 +54,14 @@ run: async({client, interaction }) => {
         const guildconfig = require(`../../guild-only/${guildId}/config`);
         const editvalue = 0;
         const name = guildconfig.name;
+var su = guildconfig.su;
 var logchannel = guildconfig.logchannel
 var test = 0;
 var removablespliced = [""];
 var bypassspliced = [""];
 var triggerspliced = [""];
 var success = false;
+var suspliced = [""];
 
         var bypass = guildconfig.bypass;
         var removable = guildconfig.removable;
@@ -115,7 +117,7 @@ if (successful === true) {
             var removablesplice = `"${removable}"`
             removablespliced.splice(test, test, removablesplice)
             test += 1;
-            return removablespliced
+            return removablespliced;
         });
         } else {
             var removablespliced = `"${removable}"`
@@ -126,7 +128,7 @@ if (successful === true) {
             var bypasssplice = `"${bypass}"`
             bypassspliced.splice(test, test, bypasssplice)
             test += 1;
-            return bypassspliced
+            return bypassspliced;
         });
     } else {
         var bypassspliced = `"${bypass}"`
@@ -138,10 +140,23 @@ if (successful === true) {
             var triggersplice = `"${trigger}"`
             triggerspliced.splice(test, test, triggersplice)
             test += 1;
-            return triggerspliced
+            return triggerspliced;
         });
     } else {
         var triggerspliced = `"${trigger}"`
+    }
+
+    test = 0;
+    if (su.length > 1) {
+        su.forEach(function(su) {
+            console.log(su)
+            var susplice = `"${su}"`
+            suspliced.splice(test, test, susplice)
+            test += 1;
+            return suspliced;
+        })
+    } else {
+        var suspliced = `"${su}"`
     }
 const fullitem = `{
     "name": "${name}",
@@ -149,7 +164,8 @@ const fullitem = `{
     "trigger": [${triggerspliced}],
     "bypass": [${bypassspliced}],
     "removable": [${removablespliced}],
-    "logchannel": "${logchannel}"
+    "logchannel": "${logchannel}",
+    "su": [${su}]
 }`
 
 success = true;

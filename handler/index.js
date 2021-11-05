@@ -44,7 +44,6 @@ module.exports = async (client) => {
         //add bot name / activity to here
         client.user.setPresence({ activities: [{name: 'looking for commands'}]});
         client.user.setStatus('online');
-        client.user.setUsername('Botcynx');
 
         // Register for a single guild
         const guild = client.guilds.cache

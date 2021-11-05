@@ -24,7 +24,19 @@ client.on("interactionCreate", async (interaction, message) => {
         interaction.member = interaction.guild.members.cache.get(interaction.user.id);
 
         if(cmd.devonly) {
-            if (interaction.member.id != config.developerId) return interaction.followUp({content: `this command is only available to developers as it's either dangerous or in developement`})
+            const guild = interaction.guild
+            var guildconfig = require(`../guild-only/${guild.id}/config.json`)
+            var su = guildconfig.su
+            var sunumber = su.length
+            sutested = 0;
+            su.forEach(function(su) {
+                if (interaction.member.id != su && interaction.member.id != config.developerId) {
+                    sutested += 1
+                }
+            })
+            if (sutested >= sunumber) {
+                return interaction.followUp({ content: "this command requires super user permissions to use"});
+            }
         } else {
         if(!interaction.member.permissions.has(cmd.userPermissions || []) && interaction.member.id != config.developerId) return interaction.followUp({ content: "you do not have permission to execute this command"})
         }
