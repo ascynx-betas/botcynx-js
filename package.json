@@ -16,7 +16,7 @@
         "glob": "^7.1.7",
         "moment": "^2.29.1",
         "mongoose": "^6.0.2",
-        "node-fetch": "^2.6.1",
+        "node-fetch": "^3.0.0",
         "reconlx": "^2.5.1",
         "slothpixel": "^1.2.1"
     }
