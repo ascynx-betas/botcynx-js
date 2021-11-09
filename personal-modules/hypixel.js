@@ -1,58 +1,27 @@
-const slothpixel = require ("slothpixel");
-
-async function getuuid(ign) {
-    
-    const query = `{
-        players {
-            player(player_name: "${ign}") {
-                uuid
-            }
-        }
-    }`;
-
-    const data = await slothpixel.graphql({ query});
-    const uuid = data.players.player.uuid
-    return uuid;
-}
-
-async function getPlayer(ign) {
-
-    const data = await slothpixel (`players/${ign}`)
-    return data;
-}
-
-async function getDiscord(ign) {
-
-    const query = `{
-        players {
-            player(player_name: "${ign}") {
-                links {
-                    DISCORD
-                }
-            }
-        }
-    }`;
+import * as fetch from 'node-fetch'
 
 
-const data = await slothpixel.graphql({ query });
-const links = data.players.player.links
-return links.DISCORD;
-};
 
-async function getOnline(ign) {
-    
-    const { online } = await slothpixel(`players/${ign}/status`);
-    console.log(online)
-    return online;
-}
+const base = `api.hypixel.net/`
+const apikey = config.hypixelapikey
+const api = `key=${apikey}`
 
-async function getOnlineActivity(ign) {
+async function getplayer(uuid) {
 
 
-    const data = await slothpixel(`players/${ign}/status`);
-    return data;    
+const response = await fetch(link[{
+    headers: { }
+}])
+const data = await response.json()
+const rank = data.rank
+
+return rank;
 }
 
 module.exports = {
-    getDiscord, getuuid, getOnline, getOnlineActivity
+    getplayer
 }
+
+// I'll have to fix this later
+// currently missing the API header + api var call
+//  and the link itself, also I'm not sure import'll work
