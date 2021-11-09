@@ -42,7 +42,7 @@ module.exports = async (client) => {
     });
     client.on("ready", async () => {
         //add bot name / activity to here
-        client.user.setPresence({ activities: [{name: 'looking for commands'}]});
+        client.user.setPresence({ activities: [{name: 'sub to [REDACTED]'}]});
         client.user.setStatus('online');
 
         // Register for a single guild

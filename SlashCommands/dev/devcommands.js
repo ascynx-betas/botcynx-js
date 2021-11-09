@@ -174,7 +174,7 @@ module.exports = new Command ({
             if (stringOption !== null) {
                 client.user.setUsername(stringOption).catch(() => console.log())
                 interaction.followUp({content: `successfully set bot name to ${stringOption}`})
-                console.log(`username was update to ${stringOption} from ${client.user.tag}, by ${interaction.user.tag}`)
+                console.log(`username was updated to ${stringOption} from ${client.user.tag}, by ${interaction.user.tag}`)
             } else {
                 interaction.followUp({content: `you need to set a string option`})
             }

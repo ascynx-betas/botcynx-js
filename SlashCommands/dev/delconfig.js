@@ -112,13 +112,26 @@ module.exports = new Command ({
             } else {
                 var triggerspliced = `"${trigger}"`
             }
+            test = 0;
+            if (su.length > 1) {
+                su.forEach(function(su) {
+                    console.log(su)
+                    var susplice = `"${su}"`
+                    suspliced.splice(test, test, susplice)
+                    test += 1;
+                    return suspliced;
+                })
+         } else {
+                var suspliced = `"${su}"`
+            }
                 const fullitem = `{
                     "name": "${name}",
                     "guildId": "${guildId}",
                     "trigger": [${triggerspliced}],
                     "bypass": [${bypassspliced}],
                     "removable": [${removablespliced}],
-                    "logchannel": "${logchannel}"
+                    "logchannel": "${logchannel}",
+                    "su": [${supliced}]
                 }`
                 
                 success = true;
