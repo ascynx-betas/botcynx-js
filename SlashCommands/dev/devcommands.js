@@ -101,6 +101,10 @@ module.exports = new Command ({
                 interaction.followUp({content:`https://cdn.discordapp.com/attachments/855822241333772308/904774315646517349/teris.mp4`});
             } else {
                 interaction.followUp({content:`there is no more than 24 options currently :)`})
+
+                //************* */
+                //change the meme stash to an array would be a better option
+                //************ */
             }
         } else if (action == 'mee6level') {
           interaction.followUp({content: `this is not coded in yet`})

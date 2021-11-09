@@ -99,6 +99,27 @@ client.on("interactionCreate", async (interaction, message) => {
     if (interaction.isContextMenu()) {
         await interaction.deferReply({ ephemeral: false });
         const command = client.slashCommands.get(interaction.commandName);
+        const cmd = command
+
+
+
+        if(cmd.devonly) {
+            const guild = interaction.guild
+            var guildconfig = require(`../guild-only/${guild.id}/config.json`)
+            var su = guildconfig.su
+            var sunumber = su.length
+            sutested = 0;
+            su.forEach(function(su) {
+                if (interaction.member.id != su && interaction.member.id != config.developerId) {
+                    sutested += 1
+                }
+            })
+            if (sutested >= sunumber) {
+                return interaction.followUp({ content: "this command requires super user permissions to use"});
+            }
+        } else {
+        if(!interaction.member.permissions.has(cmd.userPermissions || []) && interaction.member.id != config.developerId) return interaction.followUp({ content: "you do not have permission to execute this command"})
+        }
         if (command) command.run(client, interaction);
     }
 });
