@@ -3,7 +3,7 @@ const verifyModel = require('../../models/verifymodel');
 
 
 module.exports = {
-    name: 'getuuid',
+    name: 'getinfo',
     type: 'USER',
     devonly: true,
 
@@ -22,8 +22,19 @@ module.exports = {
         if (typeof uuid !== 'undefined') {
         const data = await hypixel.getPlayerByUuid(uuid).catch(console.log)
         const username = data.player.displayname;
+        if (typeof info.labels !== 'undefined') {
+            const labellist = info.labels
+            var labels = [""];
+            var editvalue = 0;
+            labellist.forEach(function(labellist){
 
-        return interaction.followUp({content: `${user}\'s username is ${username}`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+                labels.splice(editvalue, 0, labellist);
+                editvalue += 1;
+            })
+                return interaction.followUp({content: `${user}\'s username is \`\`${username}\`\` and has the label(s) ${labels}`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+        }else {
+            return interaction.followUp({content: `${user}\'s username is \`\`${username}\`\``, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+            }
         } else {
             return interaction.followUp({content:` couldn't fetch uuid`})
         }
@@ -31,3 +42,7 @@ module.exports = {
     }catch (err) {console.log(err)}
     }
 }
+
+/**
+ * when dealing with mongodb databases using mongoose, if you want to get informations that you wrote outside of addition, you need to have them in the model
+ */
