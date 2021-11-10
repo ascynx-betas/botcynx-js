@@ -8,21 +8,28 @@ module.exports = {
     devonly: true,
 
     run: async (client, interaction, args) => {
+        try {
         const user = await client.users.fetch(interaction.targetId);
         const userId = user.id
 
         const userInfo = await verifyModel.find({
             userId: userId
         });
+        const info = userInfo[0]
+        const uuid = info.minecraftuuid
 
+            if(!userInfo?.length) return interaction.followUp({content: `the user isn't verified`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+        if (typeof uuid !== 'undefined') {
+        const data = await hypixel.getPlayerByUuid(uuid).catch(console.log)
+        const username = data.player.displayname;
 
-        if(!userInfo?.length) return interaction.followUp({content: `the user isn't verified`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+        return interaction.followUp({content: `${user}\'s username is ${username}`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+        } else {
+            return interaction.followUp({content:` couldn't fetch uuid`})
+        }
 
-
-        const data = await hypixel.getPlayerByUuid(verify.minecraftuuid).catch(() => console.log)
-        const username = data.player.displayname
-        interaction.followUp({content: `${verify.userId}\'s username is ${username}`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
-
-
+    }catch (err) {console.log(err)}
     }
 }
+
+//currently having a problem to get the uuid from userInfo / userInfos

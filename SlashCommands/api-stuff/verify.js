@@ -22,6 +22,21 @@ module.exports = new Command ({
 
         const user = interaction.user
         const usertag = interaction.user.tag;
+
+        if (ign.length < 3) {
+            interaction.followUp({content: `Hmmm, sus is a 3 character word and 3 is the minimum number of character in a minecraft username but the one you tried to enter is shorter than that, nice try though.`});
+            return;
+        }
+
+        if (ign.length > 16 && ign.length != 32 && ign.length != 36) {
+            interaction.followUp({content: `a username cannot be longer than 16 characters.`});
+            return;
+        }
+        if (ign.length == 32 || ign.length == 36) {
+            interaction.followUp({content: `I asked for a username not a uuid :(`});
+            return;
+        }
+
         const linkedtag = await slothpixel.getDiscord(ign).catch(() => (`there was an error while trying to fetch the discord tag`));
             const minecraftuuid = await slothpixel.getuuid(ign).catch(() => (`failed to fetch uuid`))
 
