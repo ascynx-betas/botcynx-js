@@ -1,27 +1,30 @@
-import * as fetch from 'node-fetch'
+var request = require('request');
+const rp = require('request-promise');
+const config =  require('../config.json')
+const key = config.hypixelapikey
 
 
+exports.getPlayerByUuid = function(uuid) {
+    var Url = "https://api.hypixel.net/player?key=" + key + "&uuid=" + uuid;
 
-const base = `api.hypixel.net/`
-const apikey = config.hypixelapikey
-const api = `key=${apikey}`
-
-async function getplayer(uuid) {
-
-
-const response = await fetch(link[{
-    headers: { }
-}])
-const data = await response.json()
-const rank = data.rank
-
-return rank;
+    return rp(Url).then(body => {
+        let data = JSON.parse(body);
+    return data
+})
 }
+exports.getStatus = function(uuid) {
+    var Url = "http://api.hypixel.net/status?key" + key + "&uuid=" + uuid;
 
-module.exports = {
-    getplayer
+    return rp(Url).then(body => {
+        let data = JSON.parse(body);
+        return data
+    })
 }
+exports.getKeyInformation = function() {
+    var Url = "https://api.hypixel.net/key?key=" + key;
 
-// I'll have to fix this later
-// currently missing the API header + api var call
-//  and the link itself, also I'm not sure import'll work
+    return rp(Url).then(body => {
+        let data = JSON.parse(body);
+        return data
+    })
+}

@@ -1,5 +1,5 @@
 const { Command } = require('reconlx');
-const hypixel = require('../../personal-modules/hypixel.js')
+const hypixel = require('../../personal-modules/slothpixel.js')
 const { MessageEmbed } = require('discord.js');
 module.exports = new Command ({
     name: 'hyinfo',
@@ -70,4 +70,3 @@ module.exports = new Command ({
     }
 })
 //this command sucks
-//error when I try to fetch online, it's either in here or in `../../personal-modules/hypixel.js`

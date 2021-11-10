@@ -4,25 +4,36 @@ module.exports = new Command ({
     name: 'info',
     description: 'gives informations about the bot and it\'s creator',
 
-    run: async ({ interaction }) => {
+    run: async ({ interaction, client }) => {
         try {
-        const guildId = interaction.guild.id;
-        const guildconfig = require(`../../guild-only/${guildId}/config.json`)
-        const disabledcommands = 100;
-        const allowedcommands = guildconfig.disabledcommands
-        if (disabledcommands ===! allowedcommands) {
-        interaction.followUp({content: `the command is currently in development and has been disabled`})
-        } else {
-            //the code
             
-            const embed = new MessageEmbed()
+        const embed = new MessageEmbed()
         .setTitle(`Informations`)
-        .setAuthor(`Cat bot#0679`)
-        .setDescription(`Cat bot is a bot coded by <@376647579653636096> in JavaScript \n the code is based on reconlx's djs-base-handler \n\n currently the bot has the available commands \n\n \`\`/addconfig\`\` which allows server admins to add roles to the configuration \n \`\`/delconfig\`\` which allows server admins to remove roles from the configuration \n \`\`/checkconfig\`\` which allows to see the configuration of the bot on the current guild \n \`\`/echo\`\` a commands that allows to speak through the bot \n \`\`/ping\`\` which allows the user to see the current ping of the bot \n \`\`/info\`\` the command you just used, which allows to get the informations on the bot \n \`\`/role\`\` allows a user to add / remove a role from someone (limited to the user's permissions / the bot's permissions)  `)
+        .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+        .setDescription(
+        `
+        Bot Mention: ${client.user}            Developer: Ascynx#2020\n
+        **Commands**:
+            **Hypixel**\n
+            \`\`/hyinfo\`\`: allows the user to get some information about a player on hypixel
+            \`\`/stalk\`\`: allows the user to get the current activity of a player
+            **ticket**\n
+            \`\`/setupticket\`\`: allows to create a new ticket channel (thread ticket(detects if the guild has access to private threads))
+            \`\`/ticket\`\`: allows the person to execute actions on a ticket / ticket channel
+            **moderation**\n
+            \`\`/role\`\`: allows the user to give or remove a role from another user (requires to have a role above the role given)
+            **Config**\n
+            \`\`/setconfig\`\`: allows the user to add a parameter to the guild's configurations
+            \`\`/delconfig\`\`: allows the user to remove a parameter from the guild's configurations
+            \`\`/dev\`\`: a command useable by the dev / superusers that can be used for fun / unfinished stuff
+            \`\`/reload\`\`: a command that when used will check the guild's member according to the configuration
+            \`\`/checkconfig\`\`: a command that allows a guild's admin to check the current guild's configuration
+        `
+        )
         .setColor(`#69696E`);
 
-        interaction.followUp({embeds: [embed]});
-        }
+        interaction.followUp({embeds: [embed]})
+
     }catch(err) {
         console.log(err)
     }

@@ -1,8 +1,7 @@
-const { Command } = require ('reconlx');
 const { ContextMenuInteraction, MessageEmbed } = require('discord.js')
 
 module.exports = {
-    name: 'test',
+    name: 'getAvatar',
     type: 'USER',
     devonly: true,
 

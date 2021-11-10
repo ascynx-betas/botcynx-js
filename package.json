@@ -18,6 +18,8 @@
         "mongoose": "^6.0.2",
         "node-fetch": "^2.6.1",
         "reconlx": "^2.5.1",
+        "request": "^2.88.2",
+        "request-promise": "^4.2.6",
         "slothpixel": "^1.2.1"
     }
 }
