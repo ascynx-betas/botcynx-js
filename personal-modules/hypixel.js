@@ -10,7 +10,7 @@ exports.getPlayerByUuid = function(uuid) {
     return rp(Url).then(body => {
         let data = JSON.parse(body);
     return data
-})
+    })
 }
 exports.getStatus = function(uuid) {
     var Url = "http://api.hypixel.net/status?key" + key + "&uuid=" + uuid;

@@ -1,23 +1,26 @@
-
-## based on reconlx's djs-base-handler
-## Cat bot is a discord bot coded by Ascynx#2020 in JavaScript
-## it is based on reconlx's djs-base-handler
+## Cat bot is a bot created by Ascynx#2020 in Javascript
+the handler used for this project is based on https://github.com/reconlx/djs-base-handler
 
 
+## currently the bot has the following commands
 
+# moderation
 
-currently the bot has the available commands
+/role allows to add a role to the user selected
+# hypixel api
 
-/addconfig which allows server admins to add roles to the configuration
+/hyinfo can be used to get informations on a player
+/stalk allows to see what the target is currently playing
+# ticket
 
-/delconfig which allows server admins to remove roles from the configuration
+/setupticket can be used to setup a ticket system in a channel
+/ticket can be used to execute commands in a ticket thread or on a ticket channel
+# config
 
-/checkconfig which allows to see the configuration of the bot on the current guild
+/setconfig can be used to add informations to the configuration of the current guild
+/delconfig can be used to remove configuration in the current guild
+/dev can be used to execute indev / private commands
+/checkconfig can be used to see the configuration of the current guild
+# context menu commands
 
-/echo a commands that allows to speak through the bot
-
-/ping which allows the user to see the current ping of the bot
-
-/info the command you just used, which allows to get the informations on the bot
-
-/role allows a user to add / remove a role from someone (limited to the user's permissions / the bot's permissions)
+User - getAvatar returns the user's avatar in an embed

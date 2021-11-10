@@ -37,9 +37,12 @@ module.exports = new Command ({
             const discord = await slothpixel.getDiscord(ign).catch(() => (`there was an error while trying to fetch the discord tag`));
             const online = await slothpixel.getOnline(ign).catch(() => (`there was an error while trying to fetch the player's status`));
             const status = await slothpixel.getOnlineActivity(ign).catch(() => (`failed to fetch activity`));
-            const uuid = await slothpixel.getuuid(ign).catch(() => (`failed to fetch uuid`));
+            const uuid = await slothpixel.getuuid(ign).catch(() => (`failed to fetch uuid`))
+            const data = await hypixel.getPlayerByUuid(uuid).catch(`failed to fetch data`)
             const experimental = await hypixel.getKeyInformation().catch(`failed to fetch experimental`);
+
             console.log(experimental)
+
             if (status != null) {
             const gametype = status.game.type
             const gamemap = status.game.map
