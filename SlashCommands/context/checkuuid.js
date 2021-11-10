@@ -16,9 +16,9 @@ module.exports = {
             userId: userId
         });
         const info = userInfo[0]
-        const uuid = info.minecraftuuid
 
             if(!userInfo?.length) return interaction.followUp({content: `the user isn't verified`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            const uuid = info.minecraftuuid
         if (typeof uuid !== 'undefined') {
         const data = await hypixel.getPlayerByUuid(uuid).catch(console.log)
         const username = data.player.displayname;
@@ -31,5 +31,3 @@ module.exports = {
     }catch (err) {console.log(err)}
     }
 }
-
-//currently having a problem to get the uuid from userInfo / userInfos

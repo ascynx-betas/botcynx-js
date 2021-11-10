@@ -22,6 +22,7 @@ module.exports = new Command ({
 
         const user = interaction.user
         const usertag = interaction.user.tag;
+        const userId = interaction.user.id
 
         if (ign.length < 3) {
             interaction.followUp({content: `Hmmm, sus is a 3 character word and 3 is the minimum number of character in a minecraft username but the one you tried to enter is shorter than that, nice try though.`});
@@ -40,7 +41,12 @@ module.exports = new Command ({
         const linkedtag = await slothpixel.getDiscord(ign).catch(() => (`there was an error while trying to fetch the discord tag`));
             const minecraftuuid = await slothpixel.getuuid(ign).catch(() => (`failed to fetch uuid`))
 
+            const userInfo = await verifyModel.find({
+                userId: userId
+            });
 
+
+            if(userInfo.length > 0) return interaction.followUp({content: `that user is already verified`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             if ( usertag == linkedtag) {
 
 
