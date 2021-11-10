@@ -3,7 +3,6 @@ const { ContextMenuInteraction, MessageEmbed } = require('discord.js')
 module.exports = {
     name: 'getAvatar',
     type: 'USER',
-    devonly: true,
 
     run: async ( client, interaction, args ) => {
         const user = await client.users.fetch(interaction.targetId);

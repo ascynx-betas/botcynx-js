@@ -35,40 +35,35 @@ module.exports = new Command ({
 
 
             const discord = await slothpixel.getDiscord(ign).catch(() => (`there was an error while trying to fetch the discord tag`));
-            const online = await slothpixel.getOnline(ign).catch(() => (`there was an error while trying to fetch the player's status`));
-            const status = await slothpixel.getOnlineActivity(ign).catch(() => (`failed to fetch activity`));
             const uuid = await slothpixel.getuuid(ign).catch(() => (`failed to fetch uuid`))
-            const data = await hypixel.getPlayerByUuid(uuid).catch(`failed to fetch data`)
-            const experimental = await hypixel.getKeyInformation().catch(`failed to fetch experimental`);
+            const data = await hypixel.getStatus(uuid).catch(`failed to fetch data`)
 
-            console.log(experimental)
 
-            if (status != null) {
-            const gametype = status.game.type
-            const gamemap = status.game.map
-            const gamemode = status.game.mode
+            if (data.session != null) {
+            const gametype = data.session.gameType
+            const gamemode = data.session.mode
+            const map = data.session.map
+            
 
-            if (online == true) {
+            if (data.session.online == true) {
                 var on = `🟢`
-            } else if (online == false) {
+            } else if (data.session.online == false) {
                 var on = `🔴`
             } else {
                 var on = (`there was an error while trying to fetch the activity`)
             }
 
 
-            if (discord === null || online === null) {
+            if (discord === null || data.session.online === null) {
                 interaction.followUp({content: `Player not found`});
                 return;
             }
 
-
-        
-            if (gamemap === null) {
-                if (gametype == 'SkyBlock') {
+            if (typeof map == 'undefined') {
+                if (gametype == 'SKYBLOCK') {
                     //if in skyblock
                     interaction.followUp({content: `player is currently ${on} \n in ${gametype} in ${gamemode} `})
-                } else if (gametype === null) {
+                } else if (typeof gametype == 'undefined') {
                     //if offline?
                     interaction.followUp({content: `${ign} is currently offline`})
                     return;
@@ -79,9 +74,8 @@ module.exports = new Command ({
                 return;
             } else {
                 //if there is a map, probably for skywars, bedwars and games like that
-                interaction.followUp({content: `player is currently ${on}\n in the game ${gametype} in the gamemode/map(if skyblock) ${gamemode}\n in ${gamemap} `})
+                interaction.followUp({content: `player is currently ${on}\n in the game ${gametype} in the gamemode/map(if skyblock) ${gamemode}\n in ${map} `})
             }
-
 
 
 
@@ -95,3 +89,4 @@ module.exports = new Command ({
 //to add
 //get from api last logout + last login
 //detect if online and return the time they've been online or since when they've been offline
+// finished to get from the hypixel api to avoid it not being correct
