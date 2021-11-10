@@ -16,7 +16,7 @@
         "glob": "^7.1.7",
         "moment": "^2.29.1",
         "mongoose": "^6.0.2",
-        "node-fetch": "^2.6.1",
+        "node-fetch": "^3.1.0",
         "reconlx": "^2.5.1",
         "request": "^2.88.2",
         "request-promise": "^4.2.6",
