@@ -177,7 +177,7 @@ module.exports = new Command ({
         }else if (action == 'setusername'){
             if (stringOption !== null) {
                 client.user.setUsername(stringOption).catch(() => console.log())
-                interaction.followUp({content: `successfully set bot name to ${stringOption}`})
+                interaction.followUp({content: `successfully set bot name to ${stringOption}`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 console.log(`username was updated to ${stringOption} from ${client.user.tag}, by ${interaction.user.tag}`)
             } else {
                 interaction.followUp({content: `you need to set a string option`})
@@ -187,11 +187,11 @@ module.exports = new Command ({
          const guild = interaction.guild
         const perms = guild.me.permissions.toArray();
         
-        interaction.followUp({content:`\`\`${perms.toString()}\`\``}).catch(() => console.log())
+        interaction.followUp({content:`\`\`${perms.toString()}\`\``}).catch(() => console.log()).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
 
     }else {
-            interaction.followUp({content: `there's no ${action} currently`, allowedMentions: {parse :[]}});
+            interaction.followUp({content: `there's no ${action} currently`, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
         }
     }catch (err) {console.log(err)};
 }

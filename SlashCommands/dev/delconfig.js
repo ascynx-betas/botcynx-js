@@ -53,27 +53,27 @@ module.exports = new Command ({
     var removable = guildconfig.removable;
     var trigger = guildconfig.trigger;
 
-            interaction.followUp({content: `attempting the change, please wait...`})
+            interaction.followUp({content: `attempting the change, please wait...`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
             if (type === "bypass") {
                 bypass.splice(editvalue, 1);
 
-                interaction.followUp({content: `array ${type} is now ${bypass.toString()}`});
+                interaction.followUp({content: `array ${type} is now ${bypass.toString()}`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 var successful = true;
             } else if (type === "removable") {
                 removable.splice(editvalue, 1);
 
-                interaction.followUp({content: `array ${type} is now ${removable.toString()}`});
+                interaction.followUp({content: `array ${type} is now ${removable.toString()}`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 var successful = true;
 
             } else if (type === "trigger") {
                 trigger.splice(editvalue, 1);
 
-                interaction.followUp({content: `array ${type} is now ${trigger.toString()}`});
+                interaction.followUp({content: `array ${type} is now ${trigger.toString()}`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 var successful = true;
 
             }else {
-                interaction.followUp({content: `${type} is not a recognized type`});
+                interaction.followUp({content: `${type} is not a recognized type`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 var successful = false;
             };
 
@@ -141,13 +141,13 @@ module.exports = new Command ({
                      success = false;
                     };
                     if (success === true) {
-                        interaction.editReply('successfully modified');
+                        interaction.editReply('successfully modified').catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                     } else {
-                        interaction.editReply('failed to edit')
+                        interaction.editReply('failed to edit').catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                     }
                 })
                 }
-                client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}});
+                client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
         }catch (err) {
             console.log(err)

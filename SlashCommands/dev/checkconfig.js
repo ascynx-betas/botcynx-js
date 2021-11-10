@@ -74,7 +74,7 @@ module.exports = new Command ({
                 var triggerspliced;
             }
 
-            interaction.followUp({content: `${name || `not set`}'s config \n \`\`guild id:\`\` ${guildId || `unset value`} \n \`\`removable(s):\`\` ${removablespliced || `no removables set`} \n \`\`trigger(s):\`\` ${triggerspliced || `no triggers set` } \n \`\`bypass(es):\`\` ${bypassspliced || `no bypasses set`} \n \`\`Elevated permissions:\`\` ${suspliced || `no super users added`}\n \`\`(when using the /delconfig command, a slot is 1 role (it's id)), as it's an array each config starts with the slot [0]\`\``, allowedMentions: {parse :[]}})
+            interaction.followUp({content: `${name || `not set`}'s config \n \`\`guild id:\`\` ${guildId || `unset value`} \n \`\`removable(s):\`\` ${removablespliced || `no removables set`} \n \`\`trigger(s):\`\` ${triggerspliced || `no triggers set` } \n \`\`bypass(es):\`\` ${bypassspliced || `no bypasses set`} \n \`\`Elevated permissions:\`\` ${suspliced || `no super users added`}\n \`\`(when using the /delconfig command, a slot is 1 role (it's id)), as it's an array each config starts with the slot [0]\`\``, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
         }catch (err) {
             console.log(err)

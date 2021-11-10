@@ -45,7 +45,7 @@ module.exports = new Command ({
 
             //if not found 
             if (discord === null || uuid === null || online === null) {
-                interaction.followUp({content: `Player not found`});
+                interaction.followUp({content: `Player not found`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
 
@@ -63,7 +63,7 @@ module.exports = new Command ({
             .setDescription(`Username: \`\`${ign}\`\`\nUUID: \`\`${uuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`)
             .setFooter(`powered by slothpixel api`)
 
-            interaction.followUp({embeds: [embed]});
+            interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
         }catch(err){console.log(err)}
 

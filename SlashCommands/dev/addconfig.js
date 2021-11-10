@@ -67,15 +67,15 @@ var suspliced = [""];
         var removable = guildconfig.removable;
         var trigger = guildconfig.trigger;
 
-        interaction.followUp({content: `starting interaction`})
+        interaction.followUp({content: `starting interaction`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
         if (type === "bypass") {
             const roleId = role.id
             var bypass = guildconfig.bypass;
             bypass.splice(editvalue, 0, roleId);
 
-            interaction.editReply({content: `array ${type} is now ${bypass.toString()}`});
-            interaction.followUp({ content: `${role} has been added to ${type}`, allowedMentions: {parse :[]}})
+            interaction.editReply({content: `array ${type} is now ${bypass.toString()}`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            interaction.followUp({ content: `${role} has been added to ${type}`, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             var successful = true;
         } else if (type === "trigger") {
             const roleId = role.id
@@ -83,8 +83,8 @@ var suspliced = [""];
 
             trigger.splice(editvalue, 0, roleId);
 
-            interaction.editReply({ content: `array ${type} is now ${trigger.toString()}`});
-            interaction.followUp({ content: `${role} has been added to ${type}`, allowedMentions: {parse :[]}})
+            interaction.editReply({ content: `array ${type} is now ${trigger.toString()}`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            interaction.followUp({ content: `${role} has been added to ${type}`, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             var successful = true;
         } else if (type === "removable") {
             const roleId = role.id
@@ -92,24 +92,24 @@ var suspliced = [""];
 
             removable.splice(editvalue, 0, roleId);
 
-            interaction.editReply({ content: `array ${type} is now ${removable.toString()}`});
-            interaction.followUp({ content: `${role} has been added to ${type}`, allowedMentions: {parse :[]}})
+            interaction.editReply({ content: `array ${type} is now ${removable.toString()}`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            interaction.followUp({ content: `${role} has been added to ${type}`, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             var successful = true;
         }else if (type === "logchannel") {
             var logchannel = channel.id
             var successful = true;
 
-            interaction.editReply({content: `${type} is now <#${logchannel}>`})
-            interaction.followUp({content: `${type} is now <#${logchannel}>`})
+            interaction.editReply({content: `${type} is now <#${logchannel}>`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            interaction.followUp({content: `${type} is now <#${logchannel}>`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
 
         } else {
-            interaction.followUp({content: `argument type not supported`})
+            interaction.followUp({content: `argument type not supported`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             var successful = false;
             
         };        
 
-interaction.editReply({content: `trying to modify, please wait...`})
+interaction.editReply({content: `trying to modify, please wait...`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
 if (successful === true) {
     if (removable.length > 1) {
@@ -175,16 +175,16 @@ fs.writeFile(`guild-only/${guildId}/config.json`, fullitem, function(err) {
      success = false;
     };
     if (success === true) {
-        interaction.editReply('successfully added');
+        interaction.editReply('successfully added').catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
     } else {
-        interaction.editReply('failed to edit')
+        interaction.editReply('failed to edit').catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
     }
 })
 } 
-client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}});
+client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
     } catch (err) {
         console.log(err); 
-        interaction.editReply({ content: `there was an error executing this command`})
+        interaction.editReply({ content: `there was an error executing this command`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
     }
 }
 })

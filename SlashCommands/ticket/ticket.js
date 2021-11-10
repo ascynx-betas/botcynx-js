@@ -61,23 +61,23 @@ module.exports = new Command ({
         const channel = interaction.channel
             if (action != "del") {
         if (!interaction.channel.isThread) {
-            interaction.followUp({content: `the channel in which you executed this command is not a thread`})
+            interaction.followUp({content: `the channel in which you executed this command is not a thread`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
         }   else {
             //code
             if (action == "close") {
                 const thread = interaction.channel
-                interaction.followUp({content: `Locking thread...`, ephemeral: true}).then(thread.setLocked()).then(thread.setArchived());
+                interaction.followUp({content: `Locking thread...`, ephemeral: true}).then(thread.setLocked()).then(thread.setArchived()).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
             } else if (action == "add") {
                 const thread = interaction.channel
                 if (typeof(target) == "undefined") {
-                    interaction.followUp({content: ` please enter a valid user when executing this command`})
+                    interaction.followUp({content: ` please enter a valid user when executing this command`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 } else {
-                thread.members.add(`${target.id}`).then(() => interaction.followUp({content:`successfully added ${target.tag} to the thread`}))}
+                thread.members.add(`${target.id}`).then(() => interaction.followUp({content:`successfully added ${target.tag} to the thread`})).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))}
             } else if (action == "block") {
-                interaction.followUp({content: `this command is not currently coded in`})
+                interaction.followUp({content: `this command is not currently coded in`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             }else{
-            interaction.followUp({content: `this command is not currently coded in`})
+            interaction.followUp({content: `this command is not currently coded in`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             }
         }
         } else {
@@ -90,7 +90,7 @@ module.exports = new Command ({
             fs.unlinkSync(`guild-only/${guildId}/${config}.json`, (err) => {
                 if (err) {
                     console.log(err);
-                    interaction.followUp({content: `error while trying to delete file`})
+                    interaction.followUp({content: `error while trying to delete file`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 }
             })
         }

@@ -32,7 +32,7 @@ module.exports = new Command ({
         )
         .setColor(`#69696E`);
 
-        interaction.followUp({embeds: [embed]})
+        interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
     }catch(err) {
         console.log(err)

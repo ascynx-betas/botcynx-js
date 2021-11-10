@@ -21,16 +21,16 @@ module.exports = new Command ({
             var on = ``;
 
             if (ign.length < 3) {
-                interaction.followUp({content: `Hmmm, sus is a 3 character word and 3 is the minimum number of character in a minecraft username but the one you tried to enter is shorter than that, nice try though.`});
+                interaction.followUp({content: `Hmmm, sus is a 3 character word and 3 is the minimum number of character in a minecraft username but the one you tried to enter is shorter than that, nice try though.`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
 
             if (ign.length > 16 && ign.length != 32) {
-                interaction.followUp({content: `a username cannot be longer than 16 characters.`});
+                interaction.followUp({content: `a username cannot be longer than 16 characters.`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
             if (ign.length == 32) {
-                interaction.followUp({content: `I asked for a username not a uuid :(`})
+                interaction.followUp({content: `I asked for a username not a uuid :(`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             }
 
 
@@ -55,26 +55,56 @@ module.exports = new Command ({
 
 
             if (discord === null || data.session.online === null) {
-                interaction.followUp({content: `Player not found`});
+                interaction.followUp({content: `Player not found`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
 
             if (typeof map == 'undefined') {
                 if (gametype == 'SKYBLOCK') {
                     //if in skyblock
-                    interaction.followUp({content: `player is currently ${on} \n in ${gametype} in ${gamemode} `})
+                    if (gamemode == 'combat_3') {
+                        var gamemodetranslated = 'The End'
+                    } else if (gamemode == 'dynamic') {
+                        var gamemodetranslated = 'private island'
+                    } else if (gamemode == 'combat_2') {
+                        var gamemodetranslated = 'blazing fortress'
+                    }else if (gamemode == 'combat_2') {
+                        var gamemodetranslated = 'spider\'s den'
+                    }else if (gamemode == 'hub') {
+                        var gamemodetranslated = 'the hub'
+                    }else if (gamemode == 'foraging_1') {
+                        var gamemodetranslated = 'the park'
+                    }else if (gamemode == 'mining_1') {
+                        var gamemodetranslated = 'the gold mines'
+                    }else if (gamemode == 'mining_2') {
+                        var gamemodetranslated = 'deep caverns'
+                    }else if (gamemode == 'mining_3') {
+                        var gamemodetranslated = 'dwarven mines'
+                    }else if (gamemode == 'crystal_hollows') {
+                        var gamemodetranslated = 'the crystal Hollows'
+                    }else if (gamemode == 'dungeon_hub') {
+                        var gamemodetranslated = 'the dungeon hub'
+                    }else if (gamemode == 'farming_1') {
+                        var gamemodetranslated = 'the farming islands'
+                    }else if (gamemode == 'dungeon') {
+                        var gamemodetranslated = 'dungeons'
+                    }else {
+                        var gamemodetranslated = 'not currently coded in'
+                        console.log(gamemode)
+                    }
+                    interaction.followUp({content: `${ign} is currently ${on} \n in Skyblock in ${gamemodetranslated} `}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 } else if (typeof gametype == 'undefined') {
                     //if offline?
-                    interaction.followUp({content: `${ign} is currently offline`})
+                    interaction.followUp({content: `${ign} appears to be offline`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                     return;
                 } else {
                     //if in other gamemodes than skyblock
-                    interaction.followUp({content: `player is currently ${on} \n is in ${gametype} in the gamemode ${gamemode} `})
+                    interaction.followUp({content: `${ign} is currently ${on} \n is in ${gametype} in the gamemode ${gamemode} `}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 }
                 return;
             } else {
                 //if there is a map, probably for skywars, bedwars and games like that
-                interaction.followUp({content: `player is currently ${on}\n in the game ${gametype} in the gamemode/map(if skyblock) ${gamemode}\n in ${map} `})
+                interaction.followUp({content: `${ign} is currently ${on}\n in the game ${gametype} in the gamemode/map(if skyblock) ${gamemode}\n in ${map} `}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             }
 
 

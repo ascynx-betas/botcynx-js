@@ -9,6 +9,6 @@ module.exports = {
 
         const embed = new MessageEmbed().setAuthor(user.tag).setImage(user.displayAvatarURL({ dynamic: true }));
 
-        interaction.followUp({embeds: [embed],ephemeral: true});
+        interaction.followUp({embeds: [embed],ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
     }
 }

@@ -16,7 +16,7 @@ module.exports = new Command ({
             var bypasscheck = 0;
             var newbypasscheck = false;
             var removablelist = [""];
-            interaction.followUp({content: `starting interaction`, ephemeral:true})
+            interaction.followUp({content: `starting interaction`, ephemeral:true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             guild.members.fetch().then((members) => {})
             removable.forEach(function(removable){
             let list = guild.members.cache.filter(m => m.roles.cache.get(removable));

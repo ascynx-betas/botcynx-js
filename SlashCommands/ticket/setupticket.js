@@ -75,7 +75,7 @@ module.exports = new Command ({
             fs.writeFileSync(`${filepath}${filename}`, `${fullitem}`, (err) => {
                 if (err) {
                     console.log(err)
-                    interaction.followUp({content: "config file already exists"})
+                    interaction.followUp({content: "config file already exists"}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 }
             
                 console.log("file was successfully created at specified path")
