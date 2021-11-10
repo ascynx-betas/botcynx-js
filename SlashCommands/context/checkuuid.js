@@ -22,7 +22,7 @@ module.exports = {
         if (typeof uuid !== 'undefined') {
         const data = await hypixel.getPlayerByUuid(uuid).catch(console.log)
         const username = data.player.displayname;
-        if (typeof info.labels !== 'undefined') {
+        if (info.labels.length > 0) {
             const labellist = info.labels
             var labels = [""];
             var editvalue = 0;
