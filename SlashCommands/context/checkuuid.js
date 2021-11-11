@@ -6,6 +6,7 @@ module.exports = {
     name: 'getinfo',
     type: 'USER',
     devonly: true,
+    invisible: true,
 
     run: async (client, interaction, args) => {
         try {
@@ -17,12 +18,12 @@ module.exports = {
         });
         const info = userInfo[0]
 
-            if(!userInfo?.length) return interaction.followUp({content: `the user isn't verified`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            if(!userInfo?.length) return interaction.followUp({content: `the user isn't verified, tell them to use /verify`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             const uuid = info.minecraftuuid
         if (typeof uuid !== 'undefined') {
         const data = await hypixel.getPlayerByUuid(uuid).catch(console.log)
         const username = data.player.displayname;
-        if (info.labels.length > 0) {
+        if (info.labels.length > 0) {   
             const labellist = info.labels
             var labels = [""];
             var editvalue = 0;

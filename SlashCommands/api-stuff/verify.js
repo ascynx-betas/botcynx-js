@@ -23,7 +23,8 @@ module.exports = new Command ({
         const userId = interaction.user.id;
         const guildId = interaction.guild.id;
         const config = require(`../../guild-only/${guildId}/config`);
-        const member = interaction.guild.members.cache.get(userId)
+        const member = interaction.guild.members.cache.get(userId);
+        
         if (ign.length < 3) {
             interaction.followUp({content: `Hmmm, sus is a 3 character word and 3 is the minimum number of character in a minecraft username but the one you tried to enter is shorter than that, nice try though.`});
             return;
