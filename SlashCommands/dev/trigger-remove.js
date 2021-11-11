@@ -4,6 +4,7 @@ module.exports = new Command ({
     name: 'reload',
     description: 'allows the user to run the RoleChange event',
     userPermissions: ['MANAGE_ROLES'],
+    devonly: true,
 
     run: async ({ client, interaction }) => {
         try {
@@ -13,9 +14,11 @@ module.exports = new Command ({
             var removable = guildconfig.removable;
             var bypass = guildconfig.bypass;
             var channel = guildconfig.logchannel;
+            var trigger = guildconfig.trigger;
             var bypasscheck = 0;
             var newbypasscheck = false;
-            var removablelist = [""];
+            var triggercheck = 0;
+            var newtriggercheck = false;
             interaction.followUp({content: `starting interaction`, ephemeral:true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             guild.members.fetch().then((members) => {})
             removable.forEach(function(removable){
@@ -26,25 +29,29 @@ module.exports = new Command ({
                         bypasscheck += 1
                     }
                 })
-                if (bypasscheck === 1) {
-                    var newbypasscheck = true
+                if (bypasscheck > 0) {
+                    newbypasscheck = true
                 } else {
-                    var newbypasscheck = false
+                    newbypasscheck = false
                 }
-                if (newbypasscheck === false) {
+                trigger.forEach(function(trigger){
+                    if(list.roles.cache.has(trigger)) {
+                        triggercheck += 1
+                    }
+                })
+                if (triggercheck > 0) {
+                    newtriggercheck = true;
+                } else {
+                    newtriggercheck = false;
+                }
+
+                if (newbypasscheck == false && newtriggercheck == false) {
                     list.roles.remove(removable).catch(() => interaction.followUp("I don't have permission to remove that role"))
                 client.channels.cache.get(channel).send({content: `<@&${removable}> was removed from ${list.user.tag}`, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 interaction.followUp({content: `<@&${removable}> has been removed from ${list.user.tag}`, allowedMentions: {parse :[]}})
                 }
             })
             })
-            
-            
-            
-              
-                
-            
-
 
 
         }catch (err) {
@@ -54,6 +61,5 @@ module.exports = new Command ({
     }
 })
 
-//there seem to be a bug somewhere that makes it so it can't get the role list of the member, that's really annoying
-// I think I should be doing a reverse engineering and see at which part it breaks, (I might already know, but I'm not 100% sure)
-// reverse engineering is not enough, I built this command on a shitty base, I should use mapping instead of arrays, problem is, how the fuck am I supposed to do with maps
+// urgent fix this
+// one of the check failed, why, it should do 1 member at a time

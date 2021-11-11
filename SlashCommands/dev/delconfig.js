@@ -43,6 +43,7 @@ module.exports = new Command ({
             const guildconfig = require(`../../guild-only/${guildId}/config`);
             const editvalue = interaction.options.getInteger('slot');
             const name = guildconfig.name;
+            const verifyrole = guildconfig.verify;
     var logchannel = guildconfig.logchannel
     var test = 0;
     var removablespliced = [""];
@@ -124,6 +125,7 @@ module.exports = new Command ({
          } else {
                 var suspliced = `"${su}"`
             }
+            if (typeof verifyrole !== 'undefined') {
                 const fullitem = `{
                     "name": "${name}",
                     "guildId": "${guildId}",
@@ -131,8 +133,21 @@ module.exports = new Command ({
                     "bypass": [${bypassspliced}],
                     "removable": [${removablespliced}],
                     "logchannel": "${logchannel}",
-                    "su": [${supliced}]
+                    "su": [${suspliced}],
+                    "verify": "${verifyrole}"
                 }`
+                    } else {
+                        const fullitem = `{
+                            "name": "${name}",
+                            "guildId": "${guildId}",
+                            "trigger": [${triggerspliced}],
+                            "bypass": [${bypassspliced}],
+                            "removable": [${removablespliced}],
+                            "logchannel": "${logchannel}",
+                            "su": [${suspliced}]
+                        }`
+                
+                    }
                 
                 success = true;
                 fs.writeFile(`guild-only/${guildId}/config.json`, fullitem, function(err) {

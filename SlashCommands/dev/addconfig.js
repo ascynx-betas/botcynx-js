@@ -54,6 +54,7 @@ run: async({client, interaction }) => {
         const guildconfig = require(`../../guild-only/${guildId}/config`);
         const editvalue = 0;
         const name = guildconfig.name;
+        const verifyrole = guildconfig.verify
 var su = guildconfig.su;
 var logchannel = guildconfig.logchannel
 var test = 0;
@@ -158,6 +159,7 @@ if (successful === true) {
     } else {
         var suspliced = `"${su}"`
     }
+    if (typeof verifyrole !== 'undefined') {
 const fullitem = `{
     "name": "${name}",
     "guildId": "${guildId}",
@@ -165,8 +167,21 @@ const fullitem = `{
     "bypass": [${bypassspliced}],
     "removable": [${removablespliced}],
     "logchannel": "${logchannel}",
-    "su": [${su}]
+    "su": [${suspliced}],
+    "verify": "${verifyrole}"
 }`
+    } else {
+        const fullitem = `{
+            "name": "${name}",
+            "guildId": "${guildId}",
+            "trigger": [${triggerspliced}],
+            "bypass": [${bypassspliced}],
+            "removable": [${removablespliced}],
+            "logchannel": "${logchannel}",
+            "su": [${suspliced}]
+        }`
+
+    }
 
 success = true;
 fs.writeFile(`guild-only/${guildId}/config.json`, fullitem, function(err) {

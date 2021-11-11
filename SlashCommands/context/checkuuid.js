@@ -31,9 +31,9 @@ module.exports = {
                 labels.splice(editvalue, 0, labellist);
                 editvalue += 1;
             })
-                return interaction.followUp({content: `${user}\'s username is \`\`${username}\`\` and has the label(s) ${labels}`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+                return interaction.followUp({content: `${user.tag}\'s username is \`\`${username}\`\` and has the label(s) ${labels}`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
         }else {
-            return interaction.followUp({content: `${user}\'s username is \`\`${username}\`\``, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+            return interaction.followUp({content: `${user.tag}\'s username is \`\`${username}\`\``, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
             }
         } else {
             return interaction.followUp({content:` couldn't fetch uuid`})

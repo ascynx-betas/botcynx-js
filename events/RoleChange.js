@@ -3,9 +3,9 @@ function requireUncached(module) {
     delete require.cache[require.resolve(module)];
     return require(module);
 }
-const givecheck = false;
+const givecheck = false; // that's how  to enable the legacy system
 
-//currently searching for a way to get the guildId to get from a certain folder, this is pain
+//currently searching for a way to get the guildId to get from a certain folder, this is pain // found how
 
 
 
@@ -81,9 +81,9 @@ if (givecheck === true) {
                     newtriggercheck = 0;
                 }
 
-                    bypass.forEach(function(bypass, bypasscheck) {
+                    bypass.forEach(function(bypass) {
                         if (newMember.roles.cache.has(bypass)) {
-                            var bypasscheck = 1
+                            bypasscheck = 1
                             newbypasscheck = bypasscheck || 0;
                         }
                     });

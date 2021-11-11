@@ -42,7 +42,7 @@ module.exports = new Command ({
                     return removablespliced
                 });
                 } else if (removable.length = 1){
-                    var removablespliced = `<@${removable}>`
+                    var removablespliced = `<@&${removable}>`
                 } else {
                     var removablespliced;
                 }
