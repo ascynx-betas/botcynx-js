@@ -6,7 +6,6 @@ const verify = require('../../models/verifymodel')
 module.exports = new Command ({
     name: 'hyinfo',
     description: 'send the user\'s uuid using the hypixel api',
-    devonly: true,
     options: [
         {
           name: 'username',

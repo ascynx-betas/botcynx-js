@@ -6,7 +6,6 @@ const { MessageEmbed } = require('discord.js');
 module.exports = new Command ({
     name: 'stalk',
     description: 'Allows to see the activity of a user on hypixel',
-    devonly: true,
     options: [
         {
             name: 'username',
@@ -62,6 +61,8 @@ module.exports = new Command ({
             if (typeof map == 'undefined') {
                 if (gametype == 'SKYBLOCK') {
                     //if in skyblock
+
+                    //translate skyblock island ids into island names
                     if (gamemode == 'combat_3') {
                         var gamemodetranslated = 'The End'
                     } else if (gamemode == 'dynamic') {
@@ -94,7 +95,7 @@ module.exports = new Command ({
                     }
                     interaction.followUp({content: `${ign} is currently ${on} \n in Skyblock in ${gamemodetranslated} `}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 } else if (typeof gametype == 'undefined') {
-                    //if offline?
+                    //if offline? // if in appear offline status
                     interaction.followUp({content: `${ign} appears to be offline`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                     return;
                 } else {
@@ -103,8 +104,8 @@ module.exports = new Command ({
                 }
                 return;
             } else {
-                //if there is a map, probably for skywars, bedwars and games like that
-                interaction.followUp({content: `${ign} is currently ${on}\n in the game ${gametype} in the gamemode/map(if skyblock) ${gamemode}\n in ${map} `}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+                //if there is a map, probably for skywars, bedwars and games like that // not sure what gamemap is used for tho
+                interaction.followUp({content: `${ign} is currently ${on}\n in the game ${gametype} in the gamemode ${gamemode}\n in ${map} `}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             }
 
 
