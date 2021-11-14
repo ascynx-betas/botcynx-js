@@ -5,8 +5,7 @@ const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 module.exports = new Command ({
     name:'setup-ticket',
     description: 'used to setup a ticket system',
-    userPermissions: ['ADMINISTRATOR'],
-    devonly: true,
+    userPermissions: ['MANAGE_CHANNELS'],
     options: [
         {
             name: 'channel',

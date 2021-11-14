@@ -5,7 +5,6 @@ module.exports = new Command ({
     name: 'ticket',
     description: 'allows to modify ticket config / execute ticket commands',
     userPermissions: ['MANAGE_THREADS'],
-    devonly: true,
     options: [
         {
            name:'sub-command',
@@ -88,10 +87,10 @@ module.exports = new Command ({
             fs.unlinkSync(`guild-only/${guildId}/${config}.json`, (err) => {
                 if (err) {
                     console.log(err);
-                    return interaction.followUp({content: `${config} is not a valid file`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
-                }
-                interaction.followUp({content: `you can now delete the ticket creator 👍`})
+                    interaction.followUp({content: `${config} is not a valid file`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+                };
             })
+            interaction.followUp({content: `you can now delete the ticket message 👍`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
         }
     
 
