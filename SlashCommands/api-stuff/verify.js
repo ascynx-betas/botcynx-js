@@ -49,11 +49,14 @@ module.exports = new Command ({
 
             if(userInfo.length > 0)  {
                 const verifyrole = config.verify
+                if (typeof verifyrole !== 'undefined') {
                 if (!member.roles.cache.has(verifyrole)) {
                     member.roles.add(verifyrole).catch(() => console.log(`I don't have permission to add ${verifyrole} in ${guildId}`))
                 }
-                return interaction.followUp({content: `that user is already verified`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             }
+                return interaction.followUp({content: `that user is already verified`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            
+        }
             if ( usertag == linkedtag) {
 
 

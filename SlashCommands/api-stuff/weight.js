@@ -5,7 +5,7 @@ const hypixel = require('../../personal-modules/hypixel')
 const verify = require ('../../models/verifymodel')
 
 module.exports = new Command ({
-    name: 'test',
+    name: 'weight',
     description: 'command used to test the senither api (currently only su or above)',
     devonly: true,
     options: [
@@ -19,8 +19,8 @@ module.exports = new Command ({
 
     run: async ({ interaction }) => {
         var ign = interaction.options.getString('username');
-        var profilenames = [""];
-
+        //var profilenames = [""];
+        try {
         if (!ign) {
             const userId = interaction.user.id
 
@@ -35,7 +35,7 @@ module.exports = new Command ({
         } else {
 
         if (ign.length < 3) {
-            interaction.followUp({content: `Hmmm, sus is a 3 character word and 3 is the minimum number of character in a minecraft username but the one you tried to enter is shorter than that, nice try though.`});
+            interaction.followUp({content: `if the username you're trying to search is less than 3 characters then L cos I'm not accepting those for buggy reasons`});
             return;
         }
 
@@ -58,12 +58,55 @@ module.exports = new Command ({
             var ign = data.player.displayname    
          }
 
-         const profiles = await senither.getProfiles(uuid).catch(() => console.log())
-         const dataprofile = profiles.data
-         dataprofile.forEach(function(data){
-            var profilename = data.name
-            profilenames.splice(0, 0, profilename)
-         })
-         interaction.followUp({content: `${ign}'s profiles are ${profilenames.toString()}`});
+         //const profiles = await senither.getProfiles(uuid).catch(() => console.log())
+         //if (typeof profiles === 'undefined') {
+             //return interaction.followUp({content: `player not found`});
+         //}
+         const profile = await senither.getFatterProfile(uuid).catch(() => console.log())
+         if (typeof profile === 'undefined') {
+            return interaction.followUp({content: `player not found`});
+         }
+         //const dataprofiles = profiles.data
+         //dataprofiles.forEach(function(data){
+            //var profilename = data.name
+            //profilenames.splice(0, 0, profilename)
+         //})
+         const dataprofile = profile.data;
+            //profile infos
+
+            const profilename = dataprofile.name;
+            const skillweight = dataprofile.skills.weight;
+            const skilloweight = dataprofile.skills.weight_overflow;
+            const slayerweight = dataprofile.slayers.weight;
+            const slayeroweight = dataprofile.slayers.weight_overflow;
+            const dungeonweight = dataprofile.dungeons.weight;
+            const dungeonoweight = dataprofile.dungeons.weight_overflow;
+
+
+            //calculations
+            const fdungeonweight = dungeonweight + dungeonoweight;
+            const fullskillweight = skillweight + skilloweight;
+            const fullslayerweight = slayerweight + slayeroweight;
+            const fullweight = fdungeonweight + fullskillweight + fullslayerweight;
+
+            //rounded calculations
+            const rskill = Math.round(skillweight * 10)/10;
+            const roskill = Math.round(skilloweight * 10)/10;
+            const rslayer = Math.round(slayerweight * 10)/10;
+            const roslayer = Math.round(slayeroweight * 10)/10;
+            const rdungeon = Math.round(dungeonweight * 10)/10;
+            const rodungeon = Math.round(dungeonoweight * 10)/10;
+            const rfskill = Math.round(fullskillweight * 10)/10;
+            const rfslayer = Math.round(fullslayerweight * 10)/10;
+            const rfdungeon = Math.round(fdungeonweight * 10)/10;
+            const rf = Math.round(fullweight * 10)/10;
+
+            //output
+         interaction.followUp({content: `${ign}'s fattest profile is ${profilename}\ntheir weight is ${rf}\ntheir dungeon weight is ${rfdungeon}(${rdungeon}/${rodungeon} overflow)\ntheir slayer weight is ${rfslayer}(${rslayer}/${roslayer} overflow)\ntheir skill weight is ${rfskill}(${rskill}/${roskill} overflow)`});
+        }catch (err) {console.log(err)}
     }
 })
+
+/**
+ * the commands in comments are legacy and are only here to debug
+ */

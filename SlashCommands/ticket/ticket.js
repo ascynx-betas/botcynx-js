@@ -82,16 +82,13 @@ module.exports = new Command ({
         }
         } else {
             const delc = require(`../../guild-only/${guildId}/${config}.json`)
-            const cmes = delc.linkedmessage
-            const ccha = delc.channel
-            console.log(cmes, ccha)
         //code of del
-                message.channel.fetcMesssage(cmes).then((msg) => msg.delete()).catch((err) => console.log(err))
             fs.unlinkSync(`guild-only/${guildId}/${config}.json`, (err) => {
                 if (err) {
                     console.log(err);
-                    interaction.followUp({content: `error while trying to delete file`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+                    return interaction.followUp({content: `error while trying to delete file`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
                 }
+                interaction.followUp({content: `you can now delete the ticket creator 👍`})
             })
         }
     
