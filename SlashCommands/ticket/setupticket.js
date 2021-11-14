@@ -48,7 +48,7 @@ module.exports = new Command ({
 
         try {
             //add here blacklisted names
-            if (name == 'config') {
+            if (name == 'config' || name.includes(`info`) || name == 'close') {
                 return interaction.followUp({content: `You can't name a config by the name ${name}`})
             }
             const buttonrow = new MessageActionRow()

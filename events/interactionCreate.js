@@ -50,11 +50,12 @@ client.on("interactionCreate", async (interaction, message) => {
     if(interaction.isButton()) {
 
 
-        const guildId = interaction.guild.id
-        const guild = interaction.guild
-        const channel = interaction.channel
-        console.log(interaction.customId)
-        if (interaction.customId != "close") {
+        const guildId = interaction.guild.id;
+        const guild = interaction.guild;
+        const channel = interaction.channel;
+        const customId = interaction.customId;
+        let info = "info";
+        if (customId != "close" && !customId.includes(info)) {
             const buttonrow = new MessageActionRow()
                 .addComponents(
                     new MessageButton()
@@ -62,10 +63,10 @@ client.on("interactionCreate", async (interaction, message) => {
                         .setLabel('close ticket')
                         .setStyle('PRIMARY')
                 );
-            const config = require(`../guild-only/${guildId}/${interaction.customId}.json`)
+            const config = require(`../guild-only/${guildId}/${customId}.json`)
             if (guild.features.includes('PRIVATE_THREADS')) {
                 const thread = await channel.threads.create({
-                    name: `${interaction.user.username}-${interaction.customId}`,
+                    name: `${interaction.user.username}-${customId}`,
                     autoArchiveDuration: 60,
                     type: 'GUILD_PRIVATE_THREAD',
                     reason: `dafuk is a reason`
@@ -75,7 +76,7 @@ client.on("interactionCreate", async (interaction, message) => {
     
             } else {
             const thread = await channel.threads.create({
-                name: `${interaction.user.username}-${interaction.customId}`,
+                name: `${interaction.user.username}-${customId}`,
                 autoArchiveDuration: 60,
                 reason: `dafuk is a reason`
             }).catch(() => console.log(`I don't have permission to create a thread in ${channel} in ${guild.name}`))
@@ -83,19 +84,21 @@ client.on("interactionCreate", async (interaction, message) => {
                 thread.members.add(`${interaction.user.id}`)
         }
             
-        } else {
+        } else if (customId == 'close'){
             const thread = interaction.channel
             if (interaction.channel.type === 'GUILD_PRIVATE_THREAD') {
-                channel.send({content: `Locking thread...`, ephemeral: true}).then(thread.setLocked()).then(thread.setArchived());
+                interaction.reply({content: `Locking thread...`, ephemeral: true}).then(thread.setLocked()).then(thread.setArchived());
 
             } else if (interaction.channel.type === 'GUILD_PUBLIC_THREAD'){
-                channel.send({content: `Locking thread...`, ephemeral: true}).then(thread.setLocked()).then(thread.setArchived());
+                interaction.reply({content: `Locking thread...`, ephemeral: true}).then(thread.setLocked()).then(thread.setArchived());
                 //channel.send({content: `Locking thread...`, ephemeral: true});
                 //thread.setLocked();
                 //thread.setArchived();
             } else {
-                channel.send({content: `this is not a thread`, ephemeral: true})
+                interaction.reply({content: `this is not a thread`, ephemeral: true})
             }
+    } else if (customId.includes(info)) {
+        interaction.reply({content: `these buttons do nothing currently`, ephemeral: true})
     }
     }
 

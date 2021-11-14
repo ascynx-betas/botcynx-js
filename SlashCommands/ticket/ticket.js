@@ -81,8 +81,8 @@ module.exports = new Command ({
         }
         } else {
         //code of del
-        if (config == 'config') {
-            return interaction.followUp({content: `you can't delete the main config file`});
+        if (config == 'config' || config.includes(`info`) || config == 'close') {
+            return interaction.followUp({content: `you can't delete ${config}`});
         }
             fs.unlinkSync(`guild-only/${guildId}/${config}.json`, (err) => {
                 if (err) {
