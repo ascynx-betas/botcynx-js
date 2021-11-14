@@ -30,7 +30,10 @@ the handler used for this project is based on https://github.com/reconlx/djs-bas
 /dev can be used to execute indev / private commands
 
 /checkconfig can be used to see the configuration of the current guild
+
+/reload can be used to execute the configuration (currently globally disabled)
 # context menu commands
 
 User - getAvatar returns the user's avatar in an embed
+
 User - getInfo returns the user's info from the minecraft / discord linked account db

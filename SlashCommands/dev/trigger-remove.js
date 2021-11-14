@@ -5,6 +5,7 @@ module.exports = new Command ({
     description: 'allows the user to run the RoleChange event',
     userPermissions: ['MANAGE_ROLES'],
     devonly: true,
+    globallydisabled: true,
 
     run: async ({ client, interaction }) => {
         try {

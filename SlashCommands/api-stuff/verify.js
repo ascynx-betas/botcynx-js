@@ -26,7 +26,7 @@ module.exports = new Command ({
         const member = interaction.guild.members.cache.get(userId);
         
         if (ign.length < 3) {
-            interaction.followUp({content: `Hmmm, sus is a 3 character word and 3 is the minimum number of character in a minecraft username but the one you tried to enter is shorter than that, nice try though.`});
+            interaction.followUp({content: `if the username you're trying to search is less than 3 characters then L cos I'm not accepting those for buggy reasons`});
             return;
         }
 

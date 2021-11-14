@@ -22,7 +22,11 @@ client.on("interactionCreate", async (interaction, message) => {
             } else if (option.value) args.push(option.value);
         }
         interaction.member = interaction.guild.members.cache.get(interaction.user.id);
-
+        if (cmd.globallydisabled) {
+            if (interaction.member.id != config.developerId) {
+            return interaction.followUp({content:`Command was globally disabled due to having a dangerous bug`})
+            }
+        }
         if(cmd.devonly) {
             const guild = interaction.guild
             var guildconfig = require(`../guild-only/${guild.id}/config.json`)
