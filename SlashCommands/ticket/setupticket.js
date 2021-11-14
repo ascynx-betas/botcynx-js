@@ -46,7 +46,12 @@ module.exports = new Command ({
         const filename = `${name}.json`;
         const author = interaction.user.id
 
+
         try {
+            //add here blacklisted names
+            if (name == 'config') {
+                return interaction.followUp({content: `You can't name a config by the name ${name}`})
+            }
             const buttonrow = new MessageActionRow()
                 .addComponents(
                     new MessageButton()
@@ -75,7 +80,7 @@ module.exports = new Command ({
             fs.writeFileSync(`${filepath}${filename}`, `${fullitem}`, (err) => {
                 if (err) {
                     console.log(err)
-                    interaction.followUp({content: "config file already exists"}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+                    interaction.followUp({content: `${name} already exists`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 }
             
                 console.log("file was successfully created at specified path")

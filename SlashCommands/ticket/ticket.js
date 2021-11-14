@@ -34,7 +34,7 @@ module.exports = new Command ({
         },   
         {
             name: 'config-name',
-            description: 'the name of the config',
+            description: 'the name of the config, only needed for the del sub-command',
             required: false,
             type: 'STRING'
         },   
@@ -81,12 +81,14 @@ module.exports = new Command ({
             }
         }
         } else {
-            const delc = require(`../../guild-only/${guildId}/${config}.json`)
         //code of del
+        if (config == 'config') {
+            return interaction.followUp({content: `you can't delete the main config file`});
+        }
             fs.unlinkSync(`guild-only/${guildId}/${config}.json`, (err) => {
                 if (err) {
                     console.log(err);
-                    return interaction.followUp({content: `error while trying to delete file`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+                    return interaction.followUp({content: `${config} is not a valid file`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
                 }
                 interaction.followUp({content: `you can now delete the ticket creator 👍`})
             })

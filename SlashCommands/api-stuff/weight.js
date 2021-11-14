@@ -3,11 +3,11 @@ const senither = require('../../personal-modules/senither')
 const slothpixel = require('../../personal-modules/slothpixel')
 const hypixel = require('../../personal-modules/hypixel')
 const verify = require ('../../models/verifymodel')
+const { MessageEmbed } = require('discord.js')
 
 module.exports = new Command ({
     name: 'weight',
-    description: 'command used to test the senither api (currently only su or above)',
-    devonly: true,
+    description: 'check a user\'s weight using this command',
     options: [
         {
             name: 'username',
@@ -71,38 +71,49 @@ module.exports = new Command ({
             //var profilename = data.name
             //profilenames.splice(0, 0, profilename)
          //})
-         const dataprofile = profile.data;
+            const dataprofile = profile.data;
             //profile infos
 
-            const profilename = dataprofile.name;
-            const skillweight = dataprofile.skills.weight;
-            const skilloweight = dataprofile.skills.weight_overflow;
-            const slayerweight = dataprofile.slayers.weight;
-            const slayeroweight = dataprofile.slayers.weight_overflow;
-            const dungeonweight = dataprofile.dungeons.weight;
-            const dungeonoweight = dataprofile.dungeons.weight_overflow;
+                const profilename = dataprofile.name;
+                const skillweight = dataprofile.skills.weight;
+                const skilloweight = dataprofile.skills.weight_overflow;
+                const slayerweight = dataprofile.slayers.weight;
+                const slayeroweight = dataprofile.slayers.weight_overflow;
+                const dungeonweight = dataprofile.dungeons.weight;
+                const dungeonoweight = dataprofile.dungeons.weight_overflow;
 
 
             //calculations
-            const fdungeonweight = dungeonweight + dungeonoweight;
-            const fullskillweight = skillweight + skilloweight;
-            const fullslayerweight = slayerweight + slayeroweight;
-            const fullweight = fdungeonweight + fullskillweight + fullslayerweight;
+                const fdungeonweight = dungeonweight + dungeonoweight;
+                const fullskillweight = skillweight + skilloweight;
+                const fullslayerweight = slayerweight + slayeroweight;
+                const fullweight = fdungeonweight + fullskillweight + fullslayerweight;
 
             //rounded calculations
-            const rskill = Math.round(skillweight * 10)/10;
-            const roskill = Math.round(skilloweight * 10)/10;
-            const rslayer = Math.round(slayerweight * 10)/10;
-            const roslayer = Math.round(slayeroweight * 10)/10;
-            const rdungeon = Math.round(dungeonweight * 10)/10;
-            const rodungeon = Math.round(dungeonoweight * 10)/10;
-            const rfskill = Math.round(fullskillweight * 10)/10;
-            const rfslayer = Math.round(fullslayerweight * 10)/10;
-            const rfdungeon = Math.round(fdungeonweight * 10)/10;
-            const rf = Math.round(fullweight * 10)/10;
+                const rskill = Math.round(skillweight * 10)/10;
+                const roskill = Math.round(skilloweight * 10)/10;
+                const rslayer = Math.round(slayerweight * 10)/10;
+                const roslayer = Math.round(slayeroweight * 10)/10;
+                const rdungeon = Math.round(dungeonweight * 10)/10;
+                const rodungeon = Math.round(dungeonoweight * 10)/10;
+                const rfskill = Math.round(fullskillweight * 10)/10;
+                const rfslayer = Math.round(fullslayerweight * 10)/10;
+                const rfdungeon = Math.round(fdungeonweight * 10)/10;
+                const rf = Math.round(fullweight * 10)/10;
+
+        //embed
+        const embed = new MessageEmbed()
+        .setTitle(`Weight`)
+        .setDescription(`${ign}'s fattest profile is ${profilename}\n
+        Their weight is ${rf}\n
+        Their dungeon weight is ${rfdungeon}(${rdungeon}/${rodungeon} overflow)
+        Their slayer weight is ${rfslayer}(${rslayer}/${roslayer} overflow)
+        Their skill weight is ${rfskill}(${rskill}/${roskill} overflow)`)
+        .setFooter(`powered by senither api`)
+        .setColor(`RED`)
 
             //output
-         interaction.followUp({content: `${ign}'s fattest profile is ${profilename}\ntheir weight is ${rf}\ntheir dungeon weight is ${rfdungeon}(${rdungeon}/${rodungeon} overflow)\ntheir slayer weight is ${rfslayer}(${rslayer}/${roslayer} overflow)\ntheir skill weight is ${rfskill}(${rskill}/${roskill} overflow)`});
+         interaction.followUp({embeds: [embed]}).catch(() => console.log())
         }catch (err) {console.log(err)}
     }
 })

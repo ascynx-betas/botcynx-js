@@ -28,3 +28,17 @@ exports.getFatterProfile = function(uuid) {
         return data;
     })
     }
+
+    exports.getSpecifiedProfile = function(uuid, profile) {
+        const options = {
+            url: `https://hypixel-api.senither.com/v1/profiles/${uuid}/${profile}`,
+            headers: {
+                'Authorization': `${key}`
+            }
+        }
+        return rp(options).then(body => {
+            let data = JSON.parse(body);
+            return data;
+        })
+    }
+    
