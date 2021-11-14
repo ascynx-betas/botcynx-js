@@ -14,6 +14,8 @@ the handler used for this project is based on https://github.com/reconlx/djs-bas
 /stalk allows to see what the target is currently playing
 
 /verify adds the user's account to the db
+
+/weight can be used to see the weight value of a player
 # ticket
 
 /setupticket can be used to setup a ticket system in a channel
