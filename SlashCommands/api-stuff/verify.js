@@ -5,7 +5,7 @@ const slothpixel = require('../../personal-modules/slothpixel.js');
 
 module.exports = new Command ({
     name: 'verify',
-    description: 'verifies the user into the database',
+    description: 'verifies or update the user\'s info into the database',
     options: [
         {
             name: 'username',
@@ -13,10 +13,27 @@ module.exports = new Command ({
             type: 'STRING',
             required: true,
 
+        },
+        {
+            name: 'action',
+            description: 'the action that will be executed by the bot',
+            type: 'STRING',
+            required: false,
+            choices: [
+                {
+                    name: 'verify',
+                    value: 'verify'
+                },
+                {
+                    name: 'update',
+                    value: 'update'
+                }
+            ]
         }
     ],
 
     run: async ({ interaction }) => {
+        try {
         const ign = interaction.options.getString('username');
         const user = interaction.user;
         const usertag = interaction.user.tag;
@@ -24,7 +41,9 @@ module.exports = new Command ({
         const guildId = interaction.guild.id;
         const config = require(`../../guild-only/${guildId}/config`);
         const member = interaction.guild.members.cache.get(userId);
+        const action = interaction.options.getString('action');
         
+
         if (ign.length < 3) {
             interaction.followUp({content: `if the username you're trying to search is less than 3 characters then L cos I'm not accepting those for buggy reasons`});
             return;
@@ -42,10 +61,18 @@ module.exports = new Command ({
         const linkedtag = await slothpixel.getDiscord(ign).catch(() => (`there was an error while trying to fetch the discord tag`));
             const minecraftuuid = await slothpixel.getuuid(ign).catch(() => (`failed to fetch uuid`))
 
+            const uuidInfo = await verifyModel.find({
+                minecraftuuid: minecraftuuid
+            });
             const userInfo = await verifyModel.find({
                 userId: userId
             });
 
+            if (action != 'update') {
+                //verify code
+            if(uuidInfo.length > 0) {
+                return interaction.followUp({content: `that account is already linked, if you want to change the linked account, use the update command`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            }
 
             if(userInfo.length > 0)  {
                 const verifyrole = config.verify
@@ -54,7 +81,7 @@ module.exports = new Command ({
                     member.roles.add(verifyrole).catch(() => console.log(`I don't have permission to add ${verifyrole} in ${guildId}`))
                 }
             }
-                return interaction.followUp({content: `that user is already verified`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+                return interaction.followUp({content: `that account is already linked, if you want to change the linked account, use the update subcommand`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             
         }
             if ( usertag == linkedtag) {
@@ -80,5 +107,45 @@ module.exports = new Command ({
                 interaction.followUp({content: ` discord account is not linked to the specified minecraft account `}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
+        } else {
+            //update db command
+            if (userId == userInfo.userId) {
+            if(uuidInfo.length = 0) {
+                return interaction.followUp({content: `that user isn't linked, please use the verify command`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            }
+
+            if(userInfo.length = 0)  {
+                return interaction.followUp({content: `that user isn't linked, please use the verify command`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`)) 
+                
+        }
+
+        if (usertag == linkedtag) {
+            const linked = uuidInfo.userId
+            const oldlinked = uuidInfo.oldlinked
+            //put here updates about the db doc
+            uuidInfo.userId = `${userId}`;
+            if (typeof oldlinked !== 'undefined') {
+                uuidInfo.oldlinked = `${oldlinked}, ${linked}`
+            } else {
+                uuidInfo.oldlinked = `${linked}`
+            }
+            await uuidInfo.save();
+
+
+        } else if (linkedtag == 'there was an error while trying to fetch the discord tag') {
+            interaction.followUp({content: `the account either has no specified account or the username you provided is wrong`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+
+        } else {
+            interaction.followUp({content: ` discord account is not linked to the specified minecraft account\n if it hasn't been a long time since you changed your linked account, you should wait for the api to update `}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            return;
+        }
+
+        } else {
+            return interaction.followUp({content: `the account that is currently linked is the same as your current account`})
+        }
+    }
+    }catch (err) {
+        console.log(err)
+    }
     }
 })
