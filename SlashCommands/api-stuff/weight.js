@@ -149,11 +149,11 @@ module.exports = new Command ({
 
         //embed
         const embed = new MessageEmbed()
-        .setDescription(`profile is ${profilename} from ${ign}\n
-        Their weight is ${rf}\n
-        Their dungeon weight is ${rfdungeon}(${rdungeon}/${rodungeon} overflow)
-        Their slayer weight is ${rfslayer}(${rslayer}/${roslayer} overflow)
-        Their skill weight is ${rfskill}(${rskill}/${roskill} overflow)`)
+        .setDescription(`profile: ${profilename} username: ${ign}\n
+        Total weight is **\`\`${rf}\`\`**\n
+        dungeon weight is \`\`${rfdungeon}\`\`(\`\`${rdungeon}\`\`/\`\`${rodungeon}\`\` overflow)
+        slayer weight is \`\`${rfslayer}\`\`(\`\`${rslayer}\`\`/\`\`${roslayer}\`\` overflow)
+        skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`)
         .setFooter(`powered by senither api`)
         .setColor(`RED`)
         .setAuthor(`${ign}'s Weight`,``, `https://sky.shiiyu.moe/stats/${ign}/${profilename}`)

@@ -44,15 +44,18 @@ module.exports = new Command ({
             const editvalue = interaction.options.getInteger('slot');
             const name = guildconfig.name;
             const verifyrole = guildconfig.verify;
+            const su = guildconfig.su
     var logchannel = guildconfig.logchannel
     var test = 0;
     var removablespliced = [""];
     var bypassspliced = [""];
     var triggerspliced = [""];
+    var suspliced = [""];
     var success = false;
     var bypass = guildconfig.bypass;
     var removable = guildconfig.removable;
     var trigger = guildconfig.trigger;
+    var fullitem;
 
             interaction.followUp({content: `attempting the change, please wait...`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
@@ -104,7 +107,6 @@ module.exports = new Command ({
                 test = 0;
                 if (trigger.length > 1) {
                 trigger.forEach(function(trigger) {
-                    console.log(trigger)
                     var triggersplice = `"${trigger}"`
                     triggerspliced.splice(test, test, triggersplice)
                     test += 1;
@@ -116,7 +118,6 @@ module.exports = new Command ({
             test = 0;
             if (su.length > 1) {
                 su.forEach(function(su) {
-                    console.log(su)
                     var susplice = `"${su}"`
                     suspliced.splice(test, test, susplice)
                     test += 1;
@@ -126,7 +127,7 @@ module.exports = new Command ({
                 var suspliced = `"${su}"`
             }
             if (typeof verifyrole !== 'undefined') {
-                const fullitem = `{
+                var fullitem = `{
                     "name": "${name}",
                     "guildId": "${guildId}",
                     "trigger": [${triggerspliced}],
@@ -137,7 +138,7 @@ module.exports = new Command ({
                     "verify": "${verifyrole}"
                 }`
                     } else {
-                        const fullitem = `{
+                        var fullitem = `{
                             "name": "${name}",
                             "guildId": "${guildId}",
                             "trigger": [${triggerspliced}],

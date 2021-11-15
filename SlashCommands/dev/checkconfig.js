@@ -1,4 +1,5 @@
-const { Command } = require('reconlx')
+const { Command } = require('reconlx');
+const { MessageEmbed } = require('discord.js')
 
 module.exports = new Command ({
     name: 'checkconfig',
@@ -28,10 +29,10 @@ module.exports = new Command ({
                     test += 1;
                     return suspliced
                 });
-            } else if (su.length = 1) {
+            } else if (su.length = 1 && su != "") {
                 var suspliced = `<@${su}>`
             } else {
-                var suspliced;
+                var suspliced = `~~**no super users set on this guild**~~`;
             }
 
             if (removable.length > 1) {
@@ -41,10 +42,10 @@ module.exports = new Command ({
                     test += 1;
                     return removablespliced
                 });
-                } else if (removable.length = 1){
+                } else if (removable.length = 1 && removable != ""){
                     var removablespliced = `<@&${removable}>`
                 } else {
-                    var removablespliced;
+                    var removablespliced = `~~**unset value**~~`;
                 }
                 test = 0;
                 if (bypass.length > 1) {
@@ -54,10 +55,10 @@ module.exports = new Command ({
                     test += 1;
                     return bypassspliced
                 });
-            } else if (bypass.length = 1){
+            } else if (bypass.length = 1 && bypass != ""){
                 var bypassspliced = `<@${bypass}>`
             } else {
-                var bypassspliced;
+                var bypassspliced = `~~**unset value**~~`;
             }
                 test = 0;
                 if (trigger.length > 1) {
@@ -68,13 +69,23 @@ module.exports = new Command ({
                     test += 1;
                     return triggerspliced
                 });
-            } else if (trigger.length = 1){
+            } else if (trigger.length = 1 && trigger != ""){
                 var triggerspliced = `<@&${trigger}>`
             } else {
-                var triggerspliced;
+                var triggerspliced = `~~**unset value**~~`;
             }
-
-            interaction.followUp({content: `${name || `not set`}'s config \n \`\`guild id:\`\` ${guildId || `unset value`} \n \`\`removable(s):\`\` ${removablespliced || `no removables set`} \n \`\`trigger(s):\`\` ${triggerspliced || `no triggers set` } \n \`\`bypass(es):\`\` ${bypassspliced || `no bypasses set`} \n \`\`Elevated permissions:\`\` ${suspliced || `no super users added`}\n \`\`(when using the /delconfig command, a slot is 1 role (it's id)), as it's an array each config starts with the slot [0]\`\``, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            const description = `${name || `not set`}'s config \n
+             \`\`guild id:\`\` ${guildId || `unset value`} \n
+              \`\`removable(s):\`\` ${removablespliced || `no removables set`} \n
+               \`\`trigger(s):\`\` ${triggerspliced || `no triggers set` } \n
+                \`\`bypass(es):\`\` ${bypassspliced || `no bypasses set`} \n
+                 \`\`Elevated permissions:\`\` ${suspliced || `no super users added`}\n
+                  \`\`(when using the /delconfig command, a slot is 1 role (it's id)), as it's an array each config starts with the slot [0]\`\``
+            const embed = new MessageEmbed()
+                .setAuthor(`interaction.user.tag`)
+                .setDescription(description)
+                .setColor(`RED`)
+            interaction.followUp({embeds: [embed], allowedMentions: {parse :[]}})
 
         }catch (err) {
             console.log(err)
@@ -82,5 +93,4 @@ module.exports = new Command ({
     }
     
 });
-//need to fix a stupid bug, that makes it so it requires a restart to take into account addition of super users
-// set the output to be an embed
+//need to fix a stupid bug, that makes it so it requires a restart to take into account addition of super users \\ note: should be fixed, I think
