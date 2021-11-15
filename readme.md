@@ -1,39 +1,53 @@
-## Cat bot is a bot created by Ascynx#2020 in Javascript
-the handler used for this project is based on https://github.com/reconlx/djs-base-handler
+## This bot was mostly coded by Ascynx#2020
+the handler used for this project is a modified version of https://github.com/reconlx/djs-base-handler
 
 
 ## currently the bot has the following commands
 
 # moderation
 
-/role allows to add a role to the user selected
+/role
+someone with MANAGE_ROLES perm can add / remove a role from/to someone, as long as they're either owner or have a higher role than the one given / removed
 # hypixel api
 
-/hyinfo can be used to get informations on a player
+/hyinfo
+a user can see some informations on the specified minecraft user
 
-/stalk allows to see what the target is currently playing
+/stalk
+a user can see the current activity of the specified minecraft user
 
-/verify adds the user's account to the db
+/verify
+adds the user and it's uuid to the database
 
-/weight can be used to see the weight value of a player
+/weight
+a user can use this command to check someone's skyblock weight
 # ticket
 
-/setupticket can be used to setup a ticket system in a channel
+/setupticket
+someone with Admin perm can use this command to create a new thread ticket system in a specified channel
 
-/ticket can be used to execute commands in a ticket thread or on a ticket channel
+/ticket
+someone with MANAGE_THREADS perm can use this command to act on certain threads / ticket systems
 # config
 
-/setconfig can be used to add informations to the configuration of the current guild
+/setconfig
+someone with MANAGE_ROLES perm can use this command to add an entry to the guild's configuration
 
-/delconfig can be used to remove configuration in the current guild
+/delconfig
+someone with MANAGE_ROLES perm can use this command to remove an entry from the guild's configuration
 
-/dev can be used to execute indev / private commands
+/dev
+a super-user / the dev can use this command to execute indev / dangerous commands
 
-/checkconfig can be used to see the configuration of the current guild
+/checkconfig
+someone with MANAGE_ROLES perm can use this command to see the current configuration of the guild they're in
 
-/reload can be used to execute the configuration (currently globally disabled)
+/reload
+globally disabled -- someone with MANAGE_ROLES perm can use this command to execute the "purge".
 # context menu commands
 
-User - getAvatar returns the user's avatar in an embed
+User - getAvatar
+return's the target's avatar in an embed
 
-User - getInfo returns the user's info from the minecraft / discord linked account db
+User - getInfo
+returns the target's info from the linked accounts database
