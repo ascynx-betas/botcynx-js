@@ -70,13 +70,13 @@ module.exports = new Command ({
          //if (typeof profiles === 'undefined') {
              //return interaction.followUp({content: `player not found`});
          //}
+         if (speprofile) {
             const ifUpperCase = ( /^[A-Z]/.test((speprofile)))
             if (ifUpperCase == false) {
                 const uppercase = speprofile[0].toUpperCase()
                 const without = speprofile.substr(1, speprofile.length)
                 speprofile = uppercase + without
             }
-         if (typeof speprofile !== 'undefined') {
              if (speprofile != 'Apple' &&
               speprofile != 'Banana' &&
                speprofile != 'Blueberry' &&
@@ -168,5 +168,7 @@ module.exports = new Command ({
 
 /**
  * the commands in comments are legacy and are only here to debug
+ * 
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase before doing the uppercase
  * 
  */
