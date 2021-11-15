@@ -71,17 +71,15 @@ module.exports = new Command ({
              //return interaction.followUp({content: `player not found`});
          //}
          if (speprofile) {
-            const ifUpperCase = ( /^[A-Z]/.test((speprofile)))
-            if (ifUpperCase == false) {
-                const uppercase = speprofile[0].toUpperCase()
-                const without = speprofile.substr(1, speprofile.length)
+                const lowercase = speprofile.toLowerCase()
+                const uppercase = lowercase[0].toUpperCase()
+                const without = lowercase.substr(1, speprofile.length)
                 speprofile = uppercase + without
-            }
-             if (speprofile != 'Apple' &&
-              speprofile != 'Banana' &&
-               speprofile != 'Blueberry' &&
-                speprofile != 'Coconut' &&
-                 speprofile != 'Cucumber' &&
+              if (speprofile != 'Apple' &&
+                  speprofile != 'Banana' &&
+                  speprofile != 'Blueberry' &&
+                  speprofile != 'Coconut' &&
+                  speprofile != 'Cucumber' &&
                   speprofile != 'Grapes' &&
                   speprofile != 'Kiwi' &&
                   speprofile != 'Lemon' &&
@@ -101,14 +99,14 @@ module.exports = new Command ({
                     return interaction.followUp({content: `The profile name doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`})
                   }
              var profile = await senither.getSpecifiedProfile(uuid, speprofile).catch(() => console.log())
-             if (typeof profile === 'undefined') {
-                 return interaction.followUp({content: `player not found`})
+             if (typeof profile === 'undefined' || !profile) {
+                 return interaction.followUp({content: `player not found or profile provided doesn't exist`})
              }
          } else {
 
          var profile = await senither.getFatterProfile(uuid).catch(() => console.log())
-         if (typeof profile === 'undefined') {
-            return interaction.followUp({content: `player not found`});
+         if (typeof profile === 'undefined' || !profile) {
+            return interaction.followUp({content: `player not found or profile doesn't exist`});
          }
         }
          //const dataprofiles = profiles.data
@@ -151,7 +149,6 @@ module.exports = new Command ({
 
         //embed
         const embed = new MessageEmbed()
-        .setTitle(`Weight`)
         .setDescription(`profile is ${profilename} from ${ign}\n
         Their weight is ${rf}\n
         Their dungeon weight is ${rfdungeon}(${rdungeon}/${rodungeon} overflow)
@@ -159,6 +156,8 @@ module.exports = new Command ({
         Their skill weight is ${rfskill}(${rskill}/${roskill} overflow)`)
         .setFooter(`powered by senither api`)
         .setColor(`RED`)
+        .setAuthor(`${ign}'s Weight`,``, `https://sky.shiiyu.moe/stats/${ign}/${profilename}`)
+        .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
 
             //output
          interaction.followUp({embeds: [embed]}).catch(() => console.log())
@@ -168,7 +167,4 @@ module.exports = new Command ({
 
 /**
  * the commands in comments are legacy and are only here to debug
- * 
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase before doing the uppercase
- * 
  */
