@@ -14,11 +14,19 @@ module.exports = new Command ({
             description: 'the user you want the see the profiles of',
             required: false,
             type: 'STRING',
+        },
+        {
+            name: 'profile',
+            description: 'the profile you want to see the weight of',
+            required: false,
+            type: 'STRING',
         }
     ],
 
     run: async ({ interaction }) => {
         var ign = interaction.options.getString('username');
+        var speprofile = interaction.options.getString('profile')
+        var profile;
         //var profilenames = [""];
         try {
         if (!ign) {
@@ -62,18 +70,58 @@ module.exports = new Command ({
          //if (typeof profiles === 'undefined') {
              //return interaction.followUp({content: `player not found`});
          //}
-         const profile = await senither.getFatterProfile(uuid).catch(() => console.log())
+            const ifUpperCase = ( /^[A-Z]/.test((speprofile)))
+            if (ifUpperCase == false) {
+                const uppercase = speprofile[0].toUpperCase()
+                const without = speprofile.substr(1, speprofile.length)
+                speprofile = uppercase + without
+            }
+         if (typeof speprofile !== 'undefined') {
+             if (speprofile != 'Apple' &&
+              speprofile != 'Banana' &&
+               speprofile != 'Blueberry' &&
+                speprofile != 'Coconut' &&
+                 speprofile != 'Cucumber' &&
+                  speprofile != 'Grapes' &&
+                  speprofile != 'Kiwi' &&
+                  speprofile != 'Lemon' &&
+                  speprofile != 'Lime' &&
+                  speprofile != 'Mango' &&
+                  speprofile != 'Orange' &&
+                  speprofile != 'Papaya' &&
+                  speprofile != 'Pear' &&
+                  speprofile != 'Pineapple' &&
+                  speprofile != 'Pomegranate' &&
+                  speprofile != 'Raspberry' &&
+                  speprofile != 'Strawberry' &&
+                  speprofile != 'Tomato' &&
+                  speprofile != 'Watermelon' &&
+                  speprofile != 'Zucchini'
+                  ) {
+                    return interaction.followUp({content: `The profile name doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`})
+                  }
+             var profile = await senither.getSpecifiedProfile(uuid, speprofile).catch(() => console.log())
+             if (typeof profile === 'undefined') {
+                 return interaction.followUp({content: `player not found`})
+             }
+         } else {
+
+         var profile = await senither.getFatterProfile(uuid).catch(() => console.log())
          if (typeof profile === 'undefined') {
             return interaction.followUp({content: `player not found`});
          }
+        }
          //const dataprofiles = profiles.data
          //dataprofiles.forEach(function(data){
             //var profilename = data.name
             //profilenames.splice(0, 0, profilename)
          //})
+            
             const dataprofile = profile.data;
             //profile infos
-
+            if (!dataprofile.skills.weight || !dataprofile.dungeons || !dataprofile.slayers.weight || dataprofile.skills.apiEnabled == false) {
+                return interaction.followUp({content: `couldn't fetch weight, please check if you have your api on, https://sky.shiiyu.moe/resources/video/enable-api.webm`})
+            }
                 const profilename = dataprofile.name;
                 const skillweight = dataprofile.skills.weight;
                 const skilloweight = dataprofile.skills.weight_overflow;
@@ -104,7 +152,7 @@ module.exports = new Command ({
         //embed
         const embed = new MessageEmbed()
         .setTitle(`Weight`)
-        .setDescription(`${ign}'s fattest profile is ${profilename}\n
+        .setDescription(`profile is ${profilename} from ${ign}\n
         Their weight is ${rf}\n
         Their dungeon weight is ${rfdungeon}(${rdungeon}/${rodungeon} overflow)
         Their slayer weight is ${rfslayer}(${rslayer}/${roslayer} overflow)
@@ -120,4 +168,5 @@ module.exports = new Command ({
 
 /**
  * the commands in comments are legacy and are only here to debug
+ * 
  */

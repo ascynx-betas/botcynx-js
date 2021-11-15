@@ -120,4 +120,3 @@ module.exports = new Command ({
 //to add
 //get from api last logout + last login
 //detect if online and return the time they've been online or since when they've been offline
-// finished to get from the hypixel api to avoid it not being correct

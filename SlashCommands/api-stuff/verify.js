@@ -130,7 +130,13 @@ module.exports = new Command ({
                 uuidInfo.oldlinked = `${linked}`
             }
             await uuidInfo.save();
-
+            
+            const verifyrole = config.verify
+            if (typeof verifyrole !== 'undefined') {
+            if (!member.roles.cache.has(verifyrole)) {
+                member.roles.add(verifyrole).catch(() => console.log(`I don't have permission to add ${verifyrole} in ${guildId}`))
+                }
+            }
 
         } else if (linkedtag == 'there was an error while trying to fetch the discord tag') {
             interaction.followUp({content: `the account either has no specified account or the username you provided is wrong`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
