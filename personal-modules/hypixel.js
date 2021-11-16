@@ -6,7 +6,7 @@ const key = config.hypixelapikey
 
 exports.getPlayerByUuid = function(uuid) {
     var Url = "https://api.hypixel.net/player?key=" + key + "&uuid=" + uuid;
-
+    
     return rp(Url).then(body => {
         let data = JSON.parse(body);
     return data

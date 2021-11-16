@@ -5,7 +5,6 @@ const { Command } = require('reconlx')
 module.exports = new Command ({
     name: 'dbcheck',
     description: 'get the minecraft username of the person from the database',
-    devonly: true,
     options: [
         {
             name: 'target',

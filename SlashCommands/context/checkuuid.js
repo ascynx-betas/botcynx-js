@@ -5,7 +5,6 @@ const verifyModel = require('../../models/verifymodel');
 module.exports = {
     name: 'getinfo',
     type: 'USER',
-    devonly: true,
     invisible: true,
 
     run: async (client, interaction, args) => {

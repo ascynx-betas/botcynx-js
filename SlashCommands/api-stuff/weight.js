@@ -117,7 +117,7 @@ module.exports = new Command ({
             
             const dataprofile = profile.data;
             //profile infos
-            if (!dataprofile.skills.weight || !dataprofile.dungeons || !dataprofile.slayers.weight || dataprofile.skills.apiEnabled == false) {
+            if (!dataprofile || !dataprofile.dungeons || !dataprofile.slayers.weight || dataprofile.skills.apiEnabled == false) {
                 return interaction.followUp({content: `couldn't fetch weight, please check if you have your api on, https://sky.shiiyu.moe/resources/video/enable-api.webm`})
             }
                 const profilename = dataprofile.name;
@@ -149,8 +149,7 @@ module.exports = new Command ({
 
         //embed
         const embed = new MessageEmbed()
-        .setDescription(`profile: ${profilename} username: ${ign}\n
-        Total weight is **\`\`${rf}\`\`**\n
+        .setDescription(`Total weight is **\`\`${rf}\`\`**\n
         dungeon weight is \`\`${rfdungeon}\`\`(\`\`${rdungeon}\`\`/\`\`${rodungeon}\`\` overflow)
         slayer weight is \`\`${rfslayer}\`\`(\`\`${rslayer}\`\`/\`\`${roslayer}\`\` overflow)
         skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`)
@@ -158,6 +157,7 @@ module.exports = new Command ({
         .setColor(`RED`)
         .setAuthor(`${ign}'s Weight`,``, `https://sky.shiiyu.moe/stats/${ign}/${profilename}`)
         .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
+        .setTitle(`profile: **\`\`${profilename}\`\`** username: **\`\`${ign}\`\`**`)
 
             //output
          interaction.followUp({embeds: [embed]}).catch(() => console.log())

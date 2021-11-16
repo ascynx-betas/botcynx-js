@@ -18,7 +18,7 @@ module.exports = new Command ({
     run: async ({ interaction}) => {
             const ign = interaction.options.getString('username');
             var on = ``;
-
+        try {
             if (ign.length < 3) {
                 interaction.followUp({content: `if the username you're trying to search is less than 3 characters then L cos I'm not accepting those for buggy reasons`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
@@ -35,6 +35,15 @@ module.exports = new Command ({
 
             const discord = await slothpixel.getDiscord(ign).catch(() => (`there was an error while trying to fetch the discord tag`));
             const uuid = await slothpixel.getuuid(ign).catch(() => (`failed to fetch uuid`))
+            if (uuid == `failed to fetch uuid`) {
+                const description = `Player not found`
+                const embed = new MessageEmbed()
+                .setDescription(description)
+                .setTitle(`ERROR`)
+                .setThumbnail(`https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2014%2F04%2F02%2F10%2F44%2Fcross-mark-304374_640.png&f=1&nofb=1`)
+                interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+                return;
+            }
             const data = await hypixel.getStatus(uuid).catch(`failed to fetch data`)
 
 
@@ -53,8 +62,13 @@ module.exports = new Command ({
             }
 
 
-            if (discord === null || data.session.online === null) {
-                interaction.followUp({content: `Player not found`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+            if (discord === null || data.session.online === null || data.success == false) {
+                const description = `Player not found`
+                const embed = new MessageEmbed()
+                .setDescription(description)
+                .setTitle(`ERROR`)
+                .setThumbnail(`https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2014%2F04%2F02%2F10%2F44%2Fcross-mark-304374_640.png&f=1&nofb=1`)
+                interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
 
@@ -140,6 +154,7 @@ module.exports = new Command ({
 
 
             }
+        }catch(err) {console.log(err)}
 
     }
 

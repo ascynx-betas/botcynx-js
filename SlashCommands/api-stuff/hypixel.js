@@ -81,6 +81,7 @@ module.exports = new Command ({
             .setColor(`BLURPLE`)
             .setDescription(`Username: \`\`${ign}\`\`\nUUID: \`\`${uuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`)
             .setFooter(`powered by slothpixel api`)
+            .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
 
             interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
