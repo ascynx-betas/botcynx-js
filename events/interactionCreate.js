@@ -145,10 +145,10 @@ client.on("interactionCreate", async (interaction, message) => {
         } else if (interaction.customId == `info config`) {
             interaction.update({embeds: [embed_config]})
         } else {
-            return interaction.reply({content: `error`, ephemeral: true})
+            return interaction.reply({content: `error: the interaction received doesn't match any resolvable interactions`, ephemeral:true})
         }
     } else {
-        return;
+        return interaction.reply({content: `You don't have permission to use this interaction`,ephemeral: true});
     }
     }
     }

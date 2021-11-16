@@ -81,7 +81,7 @@ module.exports = new Command ({
             }
 
             const embed = new MessageEmbed()
-            .setTitle(`Work In Progress`)
+            .setTitle(`|WIP|informations about ${ign}`)
             .setColor(`BLURPLE`)
             .setDescription(`Username: \`\`${ign}\`\`\nUUID: \`\`${uuid.id}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`)
             .setFooter(`powered by slothpixel api`)
