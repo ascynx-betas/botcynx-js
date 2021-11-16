@@ -99,6 +99,7 @@ client.on("interactionCreate", async (interaction, message) => {
             }
     } else if (customId.includes(info)) {
         //embed list
+        const interactioncreator = interaction.message.interaction.user.id
         const embed_moderation = new MessageEmbed()
         .setTitle(`**Moderation**`)
         .setDescription(`\`\`/role\`\`: allows the user to give or remove a role from another user\n(requires to have a role above the role given)`)
@@ -132,6 +133,7 @@ client.on("interactionCreate", async (interaction, message) => {
         To check a command page press the according button`)
         .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
 
+        if (interaction.user.id == interactioncreator) {
         if(interaction.customId == `info main`) {
             interaction.update({embeds: [embed_main]})
         } else if (interaction.customId == `info moderation`) {
@@ -145,6 +147,9 @@ client.on("interactionCreate", async (interaction, message) => {
         } else {
             return interaction.reply({content: `error`, ephemeral: true})
         }
+    } else {
+        return;
+    }
     }
     }
 
