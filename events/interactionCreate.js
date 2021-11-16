@@ -1,6 +1,6 @@
 const client = require("../index");
 const config = require("../config");
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 try {
 client.on("interactionCreate", async (interaction, message) => {
     // Slash Command Handling
@@ -98,7 +98,53 @@ client.on("interactionCreate", async (interaction, message) => {
                 interaction.reply({content: `this is not a thread`, ephemeral: true})
             }
     } else if (customId.includes(info)) {
-        interaction.reply({content: `these buttons do nothing currently`, ephemeral: true})
+        //embed list
+        const embed_moderation = new MessageEmbed()
+        .setTitle(`**Moderation**`)
+        .setDescription(`\`\`/role\`\`: allows the user to give or remove a role from another user\n(requires to have a role above the role given)`)
+        .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+
+        const embed_hypixel = new MessageEmbed()
+        .setTitle(`**Hypixel**`)
+        .setDescription(`\`\`/hyinfo:\`\` allows the user to get some information about a player on hypixel
+                        \`\`/stalk:\`\` allows the user to get the current activity of a player
+                        \`\`/verify:\`\` allows the user to verify themselves into the db`)
+                        .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+
+        const embed_context = new MessageEmbed()
+        .setTitle(`**Context Commands**`)
+        .setDescription(`\`\`User - getAvatar:\`\` gives the avatar of the user you used the command on
+                        \`\`User - getinfo:\`\` gives information about the user from the database`)
+                        .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+
+        const embed_config = new MessageEmbed()
+        .setTitle(`**Config**`)
+        .setDescription(`\`\`/setconfig:\`\` allows the user to add a parameter to the guild's configurations
+        \`\`/delconfig:\`\` allows the user to remove a parameter from the guild's configurations
+        \`\`/dev:\`\` a command useable by the dev / superusers that can be used for fun / unfinished stuff
+        \`\`/reload:\`\` a command that when used will check the guild's member according to the configuration (currently broken)
+        \`\`/checkconfig:\`\` a command that allows a guild's admin to check the current guild's configuration`)
+        .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+
+        const embed_main = new MessageEmbed()
+        .setTitle(`**Informations**`)
+        .setDescription(`Bot Mention: ${client.user}         Developer: Ascynx#2020\n
+        To check a command page press the according button`)
+        .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+
+        if(interaction.customId == `info main`) {
+            interaction.update({embeds: [embed_main]})
+        } else if (interaction.customId == `info moderation`) {
+            interaction.update({embeds: [embed_moderation]})
+        } else if (interaction.customId == `info context`) {
+            interaction.update({embeds: [embed_context]})
+        } else if (interaction.customId == `info hypixel`) {
+            interaction.update({embeds: [embed_hypixel]})
+        } else if (interaction.customId == `info config`) {
+            interaction.update({embeds: [embed_config]})
+        } else {
+            return interaction.reply({content: `error`, ephemeral: true})
+        }
     }
     }
 
