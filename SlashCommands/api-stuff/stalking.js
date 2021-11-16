@@ -1,6 +1,7 @@
 const { Command } = require('reconlx');
 const slothpixel = require('../../personal-modules/slothpixel.js');
 const hypixel = require('../../personal-modules/hypixel.js')
+const mojang = require('../../personal-modules/mojang')
 const { MessageEmbed } = require('discord.js');
 
 module.exports = new Command ({
@@ -34,17 +35,27 @@ module.exports = new Command ({
 
 
             const discord = await slothpixel.getDiscord(ign).catch(() => (`there was an error while trying to fetch the discord tag`));
-            const uuid = await slothpixel.getuuid(ign).catch(() => (`failed to fetch uuid`))
+            const uuid = await mojang.getUuidbyUsername(ign).catch(() => (`failed to fetch uuid`))
             if (uuid == `failed to fetch uuid`) {
                 const description = `Player not found`
                 const embed = new MessageEmbed()
                 .setDescription(description)
-                .setTitle(`ERROR`)
+                .setTitle(`error: player does not exist`)
                 .setThumbnail(`https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2014%2F04%2F02%2F10%2F44%2Fcross-mark-304374_640.png&f=1&nofb=1`)
                 interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
-            const data = await hypixel.getStatus(uuid).catch(`failed to fetch data`)
+            const check = await slothpixel.getPlayer(uuid.name).catch(() => (`failed to fetch player`))
+            if (check == `failed to fetch player`) {
+                const description = `${uuid.name} never logged into mc.hypixel.net`
+                const embed = new MessageEmbed()
+                .setDescription(description)
+                .setTitle(`error: couldn't get status information`)
+                .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
+                interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+                return;
+            }
+            const data = await hypixel.getStatus(uuid.id).catch(`failed to fetch data`)
 
 
             if (data.session != null) {
@@ -63,11 +74,11 @@ module.exports = new Command ({
 
 
             if (discord === null || data.session.online === null || data.success == false) {
-                const description = `Player not found`
+                const description = `\`\`${ign}\`\` never logged on hypixel.net`
                 const embed = new MessageEmbed()
                 .setDescription(description)
-                .setTitle(`ERROR`)
-                .setThumbnail(`https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2014%2F04%2F02%2F10%2F44%2Fcross-mark-304374_640.png&f=1&nofb=1`)
+                .setTitle(`error: couldn't get status information`)
+                .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
                 interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
@@ -107,18 +118,18 @@ module.exports = new Command ({
                         var gamemodetranslated = 'not currently coded in'
                         console.log(gamemode)
                     }   
-                        const description = `${ign} is currently ${on} \n in Skyblock in ${gamemodetranslated}`
+                        const description = `\`\`${uuid.name}\`\` is currently ${on} \n in Skyblock in ${gamemodetranslated}`
                     const embed = new MessageEmbed()
-                        .setAuthor(`${ign}`)
+                        .setAuthor(`${uuid.name}`)
                         .setDescription(description)
                         .setFooter(`powered by hypixel api`)
                         .setColor(`RANDOM`)
                         .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
                     interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 } else if (typeof gametype == 'undefined') {
-                        const description = `${ign} appears to be offline`
+                        const description = `\`\`${uuid.name}\`\` appears to be offline`
                     const embed = new MessageEmbed()
-                        .setAuthor(`${ign}`)
+                        .setAuthor(`${uuid.name}`)
                         .setDescription(description)
                         .setFooter(`powered by hypixel api`)
                         .setColor(`RANDOM`)
@@ -127,9 +138,9 @@ module.exports = new Command ({
                     interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                     return;
                 } else {
-                        const description = `${ign} is currently ${on} \n is in ${gametype} in the gamemode ${gamemode}`
+                        const description = `\`\`${uuid.name}\`\` is currently ${on} \n is in ${gametype} in the gamemode ${gamemode}`
                     const embed = new MessageEmbed()
-                    .setAuthor(`${ign}`)
+                    .setAuthor(`${uuid.name}`)
                     .setDescription(description)
                     .setFooter(`powered by hypixel api`)
                     .setColor(`RANDOM`)
@@ -139,9 +150,9 @@ module.exports = new Command ({
                 }
                 return;
             } else {
-                    const description = `${ign} is currently ${on}\n in the game ${gametype} in the gamemode ${gamemode}\n in ${map}`
+                    const description = `\`\`${uuid.name}\`\` is currently ${on}\n in the game ${gametype} in the gamemode ${gamemode}\n in ${map}`
                 const embed = new MessageEmbed()
-                    .setAuthor(`${ign}`)
+                    .setAuthor(`${uuid.name}`)
                     .setDescription(description)
                     .setFooter(`powered by hypixel api`)
                     .setColor(`RANDOM`)

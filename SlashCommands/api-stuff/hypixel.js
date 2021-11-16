@@ -1,11 +1,12 @@
 const { Command } = require('reconlx');
-const hypixel = require('../../personal-modules/slothpixel.js')
-const hy = require('../../personal-modules/hypixel.js')
+const slothpixel = require('../../personal-modules/slothpixel.js')
+const hy = require('../../personal-modules/slothpixel.js')
+const mojang = require('../../personal-modules/mojang')
 const { MessageEmbed } = require('discord.js');
 const verify = require('../../models/verifymodel')
 module.exports = new Command ({
     name: 'hyinfo',
-    description: 'send the user\'s uuid using the hypixel api',
+    description: 'send the user\'s uuid using the slothpixel api',
     options: [
         {
           name: 'username',
@@ -51,14 +52,17 @@ module.exports = new Command ({
 
 
              if (typeof uuid === 'undefined') {
-            var uuid = await hypixel.getuuid(ign).catch(() =>  (`there was an error while trying to fetch the uuid`))
+                var uuid = await mojang.getUuidbyUsername(ign).catch(() => (`failed to fetch uuid`))
              } else {
             const data = await hy.getPlayerByUuid(uuid).catch(() => (`there was an error while trying to fetch the username`))
             var ign = data.player.displayname
+            if (!ign) {
+                return interaction.followUp({content: `it seems as though the player doesn't exist on the hypixel api`})
+            }
              }
 
-            const discord = await hypixel.getDiscord(uuid).catch(() => (`there was an error while trying to fetch the discord tag`))
-            const online = await hypixel.getOnline(uuid).catch(() => (`there was an error while trying to fetch if the player is online`))
+            const discord = await slothpixel.getDiscord(uuid).catch(() => (`there was an error while trying to fetch the discord tag`))
+            const online = await slothpixel.getOnline(uuid).catch(() => (`there was an error while trying to fetch if the player is online`))
 
 
 
@@ -79,7 +83,7 @@ module.exports = new Command ({
             const embed = new MessageEmbed()
             .setTitle(`Work In Progress`)
             .setColor(`BLURPLE`)
-            .setDescription(`Username: \`\`${ign}\`\`\nUUID: \`\`${uuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`)
+            .setDescription(`Username: \`\`${ign}\`\`\nUUID: \`\`${uuid.id}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`)
             .setFooter(`powered by slothpixel api`)
             .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
 
