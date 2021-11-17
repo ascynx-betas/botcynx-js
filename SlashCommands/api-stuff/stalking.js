@@ -45,17 +45,16 @@ module.exports = new Command ({
                 interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 return;
             }
-            const check = await slothpixel.getPlayer(uuid.name).catch(() => (`failed to fetch player`))
-            if (check == `failed to fetch player`) {
+            const data = await hypixel.getStatus(uuid.id).catch(`failed to fetch data`)
+            if (data == `failed to fetch data`) {
                 const description = `${uuid.name} never logged into mc.hypixel.net`
                 const embed = new MessageEmbed()
                 .setDescription(description)
                 .setTitle(`error: couldn't get status information`)
                 .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
                 interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
-                return;
+                return;  
             }
-            const data = await hypixel.getStatus(uuid.id).catch(`failed to fetch data`)
 
 
             if (data.session != null) {
@@ -73,7 +72,7 @@ module.exports = new Command ({
             }
 
 
-            if (discord === null || data.session.online === null || data.success == false) {
+            if ( data.session.online === null || data.success == false) {
                 const description = `\`\`${ign}\`\` never logged on hypixel.net`
                 const embed = new MessageEmbed()
                 .setDescription(description)
