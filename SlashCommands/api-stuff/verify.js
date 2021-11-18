@@ -1,7 +1,8 @@
 const { Command } = require('reconlx');
-const verifyModel = require('../../models/verifymodel')
+const verifyModel = require('../../models/verifymodel');
 const hypixel = require('../../personal-modules/hypixel.js');
 const slothpixel = require('../../personal-modules/slothpixel.js');
+const m = require('mongoose')
 
 module.exports = new Command ({
     name: 'verify',
@@ -42,6 +43,7 @@ module.exports = new Command ({
         const config = require(`../../guild-only/${guildId}/config`);
         const member = interaction.guild.members.cache.get(userId);
         const action = interaction.options.getString('action');
+        var verifymodel;
         
 
         if (ign.length < 3) {
@@ -109,7 +111,7 @@ module.exports = new Command ({
             }
         } else {
             //update db command
-            if (userId == userInfo.userId) {
+            if (userId != userInfo.userId) {
             if(uuidInfo.length = 0) {
                 return interaction.followUp({content: `that user isn't linked, please use the verify command`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
             }
@@ -120,16 +122,16 @@ module.exports = new Command ({
         }
 
         if (usertag == linkedtag) {
-            const linked = uuidInfo.userId
-            const oldlinked = uuidInfo.oldlinked
-            //put here updates about the db doc
-            uuidInfo.userId = `${userId}`;
-            if (typeof oldlinked !== 'undefined') {
-                uuidInfo.oldlinked = `${oldlinked}, ${linked}`
-            } else {
-                uuidInfo.oldlinked = `${linked}`
-            }
-            await uuidInfo.save();
+            var query = {'minecraftuuid': minecraftuuid};
+            var verifymodel = userInfo
+            const linked = userInfo.userId
+            verifyModel.find
+                verifyModel.updateOne(
+                    {"minecraftuuid": `${minecraftuuid}`}, {$set : {"userId": `${userId}`}, function(err, doc) {
+                        if (err) return interaction.followUp({content: `there was an error while trying to update values`});
+                    }}
+                )
+                interaction.followUp({content: `Successfully set new value`})
             
             const verifyrole = config.verify
             if (typeof verifyrole !== 'undefined') {

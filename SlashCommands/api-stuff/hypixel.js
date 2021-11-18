@@ -1,6 +1,6 @@
 const { Command } = require('reconlx');
 const slothpixel = require('../../personal-modules/slothpixel.js')
-const hy = require('../../personal-modules/slothpixel.js')
+const hypixel = require('../../personal-modules/hypixel.js')
 const mojang = require('../../personal-modules/mojang')
 const { MessageEmbed } = require('discord.js');
 const verify = require('../../models/verifymodel')
@@ -18,6 +18,8 @@ module.exports = new Command ({
     ],
 
     run: async ({ interaction }) => {
+        var info;
+        var embed;
         try {
             var ign = interaction.options.getString('username');
             var on = ``;
@@ -27,7 +29,7 @@ module.exports = new Command ({
                 const userInfo = await verify.find({
                     userId: userId
                 });
-                const info = userInfo[0]
+                var info = userInfo[0]
 
                 if(!userInfo?.length) return interaction.followUp({content: `you're missing the username parameter`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 var uuid = info.minecraftuuid
@@ -54,7 +56,7 @@ module.exports = new Command ({
              if (typeof uuid === 'undefined') {
                 var uuid = await mojang.getUuidbyUsername(ign).catch(() => (`failed to fetch uuid`))
              } else {
-            const data = await hy.getPlayerByUuid(uuid).catch(() => (`there was an error while trying to fetch the username`))
+            const data = await hypixel.getPlayerByUuid(uuid).catch(() => (`there was an error while trying to fetch the username`))
             var ign = data.player.displayname
             if (!ign) {
                 return interaction.followUp({content: `it seems as though the player doesn't exist on the hypixel api`})
@@ -79,13 +81,21 @@ module.exports = new Command ({
             } else {
                 var on = (`there was an error while trying to fetch the activity`)
             }
-
-            const embed = new MessageEmbed()
+            if (uuid.id) {
+            var embed = new MessageEmbed()
             .setTitle(`|WIP|informations about ${ign}`)
             .setColor(`BLURPLE`)
             .setDescription(`Username: \`\`${ign}\`\`\nUUID: \`\`${uuid.id}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`)
             .setFooter(`powered by slothpixel api`)
             .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
+            } else {
+            var embed = new MessageEmbed()
+            .setTitle(`|WIP|informations about ${ign}`)
+            .setColor(`BLURPLE`)
+            .setDescription(`Username: \`\`${ign}\`\`\nUUID: \`\`${info.minecraftuuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`)
+            .setFooter(`powered by slothpixel api`)
+            .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
+            }
 
             interaction.followUp({embeds: [embed]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 

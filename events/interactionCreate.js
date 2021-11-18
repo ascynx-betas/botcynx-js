@@ -24,7 +24,7 @@ client.on("interactionCreate", async (interaction, message) => {
         interaction.member = interaction.guild.members.cache.get(interaction.user.id);
         if (cmd.globallydisabled) {
             if (interaction.member.id != config.developerId) {
-            return interaction.followUp({content:`Command was globally disabled due to having a dangerous bug`})
+            return interaction.followUp({content:`Command is only useable by the developer due to either being extremely buggy or dangerous`})
             }
         }
         if(cmd.devonly) {
@@ -47,6 +47,7 @@ client.on("interactionCreate", async (interaction, message) => {
         cmd.run({ client, interaction, args, message });
         
     }
+    // button interactions
     if(interaction.isButton()) {
 
 
