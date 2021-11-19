@@ -186,6 +186,9 @@ module.exports = new Command ({
      } else if (action == 'getPermissionlist') {
          const guild = interaction.guild
         const perms = guild.me.permissions.toArray();
+        if (perms.includes('ADMINISTRATOR')) {
+            return interaction.followUp({content: `ADMINISTRATOR permission`}).catch(() => console.log()).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+        }
         
         interaction.followUp({content:`\`\`${perms.toString()}\`\``}).catch(() => console.log()).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 
