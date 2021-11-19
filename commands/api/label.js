@@ -11,15 +11,15 @@ module.exports = {
      */
     run: async (client, message, args) => {
         const target = (args[0]);
-        const label = (args[1])
+        const label = args.slice(1).join(" ");
         var userId;
         var targetId;
             try {
         if(!target || typeof target === 'undefined') {
-            return message.channel.send({content: `missing parameter target`})
+            return message.reply({content: `missing parameter target`})
         }
         if(!label || typeof label === 'undefined') {
-            return message.channel.send({content: `missing label parameter`})
+            return message.reply({content: `missing label parameter`})
         }
         if (target.length === 21) {
             var targetId = target.slice(2, target.length-1)
@@ -33,7 +33,7 @@ module.exports = {
         }
         var Info = await verifymodel.find({"userId": `${userId}`})
                     if (Info[0].labels.includes(label)) {
-                        return message.channel.send({content: `target already has label`})
+                        return message.channel.send({content: `<@${userId}> already has label`,allowedMentions: {parse :[]}})
                     } else {
 
                     

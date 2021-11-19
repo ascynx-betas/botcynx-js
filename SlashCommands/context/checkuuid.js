@@ -11,6 +11,7 @@ module.exports = {
         try {
         const user = await client.users.fetch(interaction.targetId);
         const userId = user.id
+        var specificity;
 
         const userInfo = await verifyModel.find({
             userId: userId
@@ -24,14 +25,14 @@ module.exports = {
         const username = data.player.displayname;
         if (info.labels.length > 0) {   
             const labellist = info.labels
-            var labels = [""];
-            var editvalue = 0;
-            labellist.forEach(function(labellist){
-
-                labels.splice(editvalue, 0, labellist);
-                editvalue += 1;
-            })
-                return interaction.followUp({content: `${user.tag}\'s username is \`\`${username}\`\` and has the label(s) ${labels}`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
+            if (labellist.includes('pog person')) {
+                specificity = "<a:hypersquish:910587055313133608>"
+            } else if (labellist.includes('owner')) {
+                specificity = "<a:macroing:903652184766427187>"
+            } else if (labellist.includes('scammer')) {
+                specificity = "<a:LdanceFast:911214913270210580>"
+            }
+                return interaction.followUp({content: `${specificity || ""} ${user.tag}\'s username is \`\`${username}\`\` and has the label(s) ${labellist.toString()}`, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
         }else {
             return interaction.followUp({content: `${user.tag}\'s username is \`\`${username}\`\``, ephemeral: true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`));
             }

@@ -11,7 +11,7 @@ module.exports = {
      */
     run: async (client, message, args) => {
         const target = (args[0]);
-        const label = (args[1])
+        const label = args.slice(1).join(" ")
         var userId;
         var targetId;
             try {
@@ -33,7 +33,7 @@ module.exports = {
         }
         var Info = await verifymodel.find({"userId": `${userId}`})
                     if (!Info[0].labels.includes(label)) {
-                        return message.channel.send({content: `target doesn't have ${label}`})
+                        return message.channel.send({content: `<@${userId}> doesn't have ${label}`, allowedMentions: {parse: []}})
                     } else {
 
                     
