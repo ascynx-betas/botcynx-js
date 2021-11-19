@@ -1,8 +1,8 @@
 const { Message, Client } = require("discord.js");
 const verifymodel = require(`../../models/verifymodel`)
 module.exports = {
-    name: "label",
-    aliases: ['l'],
+    name: "remove-label",
+    aliases: ['rl'],
     /**
      *
      * @param {Client} client
@@ -32,17 +32,17 @@ module.exports = {
             var userId = target
         }
         var Info = await verifymodel.find({"userId": `${userId}`})
-                    if (Info[0].labels.includes(label)) {
-                        return message.channel.send({content: `target already has label`})
+                    if (!Info[0].labels.includes(label)) {
+                        return message.channel.send({content: `target doesn't have ${label}`})
                     } else {
 
                     
                 verifymodel.updateOne(
-                    {"userId": `${userId}`}, {$addToSet: {"labels": `${label}`}}, function(err, doc) {
+                    {"userId": `${userId}`}, {$pull: {"labels": `${label}`}}, function(err, doc) {
                         if (err) return message.channel.send({content: `there was an error while trying to update values`});
                     }
                 )
-                message.channel.send({content: `✅ ${label} was added to <@${userId}>`,allowedMentions: {parse :[]}})
+                message.channel.send({content: `✅ ${label} was removed from <@${userId}>`,allowedMentions: {parse :[]}})
                     }
     }catch(err) {console.log(err)}
 
