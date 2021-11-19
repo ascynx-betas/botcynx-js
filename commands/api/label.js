@@ -11,15 +11,28 @@ module.exports = {
      */
     run: async (client, message, args) => {
         const target = (args[0]);
-        const label = args.slice(1).join(" ");
+        var label = args.slice(1).join(" ");
         var userId;
         var targetId;
+        var param;
+        var test;
             try {
         if(!target || typeof target === 'undefined') {
             return message.reply({content: `missing parameter target`})
         }
         if(!label || typeof label === 'undefined') {
             return message.reply({content: `missing label parameter`})
+        }
+        if (label.includes("-n")) {
+            var test = label.replace('-n', '')
+            param = 'no-msg'
+            if (test.endsWith(" ")) {
+                test = test.slice(0, test.length-1)
+            }
+            label = test
+        }
+        if (label.endsWith(" ")) {
+            label = label.slice(0, test.length-1)
         }
         if (target.length === 21) {
             var targetId = target.slice(2, target.length-1)
@@ -32,6 +45,9 @@ module.exports = {
             var userId = target
         }
         var Info = await verifymodel.find({"userId": `${userId}`})
+        if (typeof Info[0] === 'undefined') {
+            return message.reply({content: `user is not verified`})
+        }
                     if (Info[0].labels.includes(label)) {
                         return message.channel.send({content: `<@${userId}> already has label`,allowedMentions: {parse :[]}})
                     } else {
@@ -42,7 +58,15 @@ module.exports = {
                         if (err) return message.channel.send({content: `there was an error while trying to update values`});
                     }
                 )
-                message.channel.send({content: `✅ ${label} was added to <@${userId}>`,allowedMentions: {parse :[]}})
+                if (param) {
+                if (param == 'no-msg') {
+                    return;
+                } else {
+                    message.reply({content: `✅ ${label} was added to <@${userId}>`,allowedMentions: {parse :[]}})
+                }
+                } else {
+                    message.reply({content: `✅ ${label} was added to <@${userId}>`,allowedMentions: {parse :[]}})
+                }
                     }
     }catch(err) {console.log(err)}
 
