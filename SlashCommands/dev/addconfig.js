@@ -58,11 +58,12 @@ run: async({client, interaction }) => {
 var su = guildconfig.su;
 var logchannel = guildconfig.logchannel
 var test = 0;
-var removablespliced = [""];
-var bypassspliced = [""];
-var triggerspliced = [""];
+var removablespliced = [];
+var bypassspliced = [];
+var triggerspliced = [];
 var success = false;
-var suspliced = [""];
+var suspliced = [];
+var fullitem;
 
         var bypass = guildconfig.bypass;
         var removable = guildconfig.removable;
@@ -160,7 +161,7 @@ if (successful === true) {
         var suspliced = `"${su}"`
     }
     if (typeof verifyrole !== 'undefined') {
-const fullitem = `{
+var fullitem = `{
     "name": "${name}",
     "guildId": "${guildId}",
     "trigger": [${triggerspliced}],
@@ -171,7 +172,7 @@ const fullitem = `{
     "verify": "${verifyrole}"
 }`
     } else {
-        const fullitem = `{
+        var fullitem = `{
             "name": "${name}",
             "guildId": "${guildId}",
             "trigger": [${triggerspliced}],
@@ -196,8 +197,10 @@ fs.writeFile(`guild-only/${guildId}/config.json`, fullitem, function(err) {
     }
 })
 } 
+if (logchannel == ' ') {
 client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
-    } catch (err) {
+}
+} catch (err) {
         console.log(err); 
         interaction.editReply({ content: `there was an error executing this command`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
     }

@@ -47,10 +47,10 @@ module.exports = new Command ({
             const su = guildconfig.su
     var logchannel = guildconfig.logchannel
     var test = 0;
-    var removablespliced = [""];
-    var bypassspliced = [""];
-    var triggerspliced = [""];
-    var suspliced = [""];
+    var removablespliced = [];
+    var bypassspliced = [];
+    var triggerspliced = [];
+    var suspliced = [];
     var success = false;
     var bypass = guildconfig.bypass;
     var removable = guildconfig.removable;
@@ -163,8 +163,9 @@ module.exports = new Command ({
                     }
                 })
                 }
-                client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
-
+                if (logchannel == ' ') {
+                    client.channels.cache.get(logchannel).send({content: `config has been modified by \`\`${interaction.user.tag}\`\``, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+                    }
         }catch (err) {
             console.log(err)
         if (typeof logchannel ===! 'undefined' ) {

@@ -6,7 +6,7 @@ module.exports = new Command ({
     description: 'allows the user to check the configuration of the current guild',
     userPermissions: ['MANAGE_ROLES'],
 
-    run: async({ interaction }) => {
+    run: async({ client,interaction }) => {
         try {
             const guildId = interaction.guild.id;
             const guildconfig = require(`../../guild-only/${guildId}/config.json`);
@@ -15,10 +15,10 @@ module.exports = new Command ({
             const trigger = guildconfig.trigger;
             const bypass = guildconfig.bypass;
             const su = guildconfig.su;
-            var suspliced = [""];
-            var removablespliced = [""];
-            var bypassspliced = [""];
-            var triggerspliced = [""];
+            var suspliced = [];
+            var removablespliced = [];
+            var bypassspliced = [];
+            var triggerspliced = [];
             var test = 0;
 
             if (su.length > 1) {
@@ -82,9 +82,10 @@ module.exports = new Command ({
                  \`\`Elevated permissions:\`\` ${suspliced || `no super users added`}\n
                   \`\`(when using the /delconfig command, a slot is 1 role (it's id)), as it's an array each config starts with the slot [0]\`\``
             const embed = new MessageEmbed()
-                .setAuthor(`interaction.user.tag`)
+                .setAuthor(`${client.user.tag}`)
                 .setDescription(description)
                 .setColor(`RED`)
+                .setTimestamp();
             interaction.followUp({embeds: [embed], allowedMentions: {parse :[]}})
 
         }catch (err) {
