@@ -1,8 +1,5 @@
 const client = require("../index");
-function requireUncached(module) {
-    delete require.cache[require.resolve(module)];
-    return require(module);
-}
+const fs = require('fs')
 const givecheck = false; // that's how  to enable the legacy system
 
 //currently searching for a way to get the guildId to get from a certain folder, this is pain // found how
@@ -19,9 +16,6 @@ try {
     var guildcache = oldMember.roles.guild.id
 
     
-    setInterval(() => {
-        config = requireUncached(`../guild-only/${guildcache}/config.json`)
-    }, 500)
 
 
     
