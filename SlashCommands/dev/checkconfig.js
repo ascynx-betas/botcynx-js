@@ -24,8 +24,10 @@ module.exports = new Command ({
             if (su.length > 1) {
                 test = 0;
                 su.forEach(function(su) {
+                    if (su != "") {
                     var susplice = `<@${su}>`
                     suspliced.splice(test, test, susplice)
+                    }
                     test += 1;
                     return suspliced
                 });
@@ -37,8 +39,10 @@ module.exports = new Command ({
 
             if (removable.length > 1) {
                 removable.forEach(function(removable) {
+                    if (removable != "") {
                     var removablesplice = `<@&${removable}>`
                     removablespliced.splice(test, test, removablesplice)
+                    }
                     test += 1;
                     return removablespliced
                 });
@@ -50,8 +54,10 @@ module.exports = new Command ({
                 test = 0;
                 if (bypass.length > 1) {
                 bypass.forEach(function(bypass) {
+                    if (bypass != "") {
                     var bypasssplice = `<@&${bypass}>`
                     bypassspliced.splice(test, test, bypasssplice)
+                    }
                     test += 1;
                     return bypassspliced
                 });
@@ -63,9 +69,10 @@ module.exports = new Command ({
                 test = 0;
                 if (trigger.length > 1) {
                 trigger.forEach(function(trigger) {
-                    console.log(trigger)
+                    if (trigger != "") {
                     var triggersplice = `<@&${trigger}>`
                     triggerspliced.splice(test, test, triggersplice)
+                    }
                     test += 1;
                     return triggerspliced
                 });
@@ -94,4 +101,4 @@ module.exports = new Command ({
     }
     
 });
-//need to fix a stupid bug, that makes it so it requires a restart to take into account addition of super users \\ note: should be fixed, I think
+//need to fix a stupid bug, that makes it so it requires a restart to take into account additions outside bot additions

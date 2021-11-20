@@ -9,7 +9,7 @@ module.exports = new Command ({
             name: 'target',
             description: 'the person you will check the avatar of',
             type: 'USER',
-            required: 'true'
+            required: true
         }
     ],
 

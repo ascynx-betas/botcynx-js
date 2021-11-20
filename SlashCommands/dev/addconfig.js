@@ -206,5 +206,3 @@ client.channels.cache.get(logchannel).send({content: `config has been modified b
     }
 }
 })
-
-//might be able to fix the <@&> error if I add a check to see if the thing is ""

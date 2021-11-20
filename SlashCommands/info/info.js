@@ -40,7 +40,7 @@ module.exports = new Command ({
         .setDescription(`Bot Mention: ${client.user}         Developer: Ascynx#2020\n
         To check a command page press the according button`)
         .setColor(`#69696E`)
-        .setFooter(`powered by mongodb, slothpixel api and hypixel api`);
+        .setFooter(`powered by mongodb, senither api and hypixel api`);
 
         interaction.followUp({embeds: [embed], components: [buttonrow]}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
 

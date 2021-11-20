@@ -64,3 +64,4 @@ module.exports = new Command ({
 
 // urgent fix this
 // one of the check failed, why, it should do 1 member at a time
+//currently not sure if it is fixed or not
