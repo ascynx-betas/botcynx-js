@@ -3,7 +3,7 @@ const senither = require('../../personal-modules/senither')
 const slothpixel = require('../../personal-modules/slothpixel')
 const hypixel = require('../../personal-modules/hypixel')
 const verify = require ('../../models/verifymodel')
-const { MessageEmbed } = require('discord.js')
+const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js')
 
 module.exports = new Command ({
     name: 'weight',
@@ -62,7 +62,11 @@ module.exports = new Command ({
          if (typeof uuid === 'undefined') {
         var uuid = await slothpixel.getuuid(ign).catch(() =>  (`there was an error while trying to fetch the uuid`))
          } else {
-            const data = await hypixel.getPlayerByUuid(uuid).catch(() => (`there was an error while trying to fetch the username`))
+            const data = await hypixel.getPlayerByUuid(uuid).catch(() => console.log())
+            if (!data) {
+                console.log()
+                return interaction.followUp({content: `error while trying to fetch player name`})
+            }
             var ign = data.player.displayname    
          }
 
@@ -155,12 +159,19 @@ module.exports = new Command ({
         skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`)
         .setFooter(`powered by senither api`)
         .setColor(`RED`)
-        .setAuthor(`${ign}'s Weight`,``, `https://sky.shiiyu.moe/stats/${ign}/${profilename}`)
-        .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`)
+        .setAuthor(`${ign}'s senither Weight`,``, `https://sky.shiiyu.moe/stats/${ign}/${profilename}`)
+        .setThumbnail(`https://mc-heads.net/avatar/${uuid}/100`)
         .setTitle(`profile: **\`\`${profilename}\`\`** username: **\`\`${ign}\`\`**`)
-
+            //button
+            const buttonrow = new MessageActionRow()
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId(`lily weight`)
+                        .setLabel('Press to get lily weight (WIP)')
+                        .setStyle('SECONDARY')
+                );
             //output
-         interaction.followUp({embeds: [embed]}).catch(() => console.log())
+         interaction.followUp({embeds: [embed], components: [buttonrow]}).catch(() => console.log())
         }catch (err) {console.log(err)}
     }
 })

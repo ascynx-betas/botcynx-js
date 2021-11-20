@@ -56,7 +56,8 @@ client.on("interactionCreate", async (interaction, message) => {
         const channel = interaction.channel;
         const customId = interaction.customId;
         let info = "info";
-        if (customId != "close" && !customId.includes(info)) {
+        let weight = "weight";
+        if (customId != "close" && !customId.includes(info) && !customId.includes(weight)) {
             const buttonrow = new MessageActionRow()
                 .addComponents(
                     new MessageButton()
