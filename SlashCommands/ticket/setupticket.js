@@ -1,6 +1,7 @@
 const { Command } = require('reconlx');
 const fs = require('fs');
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const disabled = require('../../personal-modules/testfor')
 
 module.exports = new Command ({
     name:'setup-ticket',
@@ -34,7 +35,7 @@ module.exports = new Command ({
         }
     ],
 
-    run: async ({interaction}) => {
+    run: async ({interaction, client}) => {
 
         const guildId = interaction.guild.id;
         const setupchannel = interaction.options.getChannel('channel');
@@ -48,7 +49,9 @@ module.exports = new Command ({
 
         try {
             //add here blacklisted names
-            if (name == 'config' || name.startsWith(`info`) || name == 'close' || name.startsWith(`weight`)) {
+            const blacklisted = client.config.tbn
+            const success = disabled.testfor(blacklisted, name)
+            if (success == true) {
                 return interaction.followUp({content: `You can't name a config by the name ${name}`})
             }
             const buttonrow = new MessageActionRow()

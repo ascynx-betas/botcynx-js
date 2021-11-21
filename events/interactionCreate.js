@@ -1,5 +1,4 @@
 const client = require("../index");
-const config = require("../config");
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const testfor = require('../personal-modules/testfor')
 try {
@@ -24,7 +23,7 @@ client.on("interactionCreate", async (interaction, message) => {
         }
         interaction.member = interaction.guild.members.cache.get(interaction.user.id);
         if (cmd.globallydisabled) {
-            if (interaction.member.id != config.developerId) {
+            if (interaction.member.id != client.config.developerId) {
             return interaction.followUp({content:`Command is only useable by the developer due to either being extremely buggy or dangerous`})
             }
         }
@@ -35,7 +34,7 @@ client.on("interactionCreate", async (interaction, message) => {
             var sunumber = su.length
             sutested = 0;
             su.forEach(function(su) {
-                if (interaction.member.id != su && interaction.member.id != config.developerId) {
+                if (interaction.member.id != su && interaction.member.id != client.config.developerId) {
                     sutested += 1
                 }
             })
@@ -56,7 +55,7 @@ client.on("interactionCreate", async (interaction, message) => {
         const guild = interaction.guild;
         const channel = interaction.channel;
         const customId = interaction.customId;
-        let blacklisted = ["info", "weight", "close"]
+        let blacklisted = client.config.tbn
         const success = await testfor.testfor(blacklisted, interaction.customId)
         if (success != true) {
             const buttonrow = new MessageActionRow()
@@ -175,7 +174,7 @@ client.on("interactionCreate", async (interaction, message) => {
             var sunumber = su.length
             sutested = 0;
             su.forEach(function(su) {
-                if (interaction.member.id != su && interaction.member.id != config.developerId) {
+                if (interaction.member.id != su && interaction.member.id != client.config.developerId) {
                     sutested += 1
                 }
             })
@@ -183,7 +182,7 @@ client.on("interactionCreate", async (interaction, message) => {
                 return interaction.followUp({ content: "this command requires super user permissions to use"});
             }
         } else {
-        if(!interaction.member.permissions.has(cmd.userPermissions || []) && interaction.member.id != config.developerId) return interaction.followUp({ content: "you do not have permission to execute this command"})
+        if(!interaction.member.permissions.has(cmd.userPermissions || []) && interaction.member.id != client.config.developerId) return interaction.followUp({ content: "you do not have permission to execute this command"})
         }
         if (command) command.run(client, interaction);
     }

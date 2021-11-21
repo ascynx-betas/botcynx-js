@@ -138,7 +138,6 @@ if (successful === true) {
         test = 0;
         if (trigger.length > 1) {
         trigger.forEach(function(trigger) {
-            console.log(trigger)
             var triggersplice = `"${trigger}"`
             triggerspliced.splice(test, test, triggersplice)
             test += 1;
@@ -151,7 +150,6 @@ if (successful === true) {
     test = 0;
     if (su.length > 1) {
         su.forEach(function(su) {
-            console.log(su)
             var susplice = `"${su}"`
             suspliced.splice(test, test, susplice)
             test += 1;
