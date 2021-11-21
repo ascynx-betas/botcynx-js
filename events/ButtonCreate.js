@@ -6,6 +6,7 @@ client.on("interactionCreate", async (interaction, message) => {
     try {
     if (interaction.isButton()) {
         //weight lily
+        if (!interaction.customId.startsWith('weight')) return;
         const interactioncreator = interaction.message.interaction.user.id
         if (interaction.user.id != interactioncreator) return;
         if (interaction.customId == 'lily weight') {

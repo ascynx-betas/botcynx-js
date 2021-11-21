@@ -1,6 +1,7 @@
 const client = require("../index");
 const config = require("../config");
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const testfor = require('../personal-modules/testfor')
 try {
 client.on("interactionCreate", async (interaction, message) => {
     // Slash Command Handling
@@ -55,9 +56,9 @@ client.on("interactionCreate", async (interaction, message) => {
         const guild = interaction.guild;
         const channel = interaction.channel;
         const customId = interaction.customId;
-        let info = "info";
-        let weight = "weight";
-        if (customId != "close" && !customId.includes(info) && !customId.includes(weight)) {
+        let blacklisted = ["info", "weight", "close"]
+        const success = await testfor.testfor(blacklisted, interaction.customId)
+        if (success != true) {
             const buttonrow = new MessageActionRow()
                 .addComponents(
                     new MessageButton()
@@ -99,7 +100,7 @@ client.on("interactionCreate", async (interaction, message) => {
             } else {
                 interaction.reply({content: `this is not a thread`, ephemeral: true})
             }
-    } else if (customId.includes(info)) {
+    } else if (customId.startsWith("info")) {
         //embed list
         const interactioncreator = interaction.message.interaction.user.id
         const embed_moderation = new MessageEmbed()
