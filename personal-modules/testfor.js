@@ -1,7 +1,13 @@
 exports.testfor = function(disabledarray, testvalue) {
-var testedvalue = 0;
+    //test for errors
+    if (typeof disabledarray !== 'object') throw 'wrong variable type'
+    if (typeof testvalue !== 'string') throw 'wrong variable type'
+    if (!testvalue || !disabledarray) throw 'missing variable'
+//variables
+    var testedvalue = 0;
 var success;
 
+//function itself
 do {
     if(testvalue.includes(disabledarray[testedvalue])) {
         success = true;
