@@ -1,5 +1,4 @@
 const { Command } = require('reconlx');
-const config = require('../../config.json')
 
 module.exports = new Command ({
     name: "role",
@@ -36,7 +35,7 @@ module.exports = new Command ({
         }
     ],
 
-    run: async({ interaction }) => {
+    run: async({ interaction, client }) => {
 
         try { 
 
@@ -47,7 +46,7 @@ module.exports = new Command ({
 
 
             if (action === "add") {
-                if (role.position >= interaction.member.roles.highest.position && interaction.member.id != interaction.guild.ownerId && interaction.member.id != config.developerId) {
+                if (role.position >= interaction.member.roles.highest.position && interaction.member.id != interaction.guild.ownerId && interaction.member.id != client.config.developerId) {
                     return interaction.followUp({
                 content: "You can't give this role as it's higher or equal to your current highest role",
             }).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
@@ -62,7 +61,7 @@ module.exports = new Command ({
                  interaction.followUp({content: 'there was an error while executing this command'}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
                 }
         }else if (action === "remove") {
-                if (role.position >= interaction.member.roles.highest.position && interaction.member.id != interaction.guild.ownerId && interaction.member.id != config.developerId) 
+                if (role.position >= interaction.member.roles.highest.position && interaction.member.id != interaction.guild.ownerId && interaction.member.id != client.config.developerId) 
                     return interaction.followUp({
                 content: "You can't remove this role as it's higher or equal to your current highest role",
             }).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))

@@ -44,7 +44,6 @@ module.exports = new Command ({
         const welcomebutton = interaction.options.getString('description');
         const filepath = `guild-only/${guildId}/`;
         const filename = `${name}.json`;
-        const author = interaction.user.id
 
 
         try {
