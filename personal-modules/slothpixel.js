@@ -1,8 +1,7 @@
-const slothpixel = require ("slothpixel");
+const slothpixel = require("slothpixel");
 
 async function getuuid(ign) {
-    
-    const query = `{
+  const query = `{
         players {
             player(player_name: "${ign}") {
                 uuid
@@ -10,20 +9,18 @@ async function getuuid(ign) {
         }
     }`;
 
-    const data = await slothpixel.graphql({ query});
-    const uuid = data.players.player.uuid
-    return uuid;
+  const data = await slothpixel.graphql({ query });
+  const uuid = data.players.player.uuid;
+  return uuid;
 }
 
 async function getPlayer(ign) {
-
-    const data = await slothpixel (`players/${ign}`)
-    return data;
+  const data = await slothpixel(`players/${ign}`);
+  return data;
 }
 
 async function getDiscord(ign) {
-
-    const query = `{
+  const query = `{
         players {
             player(player_name: "${ign}") {
                 links {
@@ -33,25 +30,25 @@ async function getDiscord(ign) {
         }
     }`;
 
-
-const data = await slothpixel.graphql({ query });
-const links = data.players.player.links
-return links.DISCORD;
-};
+  const data = await slothpixel.graphql({ query });
+  const links = data.players.player.links;
+  return links.DISCORD;
+}
 
 async function getOnline(ign) {
-    
-    const { online } = await slothpixel(`players/${ign}/status`);
-    return online;
+  const { online } = await slothpixel(`players/${ign}/status`);
+  return online;
 }
 
 async function getOnlineActivity(ign) {
-
-
-    const data = await slothpixel(`players/${ign}/status`);
-    return data;    
+  const data = await slothpixel(`players/${ign}/status`);
+  return data;
 }
 
 module.exports = {
-    getDiscord, getuuid, getOnline, getOnlineActivity, getPlayer
-}
+  getDiscord,
+  getuuid,
+  getOnline,
+  getOnlineActivity,
+  getPlayer,
+};

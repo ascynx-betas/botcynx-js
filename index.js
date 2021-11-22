@@ -1,8 +1,8 @@
 const { Client, Collection } = require("discord.js");
 
 const client = new Client({
-    disableMention: "everyone",
-    intents: 32767,
+  disableMention: "everyone",
+  intents: 32767,
 });
 module.exports = client;
 // Global Variables

@@ -9,56 +9,58 @@ const globPromise = promisify(glob);
  * @param {Client} client
  */
 module.exports = async (client) => {
-    // Commands
-    const commandFiles = await globPromise(`${process.cwd()}/commands/**/*.js`);
-    commandFiles.map((value) => {
-        const file = require(value);
-        const splitted = value.split("/");
-        const directory = splitted[splitted.length - 2];
+  // Commands
+  const commandFiles = await globPromise(`${process.cwd()}/commands/**/*.js`);
+  commandFiles.map((value) => {
+    const file = require(value);
+    const splitted = value.split("/");
+    const directory = splitted[splitted.length - 2];
 
-        if (file.name) {
-            const properties = { directory, ...file };
-            client.commands.set(file.name, properties);
-        }
-    });
+    if (file.name) {
+      const properties = { directory, ...file };
+      client.commands.set(file.name, properties);
+    }
+  });
 
-    // Events
-    const eventFiles = await globPromise(`${process.cwd()}/events/*.js`);
-    eventFiles.map((value) => require(value));
+  // Events
+  const eventFiles = await globPromise(`${process.cwd()}/events/*.js`);
+  eventFiles.map((value) => require(value));
 
-    // Slash Commands
-    const slashCommands = await globPromise(
-        `${process.cwd()}/SlashCommands/*/*.js`
-    );
+  // Slash Commands
+  const slashCommands = await globPromise(
+    `${process.cwd()}/SlashCommands/*/*.js`
+  );
 
-    const arrayOfSlashCommands = [];
-    slashCommands.map((value) => {
-        const file = require(value);
-        if (!file?.name) return;
-        client.slashCommands.set(file.name, file);
+  const arrayOfSlashCommands = [];
+  slashCommands.map((value) => {
+    const file = require(value);
+    if (!file?.name) return;
+    client.slashCommands.set(file.name, file);
 
-        if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
-        arrayOfSlashCommands.push(file);
-    });
-    client.on("ready", async () => {
-        //add bot name / activity to here
-        client.user.setPresence({activities: [{name:'test',  type: 'WATCHING' }]}) //PLAYING, STREAMING, LISTENING, WATCHING, CUSTOM_STATUS
-        client.user.setStatus('online');
+    if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
+    arrayOfSlashCommands.push(file);
+  });
+  client.on("ready", async () => {
+    //add bot name / activity to here
+    client.user.setPresence({
+      activities: [{ name: "test", type: "WATCHING" }],
+    }); //PLAYING, STREAMING, LISTENING, WATCHING, CUSTOM_STATUS
+    client.user.setStatus("online");
 
-        // Register for a single guild
-        const guild = client.guilds.cache
-            .get("779489942899785748")
-            await guild.commands.set(arrayOfSlashCommands)
-        
-        // Register for all the guilds the bot is in
-         client.application.commands.set(arrayOfSlashCommands);
+    // Register for a single guild
+    const guild = client.guilds.cache.get("779489942899785748");
+    await guild.commands.set(arrayOfSlashCommands);
 
-    });
+    // Register for all the guilds the bot is in
+    client.application.commands.set(arrayOfSlashCommands);
+  });
 
-    // mongoose
-    const { mongooseConnectionString } = require('../config.json')
-    if (!mongooseConnectionString) return;
-    //to close all connections (you have currently to remove / re-add IP address to reset connection)
+  // mongoose
+  const { mongooseConnectionString } = require("../config.json");
+  if (!mongooseConnectionString) return;
+  //to close all connections (you have currently to remove / re-add IP address to reset connection)
 
-    mongoose.connect(mongooseConnectionString).then(() => console.log('Connected to mongodb'));
+  mongoose
+    .connect(mongooseConnectionString)
+    .then(() => console.log("Connected to mongodb"));
 };
