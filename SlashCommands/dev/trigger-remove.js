@@ -1,4 +1,5 @@
 const { Command } = require('reconlx');
+const mp = require('../../personal-modules/testfor')
 
 module.exports = new Command ({
     name: 'reload',
@@ -21,39 +22,23 @@ module.exports = new Command ({
             var triggercheck = 0;
             var newtriggercheck = false;
             interaction.followUp({content: `starting interaction`, ephemeral:true}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
-            guild.members.fetch().then((members) => {})
+            guild.members.fetch()
             removable.forEach(function(removable){
-            let list = guild.members.cache.filter(m => m.roles.cache.get(removable));
-            list.forEach(function(list){
-                bypass.forEach(function(bypass){
-                    if(list.roles.cache.has(bypass)) {
-                        bypasscheck += 1
-                    }
-                })
-                if (bypasscheck > 0) {
-                    newbypasscheck = true
-                } else {
-                    newbypasscheck = false
-                }
-                trigger.forEach(function(trigger){
-                    if(list.roles.cache.has(trigger)) {
-                        triggercheck += 1
-                    }
-                })
-                if (triggercheck > 0) {
-                    newtriggercheck = true;
-                } else {
-                    newtriggercheck = false;
-                }
+            const role = guild.roles.cache.get(removable)
+            const members = role.members
+            members.forEach(function(members){
+                const roles = members.roles.cache.map(role => role.id)
+                const bypasscheck = mp.compare(roles, bypass)
+                const triggercheck = mp.compare(roles, trigger)
 
-                if (newbypasscheck == false && newtriggercheck == false) {
-                    list.roles.remove(removable).catch(() => interaction.followUp("I don't have permission to remove that role"))
-                client.channels.cache.get(channel).send({content: `<@&${removable}> was removed from ${list.user.tag}`, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
-                interaction.followUp({content: `<@&${removable}> has been removed from ${list.user.tag}`, allowedMentions: {parse :[]}})
+                console.log(bypasscheck, triggercheck)
+                if (bypasscheck == false && triggercheck == false) {
+                    members.roles.remove(removable).catch(() => interaction.followUp("I don't have permission to remove that role"))
+                client.channels.cache.get(channel).send({content: `<@&${removable}> was removed from ${members.user.tag}`, allowedMentions: {parse :[]}}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`))
+                interaction.followUp({content: `<@&${removable}> has been removed from ${members.user.tag}`, allowedMentions: {parse :[]}})
                 }
             })
             })
-
 
         }catch (err) {
             console.log(err)
@@ -65,3 +50,7 @@ module.exports = new Command ({
 // urgent fix this
 // one of the check failed, why, it should do 1 member at a time
 //currently not sure if it is fixed or not
+//currently it only runs the command if the person doesn't have any other role
+// also it seems to only check one member and acts upon the result of that user alone
+
+//Might be fixed
