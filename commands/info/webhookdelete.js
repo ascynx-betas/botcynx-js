@@ -40,9 +40,11 @@ module.exports = {
       client
         .fetchWebhook(info)
         .then((webhook) =>
-          message.reply({ content: `✅ successfully deleted ${webhook.name}` })
+          message.reply({
+            content: `✅ successfully deleted ${webhook.name}/guild: ${webhook.guildId}`,
+          })
         )
-        .catch(() => message.reply({ content: `❌ webhook doesn't exist` }));
+        .catch((err) => console.log(err)); //message.reply({ content: `❌ webhook doesn't exist` }));
     } catch (err) {
       console.log(err);
     }
