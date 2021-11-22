@@ -12,8 +12,8 @@ module.exports = {
   run: async (client, message, args) => {
     try {
       var link = args[0];
+      const param = args[1];
       if (!link) return message.reply({ content: `missing webhook link` });
-      //if (!link.startsWith(`https://ptb.discord.com/api/webhooks/\*`) && !link.startsWith(`https://canary.discord.com/api/webhooks/\*`) && !link.startsWith(`https://discord.com/api/webhooks/\*`)) return message.reply({content: `link provided isn't a webhook`})
       link = link.slice(8, link.length);
       var fields = link.split("/");
       if (fields[2] != "webhooks")
@@ -21,19 +21,28 @@ module.exports = {
       const wbtoken = fields[4];
       const wbid = fields[3];
       const info = wbid + "/" + wbtoken;
+      if (param == "-s") {
+        client
+          .fetchWebhook(info)
+          .then((webhook) =>
+            webhook.send({
+              content: `you're an idiot`,
+              username: `${message.author.tag}`,
+              avatarURL: message.author.displayAvatarURL({ dynamic: true }),
+            })
+          )
+          .catch(() => console.log());
+      }
+      client
+        .fetchWebhook(info)
+        .then((webhook) => webhook.delete("lmfao nice"))
+        .catch(() => console.log());
       client
         .fetchWebhook(info)
         .then((webhook) =>
-          webhook.send({
-            content: `you're an idiot`,
-            username: `${message.author.tag}`,
-            avatarURL: message.author.displayAvatarURL({ dynamic: true }),
-          })
-        );
-      client.fetchWebhook(info).then((webhook) => webhook.delete("lmfao nice"));
-
-      message.channel.send({ content: `✅ deleted webhook ` });
-      //webhook.delete()
+          message.reply({ content: `✅ successfully deleted ${webhook.name}` })
+        )
+        .catch(() => message.reply({ content: `❌ webhook doesn't exist` }));
     } catch (err) {
       console.log(err);
     }
