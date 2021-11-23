@@ -53,16 +53,8 @@ module.exports = new Command({
       const channel = interaction.options.getChannel("channel");
       const guild = interaction.guild;
       const guildId = interaction.guild.id;
-      const editvalue = 0;
-      var test = 0;
-      var removablespliced = [];
-      var bypassspliced = [];
-      var triggerspliced = [];
-      var success = false;
-      var suspliced = [];
-      var fullitem;
 
-      const guildconfig = await configmodel.find({
+      let guildconfig = await configmodel.find({
         guildId: guildId,
       });
       console.log(guildconfig);
@@ -77,16 +69,14 @@ module.exports = new Command({
           logchannel: "",
           su: [""],
         }).save();
+
         return interaction.followUp({
           content: `configuration was missing, please re-use the command`,
         });
       }
-
-      const verifyrole = guildconfig.verify;
-      var logchannel = guildconfig.logchannel;
-      var bypass = guildconfig.bypass;
-      var removable = guildconfig.removable;
-      var trigger = guildconfig.trigger;
+      const config = guildconfig[0];
+      console.log(config);
+      const log = config.logchannel;
 
       interaction
         .followUp({ content: `starting interaction` })
@@ -97,25 +87,20 @@ module.exports = new Command({
         );
       if (type === "bypass") {
         const roleId = role.id;
-        if (bypass) {
+        if (guildconfig.bypass) {
           if (guildconfig.bypass.includes(roleId))
             return interaction.reply({
               content: `the configuration already contains this value, if you want to delete it, please use the /delconfig command`,
             });
         }
-        var bypass = guildconfig.bypass;
         configmodel.updateOne(
           { guildId: `${guildId}` },
-          {
-            $addToSet: { bypass: `${roleId}` },
-            function(err, doc) {
-              if (err) {
-                console.log(err);
-                return interaction.followUp({
-                  content: `there was an error while trying to update values`,
-                });
-              }
-            },
+          { $addToSet: { bypass: `${roleId}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
           }
         );
 
@@ -131,7 +116,7 @@ module.exports = new Command({
           );
       } else if (type === "trigger") {
         const roleId = role.id;
-        if (trigger) {
+        if (guildconfig.trigger) {
           if (guildconfig.trigger.includes(roleId))
             return interaction.reply({
               content: `the configuration already contains this value, if you want to delete it, please use the /delconfig command`,
@@ -139,14 +124,12 @@ module.exports = new Command({
         }
         configmodel.updateOne(
           { guildId: `${guildId}` },
-          {
-            $addToSet: { trigger: `${roleId}` },
-            function(err, doc) {
-              if (err)
-                return interaction.followUp({
-                  content: `there was an error while trying to update values`,
-                });
-            },
+          { $addToSet: { trigger: `${roleId}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
           }
         );
 
@@ -162,7 +145,7 @@ module.exports = new Command({
           );
       } else if (type === "removable") {
         const roleId = role.id;
-        if (removable) {
+        if (guildconfig.removable) {
           if (guildconfig.removable.includes(roleId))
             return interaction.reply({
               content: `the configuration already contains this value, if you want to delete it, please use the /delconfig command`,
@@ -170,14 +153,12 @@ module.exports = new Command({
         }
         configmodel.updateOne(
           { guildId: `${guildId}` },
-          {
-            $addToSet: { removable: `${roleId}` },
-            function(err, doc) {
-              if (err)
-                return interaction.followUp({
-                  content: `there was an error while trying to update values`,
-                });
-            },
+          { $addToSet: { removable: `${roleId}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
           }
         );
 
@@ -193,33 +174,26 @@ module.exports = new Command({
           );
       } else if (type === "logchannel") {
         var logchannel = channel.id;
-        if (guildconfig.logchannel == "logchannel")
+        if (guildconfig.logchannel == `${logchannel}`)
           return interaction.reply({
             content: `the configuration already contains this value, if you want to delete it, please use the /delconfig command`,
           });
 
         configmodel.updateOne(
           { guildId: `${guildId}` },
-          {
-            $set: { logchannel: `${logchannel}` },
-            function(err, doc) {
-              if (err)
-                return interaction.followUp({
-                  content: `there was an error while trying to update values`,
-                });
-            },
+          { $set: { logchannel: `${logchannel}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
           }
         );
 
         interaction
-          .editReply({ content: `${type} is now <#${logchannel}>` })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
-        interaction
-          .followUp({ content: `${type} is now <#${logchannel}>` })
+          .editReply({
+            content: `${type} is now <#${logchannel}>\nmodifications after this one will also be logged there`,
+          })
           .catch(() =>
             console.log(
               `I don't have permission to send a message in ${channel} in ${guild.name}`
@@ -233,6 +207,13 @@ module.exports = new Command({
               `I don't have permission to send a message in ${channel} in ${guild.name}`
             )
           );
+      }
+      if (log) {
+        client.channels.cache
+          .get(log)
+          .send({
+            content: `configuration was modified by \`\`${interaction.user.tag}\`\`\nthe changes may take a few minutes for them to take effect`,
+          });
       }
     } catch (err) {
       console.log(err);

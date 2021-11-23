@@ -12,10 +12,10 @@ module.exports = new Command({
   run: async ({ client, interaction }) => {
     try {
       const guildId = interaction.guild.id;
-      const guildconfig = await configmodel.find({
+      const config = await configmodel.find({
         guildId: guildId,
       });
-      if (!guildconfig || guildconfig.length == 0) {
+      if (!config || config.length == 0) {
         new configmodel({
           name: guild.name,
           guildId: guildId,
@@ -29,6 +29,7 @@ module.exports = new Command({
           content: `configuration was missing, please re-use the command`,
         });
       }
+      const guildconfig = config[0];
       const name = guildconfig.name;
       const removable = guildconfig.removable;
       const trigger = guildconfig.trigger;
@@ -84,7 +85,7 @@ module.exports = new Command({
             return bypassspliced;
           });
         } else if ((bypass.length = 1 && bypass != "")) {
-          var bypassspliced = `<@${bypass}>`;
+          var bypassspliced = `<@&${bypass}>`;
         } else {
           var bypassspliced = `~~**unset value**~~`;
         }
@@ -106,13 +107,8 @@ module.exports = new Command({
           var triggerspliced = `~~**unset value**~~`;
         }
       }
-      if (
-        !triggerspliced ||
-        !removablespliced ||
-        !suspliced ||
-        !bypassspliced
-      ) {
-        const description = `${name || `not set`}'s config \n
+
+      const description = `${name || `not set`}'s config \n
              \`\`guild id:\`\` ${guildId || `unset value`} \n
               \`\`removable(s):\`\` ${
                 removablespliced || `no removables set`
@@ -124,16 +120,15 @@ module.exports = new Command({
                  }\n
                   \`\`(when using the /delconfig command, a slot is 1 role (it's id)), as it's an array each config starts with the slot [0]\`\``;
 
-        const embed = new MessageEmbed()
-          .setAuthor(`${client.user.tag}`)
-          .setDescription(description)
-          .setColor(`RED`)
-          .setTimestamp();
-        interaction.followUp({
-          embeds: [embed],
-          allowedMentions: { parse: [] },
-        });
-      }
+      const embed = new MessageEmbed()
+        .setAuthor(`${client.user.tag}`)
+        .setDescription(description)
+        .setColor(`RED`)
+        .setTimestamp();
+      interaction.followUp({
+        embeds: [embed],
+        allowedMentions: { parse: [] },
+      });
     } catch (err) {
       console.log(err);
     }

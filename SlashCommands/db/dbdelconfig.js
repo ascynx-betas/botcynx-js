@@ -57,20 +57,7 @@ module.exports = new Command({
         });
       }
       const role = interaction.options.getRole("role");
-      const name = guildconfig.name;
-      const verifyrole = guildconfig.verify;
-      const su = guildconfig.su;
-      var logchannel = guildconfig.logchannel;
-      var test = 0;
-      var removablespliced = [];
-      var bypassspliced = [];
-      var triggerspliced = [];
-      var suspliced = [];
-      var success = false;
-      var bypass = guildconfig.bypass;
-      var removable = guildconfig.removable;
-      var trigger = guildconfig.trigger;
-      var fullitem;
+      var logchannel = guildconfig[0].logchannel;
 
       interaction
         .followUp({ content: `attempting the change, please wait...` })
@@ -84,19 +71,19 @@ module.exports = new Command({
         const roleId = role.id;
         configmodel.updateOne(
           { guildId: `${guildId}` },
-          {
-            $pull: { bypass: `${roleId}` },
-            function(err, doc) {
-              if (err)
-                return interaction.followUp({
-                  content: `there was an error while trying to update values`,
-                });
-            },
+          { $pull: { bypass: `${roleId}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
           }
         );
 
         interaction
-          .followUp({ content: `array ${type} is now ${bypass.toString()}` })
+          .followUp({
+            content: `the changes to ${type} have been made, it may take a few minutes for the config to notice the changes`,
+          })
           .catch(() =>
             console.log(
               `I don't have permission to send a message in ${channel} in ${guild.name}`
@@ -106,19 +93,19 @@ module.exports = new Command({
         const roleId = role.id;
         configmodel.updateOne(
           { guildId: `${guildId}` },
-          {
-            $pull: { removable: `${roleId}` },
-            function(err, doc) {
-              if (err)
-                return interaction.followUp({
-                  content: `there was an error while trying to update values`,
-                });
-            },
+          { $pull: { removable: `${roleId}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
           }
         );
 
         interaction
-          .followUp({ content: `array ${type} is now ${removable.toString()}` })
+          .followUp({
+            content: `the changes to ${type} have been made, it may take a few minutes for the config to notice the changes`,
+          })
           .catch(() =>
             console.log(
               `I don't have permission to send a message in ${channel} in ${guild.name}`
@@ -128,19 +115,19 @@ module.exports = new Command({
         const roleId = role.id;
         configmodel.updateOne(
           { guildId: `${guildId}` },
-          {
-            $pull: { trigger: `${roleId}` },
-            function(err, doc) {
-              if (err)
-                return interaction.followUp({
-                  content: `there was an error while trying to update values`,
-                });
-            },
+          { $pull: { trigger: `${roleId}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
           }
         );
 
         interaction
-          .followUp({ content: `array ${type} is now ${trigger.toString()}` })
+          .followUp({
+            content: `the changes to ${type} have been made, it may take a few minutes for the config to notice the changes`,
+          })
           .catch(() =>
             console.log(
               `I don't have permission to send a message in ${channel} in ${guild.name}`
@@ -154,6 +141,13 @@ module.exports = new Command({
               `I don't have permission to send a message in ${channel} in ${guild.name}`
             )
           );
+      }
+      if (logchannel) {
+        client.channels.cache
+          .get(logchannel)
+          .send({
+            content: `configuration was modified by \`\`${interaction.user.tag}\`\`\nthe changes may take a few minutes for them to take effect`,
+          });
       }
     } catch (err) {
       console.log(err);
