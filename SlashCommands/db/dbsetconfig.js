@@ -209,11 +209,9 @@ module.exports = new Command({
           );
       }
       if (log) {
-        client.channels.cache
-          .get(log)
-          .send({
-            content: `configuration was modified by \`\`${interaction.user.tag}\`\`\nthe changes may take a few minutes for them to take effect`,
-          });
+        client.channels.cache.get(log).send({
+          content: `configuration was modified by \`\`${interaction.user.tag}\`\`\nthe changes may take a few minutes for them to take effect`,
+        });
       }
     } catch (err) {
       console.log(err);

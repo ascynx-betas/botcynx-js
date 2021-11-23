@@ -1,5 +1,4 @@
 const client = require("../index");
-const config = require("../config");
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 
 client.on("interactionCreate", async (interaction, message) => {
@@ -9,30 +8,29 @@ client.on("interactionCreate", async (interaction, message) => {
       if (!interaction.customId.startsWith("weight")) return;
       const interactioncreator = interaction.message.interaction.user.id;
       if (interaction.user.id != interactioncreator) return;
-      if (interaction.customId == "lily weight") {
+      if (interaction.customId == "weight lily") {
         const lilyweight = require("lilyweight");
         const lily = new lilyweight(client.config.hypixelapikey);
-        //console.log(interaction.message.embeds) //this is a debug information
 
         //extract info from embed
-        let uuid = interaction.message.embeds[0].thumbnail.url;
+        var uuid = interaction.message.embeds[0].thumbnail.url;
         uuid = uuid.slice(28, uuid.length - 4);
-        let profilename = interaction.message.embeds[0].author.url;
+        var profilename = interaction.message.embeds[0].author.url;
         profilename = profilename.slice(29, profilename.length);
-        let fields = profilename.split("/");
-        let profile = fields[1];
-        let username = fields[0];
+        const fields = profilename.split("/");
+        const profile = fields[1];
+        const username = fields[0];
         const weight = await lily.getWeight(uuid).catch(() => console.log());
 
         //calculations
-        let skillb = weight.skill.base;
-        let skillo = weight.skill.overflow;
-        let tskill = skillb + skillo;
+        const skillb = weight.skill.base;
+        const skillo = weight.skill.overflow;
+        const tskill = skillb + skillo;
 
-        let catab = weight.catacombs.completion.base;
-        let catam = weight.catacombs.completion.master;
-        let catae = weight.catacombs.experience;
-        let tcata = catab + catam + catae;
+        const catab = weight.catacombs.completion.base;
+        const catam = weight.catacombs.completion.master;
+        const catae = weight.catacombs.experience;
+        const tcata = catab + catam + catae;
 
         //output
         const embed = new MessageEmbed()
@@ -55,7 +53,7 @@ client.on("interactionCreate", async (interaction, message) => {
           );
         const buttonrow = new MessageActionRow().addComponents(
           new MessageButton()
-            .setCustomId(`senither weight`)
+            .setCustomId(`weight senither`)
             .setLabel("Press to get senither weight (WIP)")
             .setStyle("SECONDARY")
         );
@@ -63,17 +61,17 @@ client.on("interactionCreate", async (interaction, message) => {
         return;
       }
       //weight senither
-      if (interaction.customId == "senither weight") {
+      if (interaction.customId == "weight senither") {
         const senither = require("../personal-modules/senither");
         //extract from embed
         let uuid = interaction.message.embeds[0].thumbnail.url;
         uuid = uuid.slice(28, uuid.length - 4);
         let profilename = interaction.message.embeds[0].author.url;
         profilename = profilename.slice(29, profilename.length);
-        let fields = profilename.split("/");
-        let speprofile = fields[1];
-        let username = fields[0];
-        let profile = await senither
+        const fields = profilename.split("/");
+        const speprofile = fields[1];
+        const username = fields[0];
+        const profile = await senither
           .getSpecifiedProfile(uuid, speprofile)
           .catch(() => console.log());
         const dataprofile = profile.data;
@@ -126,7 +124,7 @@ client.on("interactionCreate", async (interaction, message) => {
         //button
         const buttonrow = new MessageActionRow().addComponents(
           new MessageButton()
-            .setCustomId(`lily weight`)
+            .setCustomId(`weight lily`)
             .setLabel("Press to get lily weight (WIP)")
             .setStyle("SECONDARY")
         );

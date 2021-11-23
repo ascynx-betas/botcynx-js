@@ -24,9 +24,9 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction }) => {
-    let ign = interaction.options.getString("username");
+    var ign = interaction.options.getString("username");
     let speprofile = interaction.options.getString("profile");
-    let profile;
+    var profile;
     //let profilenames = [""];
     try {
       if (!ign) {
@@ -48,7 +48,7 @@ module.exports = new Command({
                 `I don't have permission to send a message in ${channel} in ${guild.name}`
               )
             );
-        let uuid = info.minecraftuuid;
+        var uuid = info.minecraftuuid;
       } else {
         if (ign.length < 3) {
           interaction.followUp({
@@ -72,7 +72,7 @@ module.exports = new Command({
       }
 
       if (typeof uuid === "undefined") {
-        let uuid = await slothpixel
+        var uuid = await slothpixel
           .getuuid(ign)
           .catch(() => `there was an error while trying to fetch the uuid`);
       } else {
@@ -85,7 +85,7 @@ module.exports = new Command({
             content: `error while trying to fetch player name`,
           });
         }
-        let ign = data.player.displayname;
+        ign = data.player.displayname;
       }
 
       //const profiles = await senither.getProfiles(uuid).catch(() => console.log())
@@ -123,7 +123,7 @@ module.exports = new Command({
             content: `The profile name doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`,
           });
         }
-        let profile = await senither
+        var profile = await senither
           .getSpecifiedProfile(uuid, speprofile)
           .catch(() => console.log());
         if (typeof profile === "undefined" || !profile) {
@@ -132,7 +132,7 @@ module.exports = new Command({
           });
         }
       } else {
-        let profile = await senither
+        var profile = await senither
           .getFatterProfile(uuid)
           .catch(() => console.log());
         if (typeof profile === "undefined" || !profile) {
@@ -141,11 +141,6 @@ module.exports = new Command({
           });
         }
       }
-      //const dataprofiles = profiles.data
-      //dataprofiles.forEach(function(data){
-      //let profilename = data.name
-      //profilenames.splice(0, 0, profilename)
-      //})
 
       const dataprofile = profile.data;
       //profile infos
@@ -207,7 +202,7 @@ module.exports = new Command({
       //button
       const buttonrow = new MessageActionRow().addComponents(
         new MessageButton()
-          .setCustomId(`lily weight`)
+          .setCustomId(`weight lily`)
           .setLabel("Press to get lily weight (WIP)")
           .setStyle("SECONDARY")
       );
@@ -220,7 +215,3 @@ module.exports = new Command({
     }
   },
 });
-
-/**
- * the commands in comments are legacy and are only here to debug
- */

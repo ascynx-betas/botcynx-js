@@ -68,7 +68,7 @@ try {
       const channel = interaction.channel;
       const customId = interaction.customId;
       let blacklisted = client.config.tbn;
-      const success = await testfor.testfor(blacklisted, interaction.customId);
+      const success = testfor.testfor(blacklisted, interaction.customId);
       if (success != true) {
         const buttonrow = new MessageActionRow().addComponents(
           new MessageButton()

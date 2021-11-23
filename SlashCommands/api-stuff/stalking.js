@@ -18,7 +18,7 @@ module.exports = new Command({
 
   run: async ({ interaction }) => {
     const ign = interaction.options.getString("username");
-    let on = ``;
+    var on = ``;
     try {
       if (ign.length < 3) {
         interaction
@@ -55,11 +55,6 @@ module.exports = new Command({
           );
       }
 
-      const discord = await slothpixel
-        .getDiscord(ign)
-        .catch(
-          () => `there was an error while trying to fetch the discord tag`
-        );
       const uuid = await mojang
         .getUuidbyUsername(ign)
         .catch(() => `failed to fetch uuid`);
@@ -105,11 +100,11 @@ module.exports = new Command({
         const map = data.session.map;
 
         if (data.session.online == true) {
-          let on = `🟢`;
+          on = `🟢`;
         } else if (data.session.online == false) {
-          let on = `🔴`;
+          on = `🔴`;
         } else {
-          let on = `there was an error while trying to fetch the activity`;
+          on = `there was an error while trying to fetch the activity`;
         }
 
         if (data.session.online === null || data.success == false) {
@@ -134,33 +129,33 @@ module.exports = new Command({
 
             //translate skyblock island ids into island names
             if (gamemode == "combat_3") {
-              let gamemodetranslated = "The End";
+              gamemodetranslated = "The End";
             } else if (gamemode == "dynamic") {
-              let gamemodetranslated = "private island";
+              gamemodetranslated = "private island";
             } else if (gamemode == "combat_2") {
-              let gamemodetranslated = "blazing fortress";
+              gamemodetranslated = "blazing fortress";
             } else if (gamemode == "combat_2") {
-              let gamemodetranslated = "spider's den";
+              gamemodetranslated = "spider's den";
             } else if (gamemode == "hub") {
-              let gamemodetranslated = "the hub";
+              gamemodetranslated = "the hub";
             } else if (gamemode == "foraging_1") {
-              let gamemodetranslated = "the park";
+              gamemodetranslated = "the park";
             } else if (gamemode == "mining_1") {
-              let gamemodetranslated = "the gold mines";
+              gamemodetranslated = "the gold mines";
             } else if (gamemode == "mining_2") {
-              let gamemodetranslated = "deep caverns";
+              gamemodetranslated = "deep caverns";
             } else if (gamemode == "mining_3") {
-              let gamemodetranslated = "dwarven mines";
+              gamemodetranslated = "dwarven mines";
             } else if (gamemode == "crystal_hollows") {
-              let gamemodetranslated = "the crystal Hollows";
+              gamemodetranslated = "the crystal Hollows";
             } else if (gamemode == "dungeon_hub") {
-              let gamemodetranslated = "the dungeon hub";
+              gamemodetranslated = "the dungeon hub";
             } else if (gamemode == "farming_1") {
-              let gamemodetranslated = "the farming islands";
+              gamemodetranslated = "the farming islands";
             } else if (gamemode == "dungeon") {
-              let gamemodetranslated = "dungeons";
+              gamemodetranslated = "dungeons";
             } else {
-              let gamemodetranslated = "not currently coded in";
+              gamemodetranslated = "not currently coded in";
               console.log(gamemode);
             }
             const description = `\`\`${uuid.name}\`\` is currently ${on} \n in Skyblock in ${gamemodetranslated}`;

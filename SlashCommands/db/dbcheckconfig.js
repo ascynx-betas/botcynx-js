@@ -35,10 +35,10 @@ module.exports = new Command({
       const trigger = guildconfig.trigger;
       const bypass = guildconfig.bypass;
       const su = guildconfig.su;
-      let suspliced = [];
-      let removablespliced = [];
-      let bypassspliced = [];
-      let triggerspliced = [];
+      var suspliced = [];
+      var removablespliced = [];
+      var bypassspliced = [];
+      var triggerspliced = [];
       let test = 0;
       if (su) {
         if (su.length > 1) {
@@ -52,9 +52,9 @@ module.exports = new Command({
             return suspliced;
           });
         } else if ((su.length = 1 && su != "")) {
-          let suspliced = `<@${su}>`;
+          var suspliced = `<@${su}>`;
         } else {
-          let suspliced = `~~**no super users set on this guild**~~`;
+          var suspliced = `~~**no super users set on this guild**~~`;
         }
       }
       if (removable) {
@@ -68,9 +68,9 @@ module.exports = new Command({
             return removablespliced;
           });
         } else if ((removable.length = 1 && removable != "")) {
-          let removablespliced = `<@&${removable}>`;
+          removablespliced = `<@&${removable}>`;
         } else {
-          let removablespliced = `~~**unset value**~~`;
+          removablespliced = `~~**unset value**~~`;
         }
         test = 0;
       }
@@ -85,9 +85,9 @@ module.exports = new Command({
             return bypassspliced;
           });
         } else if ((bypass.length = 1 && bypass != "")) {
-          let bypassspliced = `<@&${bypass}>`;
+          bypassspliced = `<@&${bypass}>`;
         } else {
-          let bypassspliced = `~~**unset value**~~`;
+          bypassspliced = `~~**unset value**~~`;
         }
         test = 0;
       }
@@ -102,9 +102,9 @@ module.exports = new Command({
             return triggerspliced;
           });
         } else if ((trigger.length = 1 && trigger != "")) {
-          let triggerspliced = `<@&${trigger}>`;
+          triggerspliced = `<@&${trigger}>`;
         } else {
-          let triggerspliced = `~~**unset value**~~`;
+          triggerspliced = `~~**unset value**~~`;
         }
       }
 
