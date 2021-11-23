@@ -10,7 +10,7 @@ module.exports = {
     try {
       const user = await client.users.fetch(interaction.targetId);
       const userId = user.id;
-      var specificity;
+      let specificity;
 
       const userInfo = await verifyModel.find({
         userId: userId,

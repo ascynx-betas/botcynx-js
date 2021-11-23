@@ -33,9 +33,9 @@ try {
       }
       if (cmd.devonly) {
         const guild = interaction.guild;
-        var guildconfig = require(`../guild-only/${guild.id}/config.json`);
-        var su = guildconfig.su;
-        var sunumber = su.length;
+        let guildconfig = require(`../guild-only/${guild.id}/config.json`);
+        let su = guildconfig.su;
+        let sunumber = su.length;
         sutested = 0;
         su.forEach(function (su) {
           if (
@@ -53,7 +53,7 @@ try {
       } else {
         if (
           !interaction.member.permissions.has(cmd.userPermissions || []) &&
-          interaction.member.id != config.developerId
+          interaction.member.id != client.config.developerId
         )
           return interaction.followUp({
             content: "you do not have permission to execute this command",
@@ -217,9 +217,9 @@ try {
 
       if (cmd.devonly) {
         const guild = interaction.guild;
-        var guildconfig = require(`../guild-only/${guild.id}/config.json`);
-        var su = guildconfig.su;
-        var sunumber = su.length;
+        let guildconfig = require(`../guild-only/${guild.id}/config.json`);
+        let su = guildconfig.su;
+        let sunumber = su.length;
         sutested = 0;
         su.forEach(function (su) {
           if (

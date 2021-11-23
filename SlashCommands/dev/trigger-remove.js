@@ -13,10 +13,10 @@ module.exports = new Command({
       const guild = interaction.guild;
       const guildId = guild.id;
       const guildconfig = require(`../../guild-only/${guildId}/config.json`);
-      var removable = guildconfig.removable;
-      var bypass = guildconfig.bypass;
-      var channel = guildconfig.logchannel;
-      var trigger = guildconfig.trigger;
+      let removable = guildconfig.removable;
+      let bypass = guildconfig.bypass;
+      let channel = guildconfig.logchannel;
+      let trigger = guildconfig.trigger;
 
       interaction
         .followUp({ content: `starting interaction`, ephemeral: true })

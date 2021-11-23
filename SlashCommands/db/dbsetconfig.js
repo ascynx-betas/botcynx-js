@@ -173,7 +173,7 @@ module.exports = new Command({
             )
           );
       } else if (type === "logchannel") {
-        var logchannel = channel.id;
+        let logchannel = channel.id;
         if (guildconfig.logchannel == `${logchannel}`)
           return interaction.reply({
             content: `the configuration already contains this value, if you want to delete it, please use the /delconfig command`,

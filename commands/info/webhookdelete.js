@@ -11,11 +11,11 @@ module.exports = {
    */
   run: async (client, message, args) => {
     try {
-      var link = args[0];
+      let link = args[0];
       const param = args[1];
       if (!link) return message.reply({ content: `missing webhook link` });
       link = link.slice(8, link.length);
-      var fields = link.split("/");
+      let fields = link.split("/");
       if (fields[2] != "webhooks")
         return message.reply({ content: `link provided isn't a webhook` });
       const wbtoken = fields[4];

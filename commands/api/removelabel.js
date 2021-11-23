@@ -11,11 +11,11 @@ module.exports = {
    */
   run: async (client, message, args) => {
     const target = args[0];
-    var label = args.slice(1).join(" ");
-    var userId;
-    var targetId;
-    var test;
-    var param;
+    let label = args.slice(1).join(" ");
+    let userId;
+    let targetId;
+    let test;
+    let param;
     try {
       if (!target || typeof target === "undefined") {
         return message.channel.send({ content: `missing parameter target` });
@@ -24,7 +24,7 @@ module.exports = {
         return message.channel.send({ content: `missing label parameter` });
       }
       if (label.includes("-n")) {
-        var test = label.replace("-n", "");
+        let test = label.replace("-n", "");
         param = "no-msg";
         if (test.endsWith(" ")) {
           test = test.slice(0, test.length - 1);
@@ -35,16 +35,16 @@ module.exports = {
         label = label.slice(0, test.length - 1);
       }
       if (target.length === 21) {
-        var targetId = target.slice(2, target.length - 1);
+        let targetId = target.slice(2, target.length - 1);
       } else if (target.length === 22) {
-        var targetId = target.slice(3, target.length - 1);
+        let targetId = target.slice(3, target.length - 1);
       }
       if (targetId) {
-        var userId = targetId;
+        let userId = targetId;
       } else if (target.length === 18) {
-        var userId = target;
+        let userId = target;
       }
-      var Info = await verifymodel.find({ userId: `${userId}` });
+      let Info = await verifymodel.find({ userId: `${userId}` });
       if (typeof Info[0] === "undefined") {
         return message.reply({ content: `user is not verified` });
       }

@@ -35,42 +35,42 @@ module.exports = new Command({
       const trigger = guildconfig.trigger;
       const bypass = guildconfig.bypass;
       const su = guildconfig.su;
-      var suspliced = [];
-      var removablespliced = [];
-      var bypassspliced = [];
-      var triggerspliced = [];
-      var test = 0;
+      let suspliced = [];
+      let removablespliced = [];
+      let bypassspliced = [];
+      let triggerspliced = [];
+      let test = 0;
       if (su) {
         if (su.length > 1) {
           test = 0;
           su.forEach(function (su) {
             if (su != "") {
-              var susplice = `<@${su}>`;
+              let susplice = `<@${su}>`;
               suspliced.splice(test, test, susplice);
             }
             test += 1;
             return suspliced;
           });
         } else if ((su.length = 1 && su != "")) {
-          var suspliced = `<@${su}>`;
+          let suspliced = `<@${su}>`;
         } else {
-          var suspliced = `~~**no super users set on this guild**~~`;
+          let suspliced = `~~**no super users set on this guild**~~`;
         }
       }
       if (removable) {
         if (removable.length > 1) {
           removable.forEach(function (removable) {
             if (removable != "") {
-              var removablesplice = `<@&${removable}>`;
+              let removablesplice = `<@&${removable}>`;
               removablespliced.splice(test, test, removablesplice);
             }
             test += 1;
             return removablespliced;
           });
         } else if ((removable.length = 1 && removable != "")) {
-          var removablespliced = `<@&${removable}>`;
+          let removablespliced = `<@&${removable}>`;
         } else {
-          var removablespliced = `~~**unset value**~~`;
+          let removablespliced = `~~**unset value**~~`;
         }
         test = 0;
       }
@@ -78,16 +78,16 @@ module.exports = new Command({
         if (bypass.length > 1) {
           bypass.forEach(function (bypass) {
             if (bypass != "") {
-              var bypasssplice = `<@&${bypass}>`;
+              let bypasssplice = `<@&${bypass}>`;
               bypassspliced.splice(test, test, bypasssplice);
             }
             test += 1;
             return bypassspliced;
           });
         } else if ((bypass.length = 1 && bypass != "")) {
-          var bypassspliced = `<@&${bypass}>`;
+          let bypassspliced = `<@&${bypass}>`;
         } else {
-          var bypassspliced = `~~**unset value**~~`;
+          let bypassspliced = `~~**unset value**~~`;
         }
         test = 0;
       }
@@ -95,16 +95,16 @@ module.exports = new Command({
         if (trigger.length > 1) {
           trigger.forEach(function (trigger) {
             if (trigger != "") {
-              var triggersplice = `<@&${trigger}>`;
+              let triggersplice = `<@&${trigger}>`;
               triggerspliced.splice(test, test, triggersplice);
             }
             test += 1;
             return triggerspliced;
           });
         } else if ((trigger.length = 1 && trigger != "")) {
-          var triggerspliced = `<@&${trigger}>`;
+          let triggerspliced = `<@&${trigger}>`;
         } else {
-          var triggerspliced = `~~**unset value**~~`;
+          let triggerspliced = `~~**unset value**~~`;
         }
       }
 

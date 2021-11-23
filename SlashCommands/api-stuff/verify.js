@@ -42,7 +42,6 @@ module.exports = new Command({
       const config = require(`../../guild-only/${guildId}/config`);
       const member = interaction.guild.members.cache.get(userId);
       const action = interaction.options.getString("action");
-      var verifymodel;
 
       if (ign.length < 3) {
         interaction.followUp({
@@ -195,9 +194,6 @@ module.exports = new Command({
           }
 
           if (usertag == linkedtag) {
-            var query = { minecraftuuid: minecraftuuid };
-            var verifymodel = userInfo;
-            const linked = userInfo.userId;
             verifyModel.find;
             verifyModel.updateOne(
               { minecraftuuid: `${minecraftuuid}` },

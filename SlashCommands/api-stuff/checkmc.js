@@ -18,7 +18,7 @@ module.exports = new Command({
     try {
       const user = interaction.options.getUser("target");
       const userId = user.id;
-      var specificity;
+      let specificity;
 
       const userInfo = await verifyModel.find({
         userId: userId,

@@ -15,24 +15,24 @@ client.on("interactionCreate", async (interaction, message) => {
         //console.log(interaction.message.embeds) //this is a debug information
 
         //extract info from embed
-        var uuid = interaction.message.embeds[0].thumbnail.url;
+        let uuid = interaction.message.embeds[0].thumbnail.url;
         uuid = uuid.slice(28, uuid.length - 4);
-        var profilename = interaction.message.embeds[0].author.url;
-        var profilename = profilename.slice(29, profilename.length);
-        var fields = profilename.split("/");
-        var profile = fields[1];
-        var username = fields[0];
+        let profilename = interaction.message.embeds[0].author.url;
+        profilename = profilename.slice(29, profilename.length);
+        let fields = profilename.split("/");
+        let profile = fields[1];
+        let username = fields[0];
         const weight = await lily.getWeight(uuid).catch(() => console.log());
 
         //calculations
-        var skillb = weight.skill.base;
-        var skillo = weight.skill.overflow;
-        var tskill = skillb + skillo;
+        let skillb = weight.skill.base;
+        let skillo = weight.skill.overflow;
+        let tskill = skillb + skillo;
 
-        var catab = weight.catacombs.completion.base;
-        var catam = weight.catacombs.completion.master;
-        var catae = weight.catacombs.experience;
-        var tcata = catab + catam + catae;
+        let catab = weight.catacombs.completion.base;
+        let catam = weight.catacombs.completion.master;
+        let catae = weight.catacombs.experience;
+        let tcata = catab + catam + catae;
 
         //output
         const embed = new MessageEmbed()
@@ -66,14 +66,14 @@ client.on("interactionCreate", async (interaction, message) => {
       if (interaction.customId == "senither weight") {
         const senither = require("../personal-modules/senither");
         //extract from embed
-        var uuid = interaction.message.embeds[0].thumbnail.url;
+        let uuid = interaction.message.embeds[0].thumbnail.url;
         uuid = uuid.slice(28, uuid.length - 4);
-        var profilename = interaction.message.embeds[0].author.url;
-        var profilename = profilename.slice(29, profilename.length);
-        var fields = profilename.split("/");
-        var speprofile = fields[1];
-        var username = fields[0];
-        var profile = await senither
+        let profilename = interaction.message.embeds[0].author.url;
+        profilename = profilename.slice(29, profilename.length);
+        let fields = profilename.split("/");
+        let speprofile = fields[1];
+        let username = fields[0];
+        let profile = await senither
           .getSpecifiedProfile(uuid, speprofile)
           .catch(() => console.log());
         const dataprofile = profile.data;

@@ -6,19 +6,19 @@ const givecheck = false; // that's how  to enable the legacy system
 
 client.on("guildMemberUpdate", (oldMember, newMember) => {
   try {
-    var newbypasscheck = 0;
-    var bypasscheck = 0;
-    var newtriggercheck = 2;
+    let newbypasscheck = 0;
+    let bypasscheck = 0;
+    let newtriggercheck = 2;
 
-    var guild = oldMember.guild;
-    var guildcache = oldMember.roles.guild.id;
+    let guild = oldMember.guild;
+    let guildcache = oldMember.roles.guild.id;
 
     const cachedconfig = require(`../guild-only/${guildcache}/config.json`);
 
-    var trigger = cachedconfig.trigger;
-    var channel = cachedconfig.logchannel;
-    var bypass = cachedconfig.bypass;
-    var removable = cachedconfig.removable;
+    let trigger = cachedconfig.trigger;
+    let channel = cachedconfig.logchannel;
+    let bypass = cachedconfig.bypass;
+    let removable = cachedconfig.removable;
 
     if (givecheck === true) {
       if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
@@ -29,7 +29,7 @@ client.on("guildMemberUpdate", (oldMember, newMember) => {
           ) {
             bypass.forEach(function (bypass) {
               if (newMember.roles.cache.has(bypass)) {
-                var bypasscheck = 1;
+                let bypasscheck = 1;
                 newbypasscheck = 0;
                 console.log(bypasscheck);
               }

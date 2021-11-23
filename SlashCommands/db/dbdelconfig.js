@@ -57,7 +57,7 @@ module.exports = new Command({
         });
       }
       const role = interaction.options.getRole("role");
-      var logchannel = guildconfig[0].logchannel;
+      let logchannel = guildconfig[0].logchannel;
 
       interaction
         .followUp({ content: `attempting the change, please wait...` })
@@ -69,6 +69,7 @@ module.exports = new Command({
 
       if (type === "bypass") {
         const roleId = role.id;
+        if (!guildconfig[0].bypass.includes(roleId)) return interaction.editReply({content: `${role} isn't in the configuration, if you want to add it please use /setconfig`, allowedMentions: {parse: []}})
         configmodel.updateOne(
           { guildId: `${guildId}` },
           { $pull: { bypass: `${roleId}` } },
@@ -91,6 +92,7 @@ module.exports = new Command({
           );
       } else if (type === "removable") {
         const roleId = role.id;
+        if (!guildconfig[0].removable.includes(roleId)) return interaction.editReply({content: `${role} isn't in the configuration, if you want to add it please use /setconfig`, allowedMentions: {parse: []}})
         configmodel.updateOne(
           { guildId: `${guildId}` },
           { $pull: { removable: `${roleId}` } },
@@ -113,6 +115,7 @@ module.exports = new Command({
           );
       } else if (type === "trigger") {
         const roleId = role.id;
+        if (!guildconfig[0].trigger.includes(roleId)) return interaction.editReply({content: `${role} isn't in the configuration, if you want to add it please use /setconfig`, allowedMentions: {parse: []}})
         configmodel.updateOne(
           { guildId: `${guildId}` },
           { $pull: { trigger: `${roleId}` } },

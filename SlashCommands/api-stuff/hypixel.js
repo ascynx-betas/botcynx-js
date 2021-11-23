@@ -17,18 +17,18 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction }) => {
-    var info;
-    var embed;
+    let info;
+    let embed;
     try {
-      var ign = interaction.options.getString("username");
-      var on = ``;
+      let ign = interaction.options.getString("username");
+      let on = ``;
       if (!ign) {
         const userId = interaction.user.id;
 
         const userInfo = await verify.find({
           userId: userId,
         });
-        var info = userInfo[0];
+        let info = userInfo[0];
 
         if (!userInfo?.length)
           return interaction
@@ -41,7 +41,7 @@ module.exports = new Command({
                 `I don't have permission to send a message in ${channel} in ${guild.name}`
               )
             );
-        var uuid = info.minecraftuuid;
+        let uuid = info.minecraftuuid;
       } else {
         if (ign.length < 3) {
           interaction.followUp({
@@ -65,14 +65,14 @@ module.exports = new Command({
       }
 
       if (typeof uuid === "undefined") {
-        var uuid = await mojang
+        let uuid = await mojang
           .getUuidbyUsername(ign)
           .catch(() => `failed to fetch uuid`);
       } else {
         const data = await hypixel
           .getPlayerByUuid(uuid)
           .catch(() => `there was an error while trying to fetch the username`);
-        var ign = data.player.displayname;
+        let ign = data.player.displayname;
         if (!ign) {
           return interaction.followUp({
             content: `it seems as though the player doesn't exist on the hypixel api`,
@@ -110,14 +110,14 @@ module.exports = new Command({
       }
 
       if (online == true) {
-        var on = `🟢`;
+        let on = `🟢`;
       } else if (online == false) {
-        var on = `🔴`;
+        let on = `🔴`;
       } else {
-        var on = `there was an error while trying to fetch the activity`;
+        let on = `there was an error while trying to fetch the activity`;
       }
       if (uuid.id) {
-        var embed = new MessageEmbed()
+        let embed = new MessageEmbed()
           .setTitle(`|WIP|informations about ${ign}`)
           .setColor(`BLURPLE`)
           .setDescription(
@@ -126,7 +126,7 @@ module.exports = new Command({
           .setFooter(`powered by slothpixel api`)
           .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
       } else {
-        var embed = new MessageEmbed()
+        let embed = new MessageEmbed()
           .setTitle(`|WIP|informations about ${ign}`)
           .setColor(`BLURPLE`)
           .setDescription(

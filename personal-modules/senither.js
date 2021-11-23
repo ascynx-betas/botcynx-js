@@ -1,4 +1,4 @@
-var request = require("request");
+let request = require("request");
 const rp = require("request-promise");
 const config = require("../config.json");
 const key = config.hypixelapikey;

@@ -46,9 +46,9 @@ module.exports = new Command({
       const stringOption = interaction.options.getString("string-option");
       if (action == "meme") {
         if (integerOption == null) {
-          var number = Math.floor(Math.random() * 23) + 1;
+          let number = Math.floor(Math.random() * 23) + 1;
         } else {
-          var number = integerOption;
+          let number = integerOption;
         }
         if (number == 1) {
           interaction.followUp({
@@ -160,9 +160,9 @@ module.exports = new Command({
         const chosenlevel = integerOption2;
         const currentlevel = integerOption;
         const overflowexp = integerOption3;
-        var level = 0;
-        var levelexp = 5 * (level * level) + 50 * level + 100;
-        var oldlevel = levelexp;
+        let level = 0;
+        let levelexp = 5 * (level * level) + 50 * level + 100;
+        let oldlevel = levelexp;
         var fullexp = oldlevel + levelexp;
 
         const levelchosen = new Promise(function (resolve, reject) {
@@ -193,15 +193,15 @@ module.exports = new Command({
         const levelcurrent = new Promise(function (resolve, reject) {
           function foo() {
             if (typeof level == "undefined") {
-              var level = 0;
+              let level = 0;
             }
             if (typeof oldlevel != "undefined") {
-              var oldlevel = 0;
+              let oldlevel = 0;
             }
 
-            var clevel = levelexp + oldlevel;
-            var levelexp = 5 * (level * level) + 50 * level + 100;
-            var oldlevel = clevel;
+            let clevel = levelexp + oldlevel;
+            let levelexp = 5 * (level * level) + 50 * level + 100;
+            let oldlevel = clevel;
 
             if (level < currentlevel) {
               foo(level + 1);
