@@ -14,6 +14,7 @@ module.exports = {
     message.reply({ content: `killing bot, please a bit` }).then(() => {
       console.log(`kill command was used`);
       mongoose.disconnect();
+      console.log("mongoose connection is now severed");
       client.destroy();
       console.log(`client is now offline`);
     });

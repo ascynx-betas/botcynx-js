@@ -59,6 +59,7 @@ module.exports = async (client) => {
   const { mongooseConnectionString } = require("../config.json");
   if (!mongooseConnectionString) return;
   //to close all connections (you have currently to remove / re-add IP address to reset connection)
+  //to close connections you can also now use the kill command
 
   mongoose
     .connect(mongooseConnectionString)

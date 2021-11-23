@@ -9,5 +9,7 @@ module.exports = mongoose.model(
     bypass: Array,
     removable: Array,
     logchannel: String,
+    su: Array,
+    verify: String,
   })
 );
