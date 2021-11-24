@@ -1,5 +1,6 @@
 const { Message, Client } = require("discord.js");
 const mongoose = require("mongoose");
+const mp = require("../../personal-modules/testfor");
 
 module.exports = {
   name: "kill",
@@ -16,7 +17,8 @@ module.exports = {
       mongoose.disconnect();
       console.log("mongoose connection is now severed");
       client.destroy();
-      console.log(`client is now offline`);
+      const time = mp.getTimeOfDay();
+      console.log(`[${time}] client is now offline`);
     });
   },
 };

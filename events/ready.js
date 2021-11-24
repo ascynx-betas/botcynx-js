@@ -1,5 +1,6 @@
 const client = require("../index");
-
-client.on("ready", () =>
-  console.log(`${client.user.tag} is up and ready to go!`)
-);
+const mp = require("../personal-modules/testfor");
+client.on("ready", () => {
+  const time = mp.getTimeOfDay();
+  console.log(`[${time}] ${client.user.tag} is up and ready to go!`);
+});

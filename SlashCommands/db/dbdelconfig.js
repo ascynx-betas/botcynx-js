@@ -46,11 +46,11 @@ module.exports = new Command({
         new configmodel({
           name: guild.name,
           guildId: guildId,
-          trigger: [""],
-          bypass: [""],
-          removable: [""],
+          trigger: [],
+          bypass: [],
+          removable: [],
           logchannel: "",
-          su: [""],
+          su: [],
         }).save();
         return interaction.followUp({
           content: `configuration was missing, please re-use the command`,

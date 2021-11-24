@@ -1,6 +1,7 @@
 const client = require("../index");
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 const testfor = require("../personal-modules/testfor");
+const configmodel = require("../models/config");
 try {
   client.on("interactionCreate", async (interaction, message) => {
     // Slash Command Handling
@@ -33,10 +34,18 @@ try {
       }
       if (cmd.devonly) {
         const guild = interaction.guild;
-        let guildconfig = require(`../guild-only/${guild.id}/config.json`);
-        let su = guildconfig.su;
+        const guildconfig = await configmodel.find({
+          guildId: guild.id,
+        });
+        let su = guildconfig[0].su;
         let sunumber = su.length;
         sutested = 0;
+        if (
+          su.length == 0 &&
+          interaction.user.id == client.config.developerId
+        ) {
+          sunumber += 1;
+        }
         su.forEach(function (su) {
           if (
             interaction.member.id != su &&
@@ -217,10 +226,18 @@ try {
 
       if (cmd.devonly) {
         const guild = interaction.guild;
-        let guildconfig = require(`../guild-only/${guild.id}/config.json`);
-        let su = guildconfig.su;
+        const guildconfig = await configmodel.find({
+          guildId: guild.id,
+        });
+        let su = guildconfig[0].su;
         let sunumber = su.length;
         sutested = 0;
+        if (
+          su.length == 0 &&
+          interaction.user.id == client.config.developerId
+        ) {
+          sunumber += 1;
+        }
         su.forEach(function (su) {
           if (
             interaction.member.id != su &&

@@ -2,6 +2,8 @@ const fs = require("fs");
 const client = require("../index");
 const logchannel = "903281241594413176";
 const { MessageEmbed } = require("discord.js");
+const configmodel = require("../models/config");
+const mp = require("../personal-modules/testfor");
 
 client.on("guildCreate", (guild) => {
   try {
@@ -18,7 +20,6 @@ client.on("guildCreate", (guild) => {
     client.channels.cache.get(logchannel).send({
       embeds: [embed],
     });
-
     const guildId = guild.id;
     const filepath = `guild-only/${guildId}/`;
     const filename = "config.json";
@@ -32,6 +33,23 @@ client.on("guildCreate", (guild) => {
             "logchannel": "",
             "su": [""]
     }`;
+    configmodel
+      .find({
+        guildId: guildId,
+      })
+      .then(async (guildconfig) => {
+        if (!guildconfig || guildconfig.length == 0) {
+          new configmodel({
+            name: guild.name,
+            guildId: guildId,
+            trigger: [],
+            bypass: [],
+            removable: [],
+            logchannel: "",
+            su: [],
+          }).save();
+        }
+      });
     fs.stat(`${filepath}`, function (err, stat) {
       if (err == null) {
         fs.stat(`${fullpath}`, function (err, stat) {
@@ -85,6 +103,10 @@ client.on("guildDelete", (guild) => {
     const filepath = `guild-only/${guildId}/`;
     const filename = "config.json";
     const fullpath = filepath + filename;
+    configmodel.deleteOne({ guildId: `${guildId}` }).then(() => {
+      const time = mp.getTimeOfDay();
+      console.log(time, `left a guild`);
+    });
 
     fs.stat(`${fullpath}`, function (err, stat) {
       if (err == null) {
