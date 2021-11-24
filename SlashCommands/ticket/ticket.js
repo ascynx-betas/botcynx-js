@@ -1,5 +1,5 @@
 const { Command } = require("reconlx");
-const fs = require("fs");
+const ticketmodel = require("../../models/ticket");
 
 module.exports = new Command({
   name: "ticket",
@@ -131,18 +131,14 @@ module.exports = new Command({
             content: `you can't delete ${config}`,
           });
         }
-        fs.unlinkSync(`guild-only/${guildId}/${config}.json`, (err) => {
-          if (err) {
-            console.log(err);
-            interaction
-              .followUp({ content: `${config} is not a valid file` })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              );
-          }
+        const existing = await ticketmodel.find({
+          name: config,
+          guildId: guildId,
         });
+        if (existing) {
+          ticketmodel.deleteOne({ name: `${config}` });
+          interaction.followUp({ content: `deleted from db` });
+        }
         interaction
           .followUp({ content: `you can now delete the ticket message 👍` })
           .catch(() =>

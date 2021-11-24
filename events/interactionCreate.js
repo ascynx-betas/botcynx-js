@@ -2,6 +2,7 @@ const client = require("../index");
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 const testfor = require("../personal-modules/testfor");
 const configmodel = require("../models/config");
+const ticketmodel = require("../models/ticket");
 try {
   client.on("interactionCreate", async (interaction, message) => {
     // Slash Command Handling
@@ -100,11 +101,14 @@ try {
             .setStyle("PRIMARY")
         );
         //the where to put when ticket db is set up
-        const config = require(`../guild-only/${guildId}/${customId}.json`);
+        const config = await ticketmodel.find({
+          guildId: guildId,
+          name: customId,
+        });
         if (guild.features.includes("PRIVATE_THREADS")) {
           const thread = await channel.threads
             .create({
-              name: `${interaction.user.username}-${customId}`,
+              name: `${interaction.user.tag}-${customId}`,
               autoArchiveDuration: 60,
               type: "GUILD_PRIVATE_THREAD",
               reason: `dafuk is a reason`,
@@ -115,7 +119,7 @@ try {
               )
             );
           thread.send({
-            content: `${config.welcomemessage}`,
+            content: `${config[0].welcomemessage}`,
             components: [buttonrow],
           }),
             thread.members.add(`${interaction.user.id}`);
@@ -132,7 +136,7 @@ try {
               )
             );
           thread.send({
-            content: `${config.welcomemessage}`,
+            content: `${config[0].welcomemessage}`,
             components: [buttonrow],
           });
           thread.members.add(`${interaction.user.id}`);

@@ -8,5 +8,6 @@ module.exports = mongoose.model(
     welcomemessage: String,
     blocked: Array,
     linkedmessage: String,
+    guildId: String,
   })
 );

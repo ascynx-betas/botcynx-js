@@ -2,6 +2,7 @@ const { Command } = require("reconlx");
 const fs = require("fs");
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 const disabled = require("../../personal-modules/testfor");
+const ticketmodel = require("../../models/ticket");
 
 module.exports = new Command({
   name: "setup-ticket",
@@ -43,8 +44,6 @@ module.exports = new Command({
     const name = interaction.options.getString("config-name");
     const welcome = interaction.options.getString("welcome-message");
     const welcomebutton = interaction.options.getString("description");
-    const filepath = `guild-only/${guildId}/`;
-    const filename = `${name}.json`;
 
     try {
       //add here blacklisted names
@@ -85,29 +84,20 @@ module.exports = new Command({
             ephemeral: true,
           })
         );
-
-      const fullitem = `{
-                "channel": "${setupchannel.id}",
-                "name": "${name}",
-                "welcomemessage": "${welcome}",
-                "blocked":[""],
-                "linkedmessage": "${sent.id}"
-            }`;
-
-      fs.writeFileSync(`${filepath}${filename}`, `${fullitem}`, (err) => {
-        if (err) {
-          console.log(err);
-          interaction
-            .followUp({ content: `${name} already exists` })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
-        }
-
-        console.log("file was successfully created at specified path");
+      const existing = await ticketmodel.find({
+        name: name,
+        guildId: guildId,
       });
+      if (!existing || existing.length == 0) {
+        new ticketmodel({
+          channel: setupchannel.id,
+          name: name,
+          welcomemessage: welcome,
+          blocked: [""],
+          linkedmessage: sent.id,
+          guildId: guildId,
+        }).save();
+      }
     } catch (err) {
       console.log(err);
     }
