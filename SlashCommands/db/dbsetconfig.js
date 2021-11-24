@@ -57,7 +57,6 @@ module.exports = new Command({
       let guildconfig = await configmodel.find({
         guildId: guildId,
       });
-      console.log(guildconfig);
 
       if (!guildconfig || guildconfig.length == 0) {
         new configmodel({
