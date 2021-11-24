@@ -135,17 +135,11 @@ module.exports = new Command({
           name: config,
           guildId: guildId,
         });
-        if (existing) {
-          ticketmodel.deleteOne({ name: `${config}` });
-          interaction.followUp({ content: `deleted from db` });
+        if (existing.length !== 0) {
+          ticketmodel.deleteOne({ name: `${config}` }).then(() => interaction.followUp({content: `you can now delete the ticket message 👍`}).catch(() => console.log(`I don't have permission to send a message in ${channel} in ${guild.name}`)))
+        } else {
+          return interaction.followUp({content: `ticket does not exist`});
         }
-        interaction
-          .followUp({ content: `you can now delete the ticket message 👍` })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
       }
     } catch (err) {
       console.log(err);
