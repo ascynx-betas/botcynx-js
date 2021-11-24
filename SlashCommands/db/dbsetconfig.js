@@ -2,7 +2,7 @@ const { Command } = require("reconlx");
 const configmodel = require("../../models/config");
 
 module.exports = new Command({
-  name: "devsetconfig",
+  name: "setconfig",
   description: "store a certain role for uses in the bot",
   userPermissions: ["MANAGE_ROLES"],
   devonly: true,

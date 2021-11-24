@@ -2,7 +2,7 @@ const { Command } = require("reconlx");
 const configmodel = require("../../models/config");
 
 module.exports = new Command({
-  name: "deldevconfig",
+  name: "delconfig",
   description: "Delete guild configurations",
   userPermissions: ["MANAGE_ROLES"],
   devonly: true,

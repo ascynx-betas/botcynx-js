@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const configmodel = require("../../models/config");
 
 module.exports = new Command({
-  name: "devcheckconfig",
+  name: "checkconfig",
   description:
     "allows the user to check the configuration of the current guild",
   userPermissions: ["MANAGE_ROLES"],

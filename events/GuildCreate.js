@@ -21,18 +21,7 @@ client.on("guildCreate", (guild) => {
       embeds: [embed],
     });
     const guildId = guild.id;
-    const filepath = `guild-only/${guildId}/`;
-    const filename = "config.json";
-    const fullpath = filepath + filename;
-    const template = `{
-            "name": "${guild.name}",
-            "guildId": "${guild.id}",
-            "trigger": [""],
-            "bypass": [""],
-            "removable": [""],
-            "logchannel": "",
-            "su": [""]
-    }`;
+
     configmodel
       .find({
         guildId: guildId,
@@ -50,38 +39,8 @@ client.on("guildCreate", (guild) => {
           }).save();
         }
       });
-    fs.stat(`${filepath}`, function (err, stat) {
-      if (err == null) {
-        fs.stat(`${fullpath}`, function (err, stat) {
-          if (err == null) {
-            return;
-          } else if (err.code === "ENOENT") {
-            //file does not exists
-            fs.writeFile(`${fullpath}`, `${template}`, function (err) {
-              if (err) {
-                console.log(err.code);
-              }
-            });
-          }
-        });
-      } else if (err.code === "ENOENT") {
-        // file does not exist
-        fs.mkdirSync(filepath);
-        fs.writeFileSync(
-          `${filepath}${filename}`,
-          `${template}`,
-          function (err) {
-            if (err) {
-              console.log(err.code);
-            }
-          }
-        );
-      } else {
-        console.log("Some other error: ", err.code);
-      }
-    });
   } catch (err) {
-    console.log(err);
+    if (err) console.log(err);
   }
 });
 client.on("guildDelete", (guild) => {
@@ -100,28 +59,9 @@ client.on("guildDelete", (guild) => {
       embeds: [embed],
     });
     const guildId = guild.id;
-    const filepath = `guild-only/${guildId}/`;
-    const filename = "config.json";
-    const fullpath = filepath + filename;
     configmodel.deleteOne({ guildId: `${guildId}` }).then(() => {
       const time = mp.getTimeOfDay();
       console.log(time, `left a guild`);
-    });
-
-    fs.stat(`${fullpath}`, function (err, stat) {
-      if (err == null) {
-        console.log("File exists");
-        fs.rm(`${fullpath}`, function (err) {
-          if (err) {
-            return console.log(err.code);
-          }
-        });
-      } else if (err.code === "ENOENT") {
-        // file does not exist
-        return console.log(`file does not exists`);
-      } else {
-        console.log("Some other error: ", err.code);
-      }
     });
   } catch (err) {
     console.log(err);

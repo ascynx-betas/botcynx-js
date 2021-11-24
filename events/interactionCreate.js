@@ -47,7 +47,9 @@ try {
             logchannel: "",
             su: [],
           }).save();
-          return interaction.followUp({content: `configuration was missing, please re-execute the command`})
+          return interaction.followUp({
+            content: `configuration was missing, please re-execute the command`,
+          });
         }
         let su = guildconfig[0].su;
         let sunumber = su.length;
@@ -97,6 +99,7 @@ try {
             .setLabel("close ticket")
             .setStyle("PRIMARY")
         );
+        //the where to put when ticket db is set up
         const config = require(`../guild-only/${guildId}/${customId}.json`);
         if (guild.features.includes("PRIVATE_THREADS")) {
           const thread = await channel.threads
@@ -251,7 +254,9 @@ try {
             logchannel: "",
             su: [],
           }).save();
-          return interaction.followUp({content: `configuration was missing, please re-execute the command`})
+          return interaction.followUp({
+            content: `configuration was missing, please re-execute the command`,
+          });
         }
         let su = guildconfig[0].su;
         let sunumber = su.length;

@@ -1,8 +1,8 @@
 const client = require("../index");
 const fs = require("fs");
 const givecheck = false; // that's how  to enable the legacy system
-const configmodel = require('../models/config')
-const mp = require('../personal-modules/testfor')
+const configmodel = require("../models/config");
+const mp = require("../personal-modules/testfor");
 //currently searching for a way to get the guildId to get from a certain folder, this is pain // found how
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
@@ -15,8 +15,8 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     //const cachedconfig = require(`../guild-only/${guildcache}/config.json`);
 
     const cachedconfig = await configmodel.find({
-      guildId: guildcache
-    })
+      guildId: guildcache,
+    });
 
     if (!cachedconfig || cachedconfig.length == 0) {
       new configmodel({
@@ -30,54 +30,54 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
       }).save();
       return;
     }
-    const config = cachedconfig[0]
+    const config = cachedconfig[0];
     var trigger = config.trigger;
     var channel = config.logchannel;
     var bypass = config.bypass;
     var removable = config.removable;
-if (!trigger || typeof trigger === 'undefined' || trigger.length == 0) {
-  return;
-}
+    if (!trigger || typeof trigger === "undefined" || trigger.length == 0) {
+      return;
+    }
 
     if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
-      const oldtrigger = mp.compare(oldMember.roles.cache, trigger)
-      const newtrigger = mp.compare(newMember.roles.cache, trigger)
+      const oldtrigger = mp.compare(oldMember.roles.cache, trigger);
+      const newtrigger = mp.compare(newMember.roles.cache, trigger);
       trigger.forEach(function (trigger) {
         if (
           !oldMember.roles.cache.has(trigger) &&
           newMember.roles.cache.has(trigger)
         ) {
           if (channel.length >= 1) {
-          client.channels.cache
-            .get(channel)
-            .send({
-              content: `${newMember.user.tag} now has <@&${trigger}>`,
-              allowedMentions: { parse: [] },
-            })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
-              }
+            client.channels.cache
+              .get(channel)
+              .send({
+                content: `${newMember.user.tag} now has <@&${trigger}>`,
+                allowedMentions: { parse: [] },
+              })
+              .catch(() =>
+                console.log(
+                  `I don't have permission to send a message in ${channel} in ${guild.name}`
+                )
+              );
+          }
         }
         if (
           oldMember.roles.cache.has(trigger) &&
           !newMember.roles.cache.has(trigger)
         ) {
           if (channel.length >= 1) {
-          client.channels.cache
-            .get(channel)
-            .send({
-              content: `${newMember.user.tag} lost <@&${trigger}>`,
-              allowedMentions: { parse: [] },
-            })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name} `
-              )
-            );
-              }
+            client.channels.cache
+              .get(channel)
+              .send({
+                content: `${newMember.user.tag} lost <@&${trigger}>`,
+                allowedMentions: { parse: [] },
+              })
+              .catch(() =>
+                console.log(
+                  `I don't have permission to send a message in ${channel} in ${guild.name} `
+                )
+              );
+          }
           if (newMember.roles.cache.has(trigger)) {
             newtriggercheck = 1;
           }
@@ -102,20 +102,20 @@ if (!trigger || typeof trigger === 'undefined' || trigger.length == 0) {
                       `I don't have permission to remove ${removable} in ${guildcache}`
                     )
                   );
-                      if (channel.length >= 1) {
-                client.channels.cache
-                  .get(channel)
-                  .send({
-                    content: `<@&${removable}> was removed from ${newMember.user.tag}`,
-                    allowedMentions: { parse: [] },
-                  })
-                  .catch(() =>
-                    console.log(
-                      `I don't have permission to send a message in ${channel} in ${guild.name}`
-                    )
-                  );
-                  }
+                if (channel.length >= 1) {
+                  client.channels.cache
+                    .get(channel)
+                    .send({
+                      content: `<@&${removable}> was removed from ${newMember.user.tag}`,
+                      allowedMentions: { parse: [] },
+                    })
+                    .catch(() =>
+                      console.log(
+                        `I don't have permission to send a message in ${channel} in ${guild.name}`
+                      )
+                    );
                 }
+              }
             });
           }
         }
