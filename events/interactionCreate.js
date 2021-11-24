@@ -37,6 +37,18 @@ try {
         const guildconfig = await configmodel.find({
           guildId: guild.id,
         });
+        if (!guildconfig || guildconfig.length == 0) {
+          new configmodel({
+            name: guild.name,
+            guildId: guild.id,
+            trigger: [],
+            bypass: [],
+            removable: [],
+            logchannel: "",
+            su: [],
+          }).save();
+          return interaction.followUp({content: `configuration was missing, please re-execute the command`})
+        }
         let su = guildconfig[0].su;
         let sunumber = su.length;
         sutested = 0;
@@ -229,6 +241,18 @@ try {
         const guildconfig = await configmodel.find({
           guildId: guild.id,
         });
+        if (!guildconfig || guildconfig.length == 0) {
+          new configmodel({
+            name: guild.name,
+            guildId: guild.id,
+            trigger: [],
+            bypass: [],
+            removable: [],
+            logchannel: "",
+            su: [],
+          }).save();
+          return interaction.followUp({content: `configuration was missing, please re-execute the command`})
+        }
         let su = guildconfig[0].su;
         let sunumber = su.length;
         sutested = 0;
