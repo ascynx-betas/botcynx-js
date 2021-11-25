@@ -110,6 +110,11 @@ module.exports = new Command({
                   `I don't have permission to send a message in ${channel} in ${guild.name}`
                 )
               );
+              //add as perm the person to block so they can't send messages in threads ? // that would be for all threads in that channel though
+                //if no user given then gives blocked user list
+                //if user is not blocked add the permissions "can't send messages in thread to user"
+                //if user is blocked remove perm override
+
           } else {
             interaction
               .followUp({ content: `this command is not currently coded in` })

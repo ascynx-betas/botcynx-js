@@ -6,7 +6,6 @@ module.exports = mongoose.model(
     channel: String,
     name: String,
     welcomemessage: String,
-    blocked: Array,
     linkedmessage: String,
     guildId: String,
   })

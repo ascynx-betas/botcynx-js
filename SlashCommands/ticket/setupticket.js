@@ -93,7 +93,6 @@ module.exports = new Command({
           channel: setupchannel.id,
           name: name,
           welcomemessage: welcome,
-          blocked: [""],
           linkedmessage: sent.id,
           guildId: guildId,
         }).save();
