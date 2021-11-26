@@ -2,7 +2,7 @@ const { Command } = require("reconlx");
 const verifyModel = require("../../models/verifymodel");
 const hypixel = require("../../personal-modules/hypixel.js");
 const slothpixel = require("../../personal-modules/slothpixel.js");
-const configmodel = require('../../models/config')
+const configmodel = require("../../models/config");
 
 module.exports = new Command({
   name: "verify",
@@ -40,9 +40,9 @@ module.exports = new Command({
       const userId = interaction.user.id;
       const guildId = interaction.guild.id;
       const configt = await configmodel.find({
-        guildId: guildId
-      })
-      const config = configt[0]
+        guildId: guildId,
+      });
+      const config = configt[0];
       const member = interaction.guild.members.cache.get(userId);
       const action = interaction.options.getString("action");
 
@@ -127,7 +127,9 @@ module.exports = new Command({
           }).save();
 
           interaction
-            .followUp({ content: `added ${user.tag} as ${ign} to database\n disclaimer: this informations stored are your minecraft uuid and discord account id\nif you have a problem with this, please contact the developer.` })
+            .followUp({
+              content: `added ${user.tag} as ${ign} to database\n disclaimer: this informations stored are your minecraft uuid and discord account id\nif you have a problem with this, please contact the developer.`,
+            })
             .catch(() =>
               console.log(
                 `I don't have permission to send a message in ${channel} in ${guild.name}`

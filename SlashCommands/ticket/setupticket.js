@@ -46,7 +46,6 @@ module.exports = new Command({
     const welcomebutton = interaction.options.getString("description");
 
     try {
-      //add here blacklisted names
       const blacklisted = client.config.tbn;
       const success = disabled.testfor(blacklisted, name);
       if (success == true) {
