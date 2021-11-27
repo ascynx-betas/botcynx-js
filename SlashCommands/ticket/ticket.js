@@ -120,16 +120,28 @@ module.exports = new Command({
                 (role) => role
               );
               await discordmodule.permOverride(permissions).then((permlist) => {
-                console.log(permlist);
                 let denied = permlist.denied;
+                let result = [];
+                let permbed = [];
                 denied.forEach(function (denied) {
                   denied = Number(denied);
                   const dp = bitfieldcalc.permissions(denied);
-                  if (dp.includes("SEND_MESSAGES_IN_THREADS"))
-                    return (denied = true);
-                  console.log(dp);
+                  if (dp.includes("SEND_MESSAGES_IN_THREADS")) {
+                    return result.splice(0, 0, true);
+                  } else {
+                    return result.splice(0, 0, false);
+                  }
                 });
-                const embeddesc = permlist.permlist.join("\n");
+                let index = 0;
+                do {
+                  if (result[index] === true) {
+                    permbed.splice(0, 0, permlist.permlist[index]);
+                    index += 1;
+                  } else {
+                    index += 1;
+                  }
+                } while (index !== permlist.permlist.length);
+                const embeddesc = permbed.join("\n");
                 const embed = new MessageEmbed()
                   .setDescription(embeddesc)
                   .setTitle(`permissions`);
@@ -168,19 +180,17 @@ module.exports = new Command({
           guildId: guildId,
         });
         if (existing.length !== 0) {
-          ticketmodel
-            .deleteOne({ name: `${config}` })
-            .then(() =>
-              interaction
-                .followUp({
-                  content: `you can now delete the ticket message 👍`,
-                })
-                .catch(() =>
-                  console.log(
-                    `I don't have permission to send a message in ${channel} in ${guild.name}`
-                  )
+          ticketmodel.deleteOne({ name: `${config}` }).then(() =>
+            interaction
+              .followUp({
+                content: `you can now delete the ticket message 👍`,
+              })
+              .catch(() =>
+                console.log(
+                  `I don't have permission to send a message in ${channel} in ${guild.name}`
                 )
-            );
+              )
+          );
         } else {
           return interaction.followUp({ content: `ticket does not exist` });
         }

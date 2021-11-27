@@ -8,7 +8,6 @@ exports.permOverride = async function (permissionlist) {
 
   permissionlist.forEach(function (permissionlist) {
     if (permissionlist.type === "member") {
-      console.log(permissionlist.allow.bitfield, permissionlist.deny.bitfield);
       permlist.splice(0, 0, `${permissionlist.id}`);
       denied.splice(0, 0, permissionlist.deny.bitfield);
       allowed.splice(0, 0, permissionlist.allow.bitfield);
