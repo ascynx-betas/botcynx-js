@@ -48,7 +48,7 @@ module.exports = new Command({
     },
   ],
 
-  run: async ({ interaction, message, client }) => {
+  run: async ({ interaction, client }) => {
     try {
       const action = interaction.options.getString("sub-command");
       const config = interaction.options.getString("config-name");
@@ -56,8 +56,8 @@ module.exports = new Command({
       const guildId = interaction.guild.id;
       const channel = interaction.channel;
       if (action != "del") {
-        if (!interaction.channel.isThread) {
-          interaction
+        if (interaction.channel.isThread() === false) {
+          return interaction
             .followUp({
               content: `the channel in which you executed this command is not a thread`,
             })
@@ -106,9 +106,6 @@ module.exports = new Command({
                 );
             }
           } else if (action == "block") {
-            return interaction.followUp({
-              content: `this command is not currently finished`,
-            });
             //add as perm the person to block so they can't send messages in threads ? // that would be for all threads in that channel though
             //if no user given then gives blocked user list
             //if user is not blocked add the permissions "can't send messages in thread to user"
@@ -127,15 +124,15 @@ module.exports = new Command({
                   denied = Number(denied);
                   const dp = bitfieldcalc.permissions(denied);
                   if (dp.includes("SEND_MESSAGES_IN_THREADS")) {
-                    return result.splice(0, 0, true);
+                    return result.push(true);
                   } else {
-                    return result.splice(0, 0, false);
+                    return result.push(false);
                   }
                 });
                 let index = 0;
                 do {
                   if (result[index] === true) {
-                    permbed.splice(0, 0, permlist.permlist[index]);
+                    permbed.push(permlist.permlist[index]);
                     index += 1;
                   } else {
                     index += 1;
@@ -144,15 +141,35 @@ module.exports = new Command({
                 const embeddesc = permbed.join("\n");
                 const embed = new MessageEmbed()
                   .setDescription(embeddesc)
-                  .setTitle(`permissions`);
+                  .setTitle(`people that are blocked`);
                 interaction.followUp({ embeds: [embed] });
               });
             } else {
               //if specified
-              channel.parentId.permissionOverwrites.create(target.id, {
-                SEND_MESSAGES_IN_THREADS: false,
-              });
-              interaction.reply(`${target.user.tag} was added to block`);
+              const channelparent = client.channels.cache.get(channel.parentId);
+              const permissions = channelparent.permissionOverwrites.cache.map(
+                (role) => role
+              );
+              await discordmodule
+                .permOverride(permissions)
+                .then((permissions) => {
+                  if (permissions.permlist.includes(`<@${target.id}>`)) {
+                    channelparent.permissionOverwrites.delete(
+                      target.id,
+                      `used command /ticket block (user)`
+                    );
+                    return interaction.editReply({
+                      content: `${target.tag} is now unblocked`,
+                    });
+                  } else {
+                    channelparent.permissionOverwrites.create(target.id, {
+                      SEND_MESSAGES_IN_THREADS: false,
+                    });
+                    return interaction.editReply(
+                      `**${target.tag} is now blocked**\nblocking someone means they cannot talk in any threads created in this channel`
+                    );
+                  }
+                });
             }
           } else {
             interaction

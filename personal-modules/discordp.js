@@ -1,6 +1,7 @@
 exports.permOverride = async function (permissionlist) {
-  if (typeof permissionlist !== "object") throw "wrong variable type";
-  if (!permissionlist) throw "missing variable";
+  if (typeof permissionlist !== "object")
+    throw `TypeError: cannot read ${typeof permissionlist}`;
+  if (!permissionlist) throw `TypeError: Missing variable`;
 
   let permlist = [];
   let denied = [];
@@ -8,9 +9,9 @@ exports.permOverride = async function (permissionlist) {
 
   permissionlist.forEach(function (permissionlist) {
     if (permissionlist.type === "member") {
-      permlist.splice(0, 0, `${permissionlist.id}`);
-      denied.splice(0, 0, permissionlist.deny.bitfield);
-      allowed.splice(0, 0, permissionlist.allow.bitfield);
+      permlist.push(`<@${permissionlist.id}>`);
+      denied.push(permissionlist.deny.bitfield);
+      allowed.push(permissionlist.allow.bitfield);
       return permlist, denied, allowed;
     }
   });
