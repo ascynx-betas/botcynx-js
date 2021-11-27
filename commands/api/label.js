@@ -12,9 +12,9 @@ module.exports = {
   run: async (client, message, args) => {
     const target = args[0];
     let label = args.slice(1).join(" ");
-    let userId;
-    let targetId;
-    let param;
+    var userId;
+    var targetId;
+    var param;
     let test;
     try {
       if (!target || typeof target === "undefined") {
@@ -35,14 +35,14 @@ module.exports = {
         label = label.slice(0, test.length - 1);
       }
       if (target.length === 21) {
-        let targetId = target.slice(2, target.length - 1);
+      targetId = target.slice(2, target.length - 1);
       } else if (target.length === 22) {
-        let targetId = target.slice(3, target.length - 1);
+      targetId = target.slice(3, target.length - 1);
       }
       if (targetId) {
-        let userId = targetId;
+        userId = targetId;
       } else if (target.length === 18) {
-        let userId = target;
+        userId = target;
       }
       let Info = await verifymodel.find({ userId: `${userId}` });
       if (typeof Info[0] === "undefined") {

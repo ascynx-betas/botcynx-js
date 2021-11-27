@@ -21,7 +21,7 @@ client.on("interactionCreate", async (interaction, message) => {
         const profile = fields[1];
         const username = fields[0];
         const weight = await lily.getWeight(uuid).catch(() => console.log());
-
+        // TO DO: add rounded calculations
         //calculations
         const skillb = weight.skill.base;
         const skillo = weight.skill.overflow;
