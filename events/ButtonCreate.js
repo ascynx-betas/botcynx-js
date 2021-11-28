@@ -23,21 +23,23 @@ client.on("interactionCreate", async (interaction, message) => {
         const weight = await lily.getWeight(uuid).catch(() => console.log());
         // TO DO: add rounded calculations
         //calculations
-        const skillb = weight.skill.base;
-        const skillo = weight.skill.overflow;
-        const tskill = skillb + skillo;
+        const skillb = Math.round(weight.skill.base * 10) / 10;
+        const skillo = Math.round(weight.skill.overflow * 10) / 10;
+        let tskill = skillb + skillo;
+        tskill = Math.round(tskill * 10) /10;
 
-        const catab = weight.catacombs.completion.base;
-        const catam = weight.catacombs.completion.master;
-        const catae = weight.catacombs.experience;
+        const catab = Math.round(weight.catacombs.completion.base * 10) / 10;
+        const catam = Math.round(weight.catacombs.completion.master * 10) / 10;
+        const catae = Math.round(weight.catacombs.experience * 10) / 10;
         const tcata = catab + catam + catae;
 
+        let tslayer = Math.round(weight.slayer * 10) / 10;
         //output
         const embed = new MessageEmbed()
           .setDescription(
-            `Total weight is **\`\`${weight.total}\`\`**\n
+            `Total weight is **\`\`${Math.round(weight.total * 10) / 10}\`\`**\n
                     dungeon weight is \`\`${tcata}\`\`(\`\`${catab}\`\` from F completion, \`\`${catam}\`\` from MM completion and \`\`${catae}\`\` from cata level)
-                    slayer weight is \`\`${weight.slayer}\`\`
+                    slayer weight is \`\`${tslayer}\`\`
                     skill weight is \`\`${tskill}\`\`(\`\`${skillb}\`\`/\`\`${skillo}\`\` overflow)`
           )
           .setFooter(`powered by the lilyweight npm package`)
