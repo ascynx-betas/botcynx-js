@@ -1,6 +1,7 @@
 const { Message, Client } = require("discord.js");
 const mongoose = require("mongoose");
 const mp = require("../../personal-modules/testfor");
+const readline =  require('readline');
 
 module.exports = {
   name: "kill",
