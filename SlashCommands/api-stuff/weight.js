@@ -1,7 +1,7 @@
 const { Command } = require("reconlx");
 const senither = require("../../personal-modules/senither");
-const slothpixel = require("../../personal-modules/slothpixel");
 const hypixel = require("../../personal-modules/hypixel");
+const ma = require('../../personal-modules/mojang')
 const verify = require("../../models/verifymodel");
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 
@@ -72,9 +72,8 @@ module.exports = new Command({
       }
 
       if (typeof uuid === "undefined") {
-        var uuid = await slothpixel
-          .getuuid(ign)
-          .catch(() => `there was an error while trying to fetch the uuid`);
+        var uuid = await ma.getUuidbyUsername(ign).catch(() => console.log())
+        uuid = uuid.id
       } else {
         const data = await hypixel
           .getPlayerByUuid(uuid)
