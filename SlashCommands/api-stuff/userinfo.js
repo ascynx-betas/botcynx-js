@@ -3,12 +3,12 @@ const verifyModel = require("../../models/verifymodel");
 const { Command } = require("reconlx");
 
 module.exports = new Command({
-  name: "dbcheck",
-  description: "get the minecraft username of the person from the database",
+  name: "userinfo",
+  description: "get information about the specified user",
   options: [
     {
       name: "target",
-      description: "the discord of the person",
+      description: "the discord user",
       type: "USER",
       required: true,
     },
