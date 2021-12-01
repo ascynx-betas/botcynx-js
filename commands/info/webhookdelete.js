@@ -22,10 +22,9 @@ module.exports = {
       const wbid = fields[3];
       const info = wbid + "/" + wbtoken;
       const webhook = await client.fetchWebhook(info);
-      console.log(webhook);
       if (param == "-s") {
         webhook.send({
-          content: `you're an idiot`,
+          content: `lmao bye`,
           username: `${message.author.tag}`,
           avatarURL: message.author.displayAvatarURL({ dynamic: true }),
         });

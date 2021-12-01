@@ -45,7 +45,7 @@ module.exports = new Command({
         if (!userInfo?.length)
           return interaction
             .followUp({
-              content: `you're missing the username parameter`,
+              content: `please provide username or use the /verify command first`,
               ephemeral: true,
             })
             .catch(() =>
