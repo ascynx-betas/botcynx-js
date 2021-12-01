@@ -2,6 +2,7 @@ let request = require("request");
 const rp = require("request-promise");
 const config = require("../config.json");
 const key = config.hypixelapikey;
+const fetch = require("node-fetch");
 
 exports.getPlayerByUuid = function (uuid) {
   let Url = "https://api.hypixel.net/player?key=" + key + "&uuid=" + uuid;
@@ -27,3 +28,11 @@ exports.getKeyInformation = function () {
     return data;
   });
 };
+exports.getProfile = async (uuid) =>
+  (
+    await fetchJSON(
+      `https://api.hypixel.net/skyblock/profiles?key=${key}&uuid=${uuid}`
+    )
+  ).profiles.sort(
+    (a, b) => b.members[uuid].last_save - a.members[uuid].last_save
+  )[0].members[uuid];

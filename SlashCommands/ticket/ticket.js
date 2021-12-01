@@ -183,6 +183,8 @@ module.exports = new Command({
         }
       } else {
         //code of del
+        if (!config)
+          return interaction.followUp({ content: `please specify config` });
         if (
           config == "config" ||
           config.includes(`info`) ||

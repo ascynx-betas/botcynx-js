@@ -18,13 +18,13 @@ exports.getUuidbyUsername = function (ign) {
  * id: uuid // String
  */
 exports.getProfilebyUuid = function (uuid) {
-  let Url = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
+  let Url = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`;
 
   return rp(Url).then((body) => {
     let data = JSON.parse(body);
     return data;
-  })
-}
+  });
+};
 /**
  * returns
  * id: uuid of the account // String
@@ -37,7 +37,7 @@ exports.getProfilebyUuid = function (uuid) {
  */
 /**
  * when value is decoded it returns:
- * 
+ *
  * timestamp: when the request was sent //number
  * preofileId: uuid of account //String
  * profileName: username of account //String

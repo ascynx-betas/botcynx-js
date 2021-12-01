@@ -1,7 +1,7 @@
 const { Message, Client } = require("discord.js");
 const mongoose = require("mongoose");
 const mp = require("../../personal-modules/testfor");
-const readline =  require('readline');
+const readline = require("readline");
 
 module.exports = {
   name: "kill",
@@ -13,7 +13,9 @@ module.exports = {
    * @param {String[]} args
    */
   run: async (client, message, args) => {
-    message.reply({content: `https://tenor.com/view/thanos-avengers-dust-dissolve-gif-16965356`})
+    message.reply({
+      content: `https://tenor.com/view/thanos-avengers-dust-dissolve-gif-16965356`,
+    });
     message.channel.send({ content: `killing bot, please a bit` }).then(() => {
       console.log(`\nkill command was used`);
       mongoose.disconnect();
@@ -21,7 +23,7 @@ module.exports = {
       client.destroy();
       const time = mp.getTimeOfDay();
       console.log(`[${time}] client is now offline`);
-      process.kill(process.pid, 'SIGHUP')
+      process.kill(process.pid, "SIGHUP");
     });
   },
 };

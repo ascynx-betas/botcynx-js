@@ -1,7 +1,7 @@
 const { Command } = require("reconlx");
 const senither = require("../../personal-modules/senither");
 const hypixel = require("../../personal-modules/hypixel");
-const ma = require('../../personal-modules/mojang')
+const ma = require("../../personal-modules/mojang");
 const verify = require("../../models/verifymodel");
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 
@@ -28,6 +28,11 @@ module.exports = new Command({
     let speprofile = interaction.options.getString("profile");
     var profile;
     //let profilenames = [""];
+    //todo, detect if profile is ironman and putting a small something for if it's ironman
+    //game stage according to weight value
+    /**
+     * probably add intermedietary stages in late / end game
+     */
     try {
       if (!ign) {
         const userId = interaction.user.id;
@@ -72,8 +77,8 @@ module.exports = new Command({
       }
 
       if (typeof uuid === "undefined") {
-        var uuid = await ma.getUuidbyUsername(ign).catch(() => console.log())
-        uuid = uuid.id
+        var uuid = await ma.getUuidbyUsername(ign).catch(() => console.log());
+        uuid = uuid.id;
       } else {
         const data = await hypixel
           .getPlayerByUuid(uuid)
@@ -178,14 +183,26 @@ module.exports = new Command({
       const rfslayer = Math.round(fullslayerweight * 10) / 10;
       const rfdungeon = Math.round(fdungeonweight * 10) / 10;
       const rf = Math.round(fullweight * 10) / 10;
+      let gamestage;
+      if (rf <= 2000) {
+        gamestage = "early game";
+      } else if (rf >= 2000 && rf <= 7000) {
+        gamestage = "mid game";
+      } else if (rf >= 7000 && rf <= 13000) {
+        gamestage = "late game";
+      } else if (rf >= 15000) {
+        gamestage = "end game";
+      } else {
+        gamestage = null;
+      }
 
       //embed
       const embed = new MessageEmbed()
         .setDescription(
-          `Total weight is **\`\`${rf}\`\`**\n
-        dungeon weight is \`\`${rfdungeon}\`\`(\`\`${rdungeon}\`\`/\`\`${rodungeon}\`\` overflow)
-        slayer weight is \`\`${rfslayer}\`\`(\`\`${rslayer}\`\`/\`\`${roslayer}\`\` overflow)
-        skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`
+          `Total weight is **\`\`${rf}\`\`** Current stage is: **\`\`${gamestage}\`\`**\n
+          <:catacombs:914860327978532874> Dungeon weight is \`\`${rfdungeon}\`\`(\`\`${rdungeon}\`\`/\`\`${rodungeon}\`\` overflow)
+          <:beheaded:914859571351269447> Slayer weight is \`\`${rfslayer}\`\`(\`\`${rslayer}\`\`/\`\`${roslayer}\`\` overflow)
+        <:skill:914859774187814932> Skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`
         )
         .setFooter(`powered by senither api`)
         .setColor(`RED`)

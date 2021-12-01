@@ -21,30 +21,20 @@ module.exports = {
       const wbtoken = fields[4];
       const wbid = fields[3];
       const info = wbid + "/" + wbtoken;
+      const webhook = await client.fetchWebhook(info);
+      console.log(webhook);
       if (param == "-s") {
-        client
-          .fetchWebhook(info)
-          .then((webhook) =>
-            webhook.send({
-              content: `you're an idiot`,
-              username: `${message.author.tag}`,
-              avatarURL: message.author.displayAvatarURL({ dynamic: true }),
-            })
-          )
-          .catch(() => console.log());
+        webhook.send({
+          content: `you're an idiot`,
+          username: `${message.author.tag}`,
+          avatarURL: message.author.displayAvatarURL({ dynamic: true }),
+        });
       }
-      client
-        .fetchWebhook(info)
-        .then((webhook) => webhook.delete("lmfao nice"))
-        .catch(() => console.log());
-      client
-        .fetchWebhook(info)
-        .then((webhook) =>
-          message.reply({
-            content: `✅ successfully deleted ${webhook.name}/guild: ${webhook.guildId}`,
-          })
-        )
-        .catch((err) => console.log(err)); //message.reply({ content: `❌ webhook doesn't exist` }));
+      webhook.delete("lmfao nice").then(() => {
+        message.reply({
+          content: `✅ successfully deleted ${webhook.name}/guild: ${webhook.guildId}`,
+        });
+      });
     } catch (err) {
       console.log(err);
     }

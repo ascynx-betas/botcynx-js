@@ -26,7 +26,7 @@ client.on("interactionCreate", async (interaction, message) => {
         const skillb = Math.round(weight.skill.base * 10) / 10;
         const skillo = Math.round(weight.skill.overflow * 10) / 10;
         let tskill = skillb + skillo;
-        tskill = Math.round(tskill * 10) /10;
+        tskill = Math.round(tskill * 10) / 10;
 
         const catab = Math.round(weight.catacombs.completion.base * 10) / 10;
         const catam = Math.round(weight.catacombs.completion.master * 10) / 10;
@@ -37,10 +37,12 @@ client.on("interactionCreate", async (interaction, message) => {
         //output
         const embed = new MessageEmbed()
           .setDescription(
-            `Total weight is **\`\`${Math.round(weight.total * 10) / 10}\`\`**\n
-                    dungeon weight is \`\`${tcata}\`\`(\`\`${catab}\`\` from F completion, \`\`${catam}\`\` from MM completion and \`\`${catae}\`\` from cata level)
-                    slayer weight is \`\`${tslayer}\`\`
-                    skill weight is \`\`${tskill}\`\`(\`\`${skillb}\`\`/\`\`${skillo}\`\` overflow)`
+            `Total weight is **\`\`${
+              Math.round(weight.total * 10) / 10
+            }\`\`** Current stage is: **\`\`unknown\`\`**\n
+            <:catacombs:914860327978532874> Dungeon weight is \`\`${tcata}\`\`(\`\`${catab}\`\` from F completion, \`\`${catam}\`\` from MM completion and \`\`${catae}\`\` from cata level)
+            <:beheaded:914859571351269447> Slayer weight is \`\`${tslayer}\`\`
+                    <:skill:914859774187814932> Skill weight is \`\`${tskill}\`\`(\`\`${skillb}\`\`/\`\`${skillo}\`\` overflow)`
           )
           .setFooter(`powered by the lilyweight npm package`)
           .setThumbnail(`https://mc-heads.net/avatar/${uuid}/100`)
@@ -104,13 +106,26 @@ client.on("interactionCreate", async (interaction, message) => {
         const rfdungeon = Math.round(fdungeonweight * 10) / 10;
         const rf = Math.round(fullweight * 10) / 10;
 
+        let gamestage;
+        if (rf >= 2000) {
+          gamestage = "early game";
+        } else if (rf <= 2000 && rf >= 7000) {
+          gamestage = "mid game";
+        } else if (rf <= 7000 && rf >= 13000) {
+          gamestage = "late game";
+        } else if (rf <= 15000) {
+          gamestage = "end game";
+        } else {
+          gamestage = null;
+        }
+
         //embed
         const embed = new MessageEmbed()
           .setDescription(
-            `Total weight is **\`\`${rf}\`\`**\n
-                    dungeon weight is \`\`${rfdungeon}\`\`(\`\`${rdungeon}\`\`/\`\`${rodungeon}\`\` overflow)
-                    slayer weight is \`\`${rfslayer}\`\`(\`\`${rslayer}\`\`/\`\`${roslayer}\`\` overflow)
-                    skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`
+            `Total weight is **\`\`${rf}\`\`** Current stage is: ${gamestage}\n
+            <:catacombs:914860327978532874> Dungeon weight is \`\`${rfdungeon}\`\`(\`\`${rdungeon}\`\`/\`\`${rodungeon}\`\` overflow)
+                    <:beheaded:914859571351269447> Slayer weight is \`\`${rfslayer}\`\`(\`\`${rslayer}\`\`/\`\`${roslayer}\`\` overflow)
+                    <:skill:914859774187814932> Skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`
           )
           .setFooter(`powered by senither api`)
           .setColor(`RED`)

@@ -38,7 +38,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     if (!trigger || typeof trigger === "undefined" || trigger.length == 0) {
       return;
     }
-
+    //could probably use a var bypass = bypass.concat(trigger) to add the triggers to bypasses
     if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
       const oldtrigger = mp.compare(oldMember.roles.cache, trigger);
       const newtrigger = mp.compare(newMember.roles.cache, trigger);

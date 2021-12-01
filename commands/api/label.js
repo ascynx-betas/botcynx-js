@@ -35,9 +35,9 @@ module.exports = {
         label = label.slice(0, test.length - 1);
       }
       if (target.length === 21) {
-      targetId = target.slice(2, target.length - 1);
+        targetId = target.slice(2, target.length - 1);
       } else if (target.length === 22) {
-      targetId = target.slice(3, target.length - 1);
+        targetId = target.slice(3, target.length - 1);
       }
       if (targetId) {
         userId = targetId;

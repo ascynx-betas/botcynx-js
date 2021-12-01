@@ -17,7 +17,7 @@
     "lilyweight": "^2.0.0",
     "moment": "^2.29.1",
     "mongoose": "^6.0.2",
-    "node-fetch": "3.1.0",
+    "node-fetch": "^2.6.6",
     "nodemon": "^2.0.15",
     "reconlx": "^2.5.1",
     "request": "^2.65.0",
