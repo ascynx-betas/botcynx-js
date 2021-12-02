@@ -101,3 +101,6 @@ client.on("messageCreate", async (message) => {
       .catch((err) => console.log(err));
   }
 });
+
+
+//currently breaks if providing a file attachment as I'm too stupid to figure out how to deal with that
