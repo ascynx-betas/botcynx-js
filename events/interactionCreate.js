@@ -164,7 +164,7 @@ try {
       } else if (customId.startsWith("info")) {
         //embed list
         if (interaction.message.webhookId != client.user.id) return;
-        const interactioncreator = (interaction.message.interaction.user.id);
+        const interactioncreator = interaction.message.interaction.user.id;
         const embed_moderation = new MessageEmbed()
           .setTitle(`**Moderation**`)
           .setDescription(

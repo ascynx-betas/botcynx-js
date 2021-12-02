@@ -11,5 +11,6 @@ module.exports = mongoose.model(
     logchannel: String,
     su: Array,
     verify: String,
+    blocked: Array,
   })
 );

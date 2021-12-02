@@ -1,14 +1,16 @@
 const client = require("../index");
-const Discord = require("discord.js");
 const plugin = require("../personal-modules/discordp");
-
+const config = require("../models/config");
+const calc = require("../personal-modules/bitfieldcalc");
 client.on("messageCreate", async (message) => {
   if (message.author.bot || !message.guild) return;
-  if (
-    message.guildId !== "779489942899785748" &&
-    message.channel !== "838437957693997106"
-  )
-    return;
+  const guildconfig = await config.find({
+    guildId: message.guild.id,
+  });
+  let permissions = calc.permissions(Number(message.guild.me.permissions));
+  if (!permissions.includes("MANAGE_WEBHOOKS")) return;
+  let b = guildconfig[0].blocked;
+  if (b.includes("NoRead")) return;
   let link = message.content;
   link = link.slice(8, link.length);
   let fields = link.split("/");
@@ -26,6 +28,11 @@ client.on("messageCreate", async (message) => {
     .catch(() => {
       message.react("❌");
     });
+  const sourceconfig = await config.find({
+    guildId: fields[2],
+  });
+  let blocked = sourceconfig[0].blocked;
+  if (blocked.includes(fields[3])) return console.log(`blocked channel`);
   if (!source || source == null || typeof source === "undefined") return;
   let username;
   let avatarURL;
@@ -41,15 +48,17 @@ client.on("messageCreate", async (message) => {
   let webhook;
   let thread = message.channel.isThread();
   let attachment = source.attachments.first();
-  let embeds = source.embeds
-  embeds.forEach(function(embed, index) {
-    if (embed.type == 'image' || embed.type == 'video') {
-      embeds.splice(index, 1)
+  let attachmenturl;
+  if (typeof attachment !== "undefined") {
+    attachmenturl = attachment.url;
+  }
+  let embeds = source.embeds;
+  embeds.forEach(function (embed, index) {
+    if (embed.type == "image" || embed.type == "video") {
+      embeds.splice(index, 1);
     }
-  })
-  console.log(source)
+  });
   if (thread == true) {
-    console.log("thread");
     webhook = await message.channel.parent.fetchWebhooks(
       (Webhook) => Webhook.owner.id === client.user.id
     );
@@ -72,32 +81,58 @@ client.on("messageCreate", async (message) => {
   webhook = webhook.get(id);
   const webhookclient = await client.fetchWebhook(webhook.id, webhook.token);
   if (thread == true) {
-    webhookclient
-      .send({
-        content: content,
-        username: username,
-        avatarURL: avatarURL,
-        threadId: message.channel.id,
-        embeds: embeds,
-        attachments: attachment,
-        components: source.components,
-        allowedMentions: { parse: [] },
-      })
-      .catch((err) => console.log(err));
+    if (typeof attachment !== "undefined") {
+      webhookclient
+        .send({
+          content: content,
+          username: username,
+          avatarURL: avatarURL,
+          threadId: message.channel.id,
+          embeds: embeds,
+          components: source.components,
+          allowedMentions: { parse: [] },
+          files: [attachmenturl],
+        })
+        .catch((err) => console.log(err));
+    } else {
+      webhookclient
+        .send({
+          content: content,
+          username: username,
+          avatarURL: avatarURL,
+          threadId: message.channel.id,
+          embeds: embeds,
+          components: source.components,
+          allowedMentions: { parse: [] },
+        })
+        .catch((err) => console.log(err));
+    }
   } else {
-    webhookclient
-      .send({
-        content: content,
-        username: username,
-        avatarURL: avatarURL,
-        embeds: embeds,
-        attachments: attachment,
-        components: source.components,
-        allowedMentions: { parse: [] },
-      })
-      .catch((err) => console.log(err));
+    if (typeof attachment !== "undefined") {
+      webhookclient
+        .send({
+          content: content,
+          username: username,
+          avatarURL: avatarURL,
+          embeds: embeds,
+          components: source.components,
+          allowedMentions: { parse: [] },
+          files: [attachmenturl],
+        })
+        .catch((err) => console.log(err));
+    } else {
+      webhookclient
+        .send({
+          content: content,
+          username: username,
+          avatarURL: avatarURL,
+          embeds: embeds,
+          components: source.components,
+          allowedMentions: { parse: [] },
+        })
+        .catch((err) => console.log(err));
+    }
   }
 });
-
 
 //currently breaks if providing a file attachment as I'm too stupid to figure out how to deal with that

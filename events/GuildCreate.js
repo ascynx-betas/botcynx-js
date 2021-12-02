@@ -36,6 +36,7 @@ client.on("guildCreate", (guild) => {
             removable: [],
             logchannel: "",
             su: [],
+            blocked: [],
           }).save();
         }
       });
