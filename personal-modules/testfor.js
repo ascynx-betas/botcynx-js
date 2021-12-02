@@ -134,3 +134,27 @@ exports.a2b = function (a) {
       ((d = 255 & (f >>> (g -= 8))) || j - 2 > c) && (h += i(d));
   return h;
 };
+exports.isLink = function (potentiallink) {
+  let http = /http:\/\/./;
+  let https = /https:\/\/./;
+
+  let r1 = http.test(potentiallink);
+  let r2 = https.test(potentiallink);
+  if (r1 == true || r2 == true) {
+    return true;
+  } else return false;
+};
+exports.containsLink = function (message) {
+  const mp = require("./testfor");
+  let fields = message.split(" ");
+  let result;
+  let arrayofresults = [];
+  fields.forEach(function (fields, index) {
+    result = mp.isLink(fields);
+    if (result == true) {
+      arrayofresults.push(index);
+    }
+  });
+
+  return arrayofresults;
+};

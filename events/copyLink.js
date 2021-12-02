@@ -2,7 +2,9 @@ const client = require("../index");
 const plugin = require("../personal-modules/discordp");
 const config = require("../models/config");
 const calc = require("../personal-modules/bitfieldcalc");
+const mp = require("../personal-modules/testfor");
 client.on("messageCreate", async (message) => {
+  //make it so it's possible to say other stuff in the message where a link is
   if (message.author.bot || !message.guild) return;
   const guildconfig = await config.find({
     guildId: message.guild.id,
@@ -12,15 +14,23 @@ client.on("messageCreate", async (message) => {
   let b = guildconfig[0].blocked;
   if (b.includes("NoRead")) return;
   let link = message.content;
-  link = link.slice(8, link.length);
+  let results = mp.containsLink(link);
+  if (results.length == 0) return;
+  let linkfield = link.split(" ");
+  let first = linkfield[results[0]];
+  link = first.slice(8, link.length);
   let fields = link.split("/");
   if (fields[1] !== "channels") return;
 
   let result = plugin.isId(fields[2]);
+  let rg = /[^[0-9]/gi;
+  fields[2] = fields[2].replace(rg, "");
   if (result == false) return;
   result = plugin.isId(fields[3]);
+  fields[3] = fields[3].replace(rg, "");
   if (result == false) return;
   result = plugin.isId(fields[4]);
+  fields[4] = fields[4].replace(rg, "");
   if (result == false) return;
   const source = await client.channels.cache
     .get(fields[3])
@@ -134,5 +144,3 @@ client.on("messageCreate", async (message) => {
     }
   }
 });
-
-//currently breaks if providing a file attachment as I'm too stupid to figure out how to deal with that
