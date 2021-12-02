@@ -48,10 +48,12 @@ client.on("messageCreate", async (message) => {
   let avatarURL;
   let content = `${source.content || "_ _"}`;
   let sourceuser = source.guild.members.cache.get(source.author.id);
-  //need to make it work with webhook users
   if (sourceuser !== undefined) {
     username = sourceuser.user.tag;
     avatarURL = sourceuser.user.displayAvatarURL({ dynamic: true });
+  } else if (source !== undefined) {
+    username = source.author.username;
+    avatarURL = source.author.displayAvatarURL({ dynamic: true });
   } else {
     username = "Unknown User";
     avatarURL = null;
