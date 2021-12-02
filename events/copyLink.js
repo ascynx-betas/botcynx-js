@@ -1,5 +1,6 @@
 const client = require("../index");
 const Discord = require("discord.js");
+const plugin = require("../personal-modules/discordp");
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot || !message.guild) return;
@@ -9,6 +10,13 @@ client.on("messageCreate", async (message) => {
   let fields = link.split("/");
   if (fields[1] !== "channels") return;
 
+  //verify Ids
+  let result = plugin.isId(fields[2]);
+  if (result == false) return;
+  result = plugin.isId(fields[3]);
+  if (result == false) return;
+  result = plugin.isId(fields[4]);
+  if (result == false) return;
   //get the message source
   const source = await client.channels.cache
     .get(fields[3])
@@ -33,7 +41,7 @@ client.on("messageCreate", async (message) => {
     //create a new webhook
     return message.channel.send({ content: `webhook does not exist` });
   }
-  console.log();
+  //currently still needs to find a way to get an array out of it / get the webhook token to be able to talk through the webhook
   webhook = webhook.map((Webhook) => Webhook.owner.id == client.user.id);
   if (webhook[0] === false) return console.log("failed");
   console.log(webhook);
