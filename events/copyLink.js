@@ -29,7 +29,7 @@ client.on("messageCreate", async (message) => {
   if (!source || source == null || typeof source === "undefined") return;
   let username;
   let avatarURL;
-  let content = `${source.content || "[empty]"}`;
+  let content = `${source.content || "_ _"}`;
   let sourceuser = source.guild.members.cache.get(source.author.id);
   if (sourceuser !== undefined) {
     username = sourceuser.user.tag;
@@ -41,6 +41,16 @@ client.on("messageCreate", async (message) => {
   let webhook;
   let thread = message.channel.isThread();
   let attachment = source.attachments.first();
+  let embeds = source.embeds
+  let remove;
+  embeds.forEach(function(embed, index) {
+    if (embed.type == 'image' || embed.type == 'video') {
+      remove = index
+      return remove
+    }
+  })
+  embeds.splice(remove, 1)
+  console.log(source)
   if (thread == true) {
     console.log("thread");
     webhook = await message.channel.parent.fetchWebhooks(
@@ -52,7 +62,6 @@ client.on("messageCreate", async (message) => {
     );
   }
   if (webhook.size == 0) {
-    console.log("doesn't exist");
     webhook = await message.channel.createWebhook("Botcynx link reader", {
       avatar: `${client.user.displayAvatarURL({ dynamic: true })}`,
       reason: "request for non existing webhook",
@@ -72,7 +81,7 @@ client.on("messageCreate", async (message) => {
         username: username,
         avatarURL: avatarURL,
         threadId: message.channel.id,
-        embeds: source.embeds,
+        embeds: embeds,
         attachments: attachment,
         components: source.components,
         allowedMentions: { parse: [] },
@@ -84,7 +93,7 @@ client.on("messageCreate", async (message) => {
         content: content,
         username: username,
         avatarURL: avatarURL,
-        embeds: source.embeds,
+        embeds: embeds,
         attachments: attachment,
         components: source.components,
         allowedMentions: { parse: [] },

@@ -163,7 +163,8 @@ try {
         }
       } else if (customId.startsWith("info")) {
         //embed list
-        const interactioncreator = interaction.message.interaction.user.id;
+        if (interaction.member.id != client.user.id) return;
+        const interactioncreator = (interaction.message.interaction.user.id);
         const embed_moderation = new MessageEmbed()
           .setTitle(`**Moderation**`)
           .setDescription(
