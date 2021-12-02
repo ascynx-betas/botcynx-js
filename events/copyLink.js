@@ -42,14 +42,11 @@ client.on("messageCreate", async (message) => {
   let thread = message.channel.isThread();
   let attachment = source.attachments.first();
   let embeds = source.embeds
-  let remove;
   embeds.forEach(function(embed, index) {
     if (embed.type == 'image' || embed.type == 'video') {
-      remove = index
-      return remove
+      embeds.splice(index, 1)
     }
   })
-  embeds.splice(remove, 1)
   console.log(source)
   if (thread == true) {
     console.log("thread");
