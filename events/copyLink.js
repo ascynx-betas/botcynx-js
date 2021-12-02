@@ -48,6 +48,7 @@ client.on("messageCreate", async (message) => {
   let avatarURL;
   let content = `${source.content || "_ _"}`;
   let sourceuser = source.guild.members.cache.get(source.author.id);
+  //need to make it work with webhook users
   if (sourceuser !== undefined) {
     username = sourceuser.user.tag;
     avatarURL = sourceuser.user.displayAvatarURL({ dynamic: true });
@@ -70,19 +71,29 @@ client.on("messageCreate", async (message) => {
   });
   if (thread == true) {
     webhook = await message.channel.parent.fetchWebhooks(
-      (Webhook) => Webhook.owner.id === client.user.id
+      Webhook => Webhook.owner.id === client.user.id
     );
   } else {
     webhook = await message.channel.fetchWebhooks(
-      (Webhook) => Webhook.owner.id === client.user.id
+      Webhook => Webhook.owner.id === client.user.id
     );
   }
-  if (webhook.size == 0) {
+  if (webhook.size != 0) {
+  webhook.forEach(function(webhook) {
+    if (webhook.owner.id === client.user.id) {
+      result = true
+      return result;
+    }
+    result = false
+  })
+}
+  if (result === false || typeof webhook === 'undefined' || webhook.size == 0) {
     webhook = await message.channel.createWebhook("Botcynx link reader", {
       avatar: `${client.user.displayAvatarURL({ dynamic: true })}`,
       reason: "request for non existing webhook",
     });
-    return message.channel.send({ content: `${webhook}` });
+    message.react('💀')
+    return;
   }
   let id;
   webhook.forEach(function (webhook) {
