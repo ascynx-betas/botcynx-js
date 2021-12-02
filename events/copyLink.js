@@ -4,26 +4,32 @@ const plugin = require("../personal-modules/discordp");
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot || !message.guild) return;
-  if (message.guildId !== "779489942899785748") return;
+  if (
+    message.guildId !== "779489942899785748" &&
+    message.channel !== "838437957693997106"
+  )
+    return;
   let link = message.content;
   link = link.slice(8, link.length);
   let fields = link.split("/");
   if (fields[1] !== "channels") return;
 
-  //verify Ids
   let result = plugin.isId(fields[2]);
   if (result == false) return;
   result = plugin.isId(fields[3]);
   if (result == false) return;
   result = plugin.isId(fields[4]);
   if (result == false) return;
-  //get the message source
   const source = await client.channels.cache
     .get(fields[3])
-    .messages.fetch(fields[4]);
+    .messages.fetch(fields[4])
+    .catch(() => {
+      message.react("❌");
+    });
+  if (!source || source == null || typeof source === "undefined") return;
   let username;
   let avatarURL;
-  //user
+  let content = `${source.content || "[empty]"}`;
   let sourceuser = source.guild.members.cache.get(source.author.id);
   if (sourceuser !== undefined) {
     username = sourceuser.user.tag;
@@ -32,40 +38,57 @@ client.on("messageCreate", async (message) => {
     username = "Unknown User";
     avatarURL = null;
   }
-
-  //webhook
-  let webhook = await message.channel.fetchWebhooks(
-    (Webhook) => Webhook.name === "Botcynx"
-  );
-  if (webhook.length === 0) {
-    //create a new webhook
-    return message.channel.send({ content: `webhook does not exist` });
+  let webhook;
+  let thread = message.channel.isThread();
+  let attachment = source.attachments.first();
+  if (thread == true) {
+    console.log("thread");
+    webhook = await message.channel.parent.fetchWebhooks(
+      (Webhook) => Webhook.owner.id === client.user.id
+    );
+  } else {
+    webhook = await message.channel.fetchWebhooks(
+      (Webhook) => Webhook.owner.id === client.user.id
+    );
   }
-  //currently still needs to find a way to get an array out of it / get the webhook token to be able to talk through the webhook
-  webhook = webhook.map((Webhook) => Webhook.owner.id == client.user.id);
-  if (webhook[0] === false) return console.log("failed");
-  console.log(webhook);
-  const webhookclient = new Discord.WebhookClient(
-    webhook.id,
-    webhook.token
-  ).catch((err) => console.log(err));
-  if (message.channel.isThread === true) {
+  if (webhook.size == 0) {
+    console.log("doesn't exist");
+    webhook = await message.channel.createWebhook("Botcynx link reader", {
+      avatar: `${client.user.displayAvatarURL({ dynamic: true })}`,
+      reason: "request for non existing webhook",
+    });
+    return message.channel.send({ content: `${webhook}` });
+  }
+  let id;
+  webhook.forEach(function (webhook) {
+    if (webhook.owner.id === client.user.id) return (id = webhook.id);
+  });
+  webhook = webhook.get(id);
+  const webhookclient = await client.fetchWebhook(webhook.id, webhook.token);
+  if (thread == true) {
     webhookclient
       .send({
-        content: source.content,
+        content: content,
         username: username,
         avatarURL: avatarURL,
         threadId: message.channel.id,
+        embeds: source.embeds,
+        attachments: attachment,
+        components: source.components,
+        allowedMentions: { parse: [] },
       })
       .catch((err) => console.log(err));
   } else {
     webhookclient
       .send({
-        content: source.content,
+        content: content,
         username: username,
         avatarURL: avatarURL,
+        embeds: source.embeds,
+        attachments: attachment,
+        components: source.components,
+        allowedMentions: { parse: [] },
       })
       .catch((err) => console.log(err));
   }
-  message.reply({ content: `this is a test` }).catch((err) => console.log(err));
 });

@@ -14,3 +14,7 @@ client.config = require("./config.json");
 require("./handler")(client);
 
 client.login(client.config.token);
+
+process.on("unhandledRejection", (error) => {
+  console.error("Unhandled promise rejection", error);
+});
