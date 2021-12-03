@@ -80,13 +80,6 @@ module.exports = new Command({
       const config = guildconfig[0];
       const log = config.logchannel;
 
-      interaction
-        .followUp({ content: `starting interaction` })
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
-          )
-        );
       if (type === "bypass") {
         const roleId = role.id;
         if (guildconfig.bypass) {
@@ -220,8 +213,8 @@ module.exports = new Command({
         );
 
         interaction
-          .editReply({
-            content: `${type} now contains <#${blockchannel}>\nwhen a channel is blocked, it means the bot cannot read messages from there`,
+          .followUp({
+            content: `${type} now contains <#${blockchannel}>\na channel blocked means that any person to use the bot's link reader on a link leading to a message in this channel will be ignored`,
           })
           .catch(() =>
             console.log(

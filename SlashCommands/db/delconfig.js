@@ -51,6 +51,7 @@ module.exports = new Command({
     try {
       const type = interaction.options.getString("type");
       const guildId = interaction.guild.id;
+      const guild = interaction.guild;
       const channel = interaction.options.getChannel("channel");
       const guildconfig = await configmodel.find({
         guildId: guildId,
@@ -73,18 +74,11 @@ module.exports = new Command({
       const role = interaction.options.getRole("role");
       let logchannel = guildconfig[0].logchannel;
 
-      interaction
-        .followUp({ content: `attempting the change, please wait...` })
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
-          )
-        );
 
       if (type === "bypass") {
         const roleId = role.id;
         if (!guildconfig[0].bypass.includes(roleId))
-          return interaction.editReply({
+          return interaction.FollowUp({
             content: `${role} isn't in the configuration, if you want to add it please use /setconfig`,
             allowedMentions: { parse: [] },
           });
@@ -111,7 +105,7 @@ module.exports = new Command({
       } else if (type === "removable") {
         const roleId = role.id;
         if (!guildconfig[0].removable.includes(roleId))
-          return interaction.editReply({
+          return interaction.FollowUp({
             content: `${role} isn't in the configuration, if you want to add it please use /setconfig`,
             allowedMentions: { parse: [] },
           });
@@ -127,7 +121,7 @@ module.exports = new Command({
         );
 
         interaction
-          .followUp({
+          .FollowUp({
             content: `the changes to ${type} have been made, it may take a few minutes for the config to notice the changes`,
           })
           .catch(() =>
@@ -138,7 +132,7 @@ module.exports = new Command({
       } else if (type === "trigger") {
         const roleId = role.id;
         if (!guildconfig[0].trigger.includes(roleId))
-          return interaction.editReply({
+          return interaction.FollowUp({
             content: `${role} isn't in the configuration, if you want to add it please use /setconfig`,
             allowedMentions: { parse: [] },
           });
@@ -165,7 +159,7 @@ module.exports = new Command({
       } else if (type === "blockchannel") {
         let blockchannel = channel.id;
         if (!guildconfig[0].blocked.includes(blockchannel))
-          return interaction.editReply({
+          return interaction.FollowUp({
             content: `${channel} is missing from config, if you want to add it please use /setconfig`,
           });
         configmodel.updateOne(

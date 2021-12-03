@@ -1,9 +1,7 @@
 const client = require("../index");
-const fs = require("fs");
-const givecheck = false; // that's how  to enable the legacy system
 const configmodel = require("../models/config");
-const mp = require("../personal-modules/testfor");
-//currently searching for a way to get the guildId to get from a certain folder, this is pain // found how
+
+//to rewrite
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
   try {
@@ -12,7 +10,6 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     var newtriggercheck = 2;
     var guild = oldMember.guild;
     var guildcache = oldMember.roles.guild.id;
-    //const cachedconfig = require(`../guild-only/${guildcache}/config.json`);
 
     const cachedconfig = await configmodel.find({
       guildId: guildcache,
@@ -40,8 +37,6 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     }
     //could probably use a var bypass = bypass.concat(trigger) to add the triggers to bypasses
     if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
-      const oldtrigger = mp.compare(oldMember.roles.cache, trigger);
-      const newtrigger = mp.compare(newMember.roles.cache, trigger);
       trigger.forEach(function (trigger) {
         if (
           !oldMember.roles.cache.has(trigger) &&

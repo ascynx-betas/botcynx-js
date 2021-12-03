@@ -4,50 +4,49 @@ const config = require("../models/config");
 const calc = require("../personal-modules/bitfieldcalc");
 const mp = require("../personal-modules/testfor");
 client.on("messageCreate", async (message) => {
-  //make it so it's possible to say other stuff in the message where a link is
   if (message.author.bot || !message.guild) return;
   const guildconfig = await config.find({
     guildId: message.guild.id,
   });
-  let permissions = calc.permissions(Number(message.guild.me.permissions));
+    let permissions = calc.permissions(Number(message.guild.me.permissions));
   if (!permissions.includes("MANAGE_WEBHOOKS")) return;
-  let b = guildconfig[0].blocked;
+    let b = guildconfig[0].blocked;
   if (b.includes("NoRead")) return;
-  let link = message.content;
-  let results = mp.containsLink(link);
+    let link = message.content;
+    let results = mp.containsLink(link);
   if (results.length == 0) return;
-  let linkfield = link.split(" ");
-  let first = linkfield[results[0]];
-  link = first.slice(8, link.length);
-  let fields = link.split("/");
+    let linkfield = link.split(" ");
+    let first = linkfield[results[0]];
+      link = first.slice(8, link.length);
+    let fields = link.split("/");
   if (fields[1] !== "channels") return;
 
-  let result = plugin.isId(fields[2]);
-  let rg = /[^[0-9]/gi;
-  fields[2] = fields[2].replace(rg, "");
+    let result = plugin.isId(fields[2]);
+      let rg = /[^[0-9]/gi;
+      fields[2] = fields[2].replace(rg, "");
   if (result == false) return;
-  result = plugin.isId(fields[3]);
-  fields[3] = fields[3].replace(rg, "");
+      result = plugin.isId(fields[3]);
+      fields[3] = fields[3].replace(rg, "");
   if (result == false) return;
-  result = plugin.isId(fields[4]);
-  fields[4] = fields[4].replace(rg, "");
+      result = plugin.isId(fields[4]);
+      fields[4] = fields[4].replace(rg, "");
   if (result == false) return;
-  const source = await client.channels.cache
-    .get(fields[3])
-    .messages.fetch(fields[4])
-    .catch(() => {
-      message.react("❌");
+      const source = await client.channels.cache
+        .get(fields[3])
+        .messages.fetch(fields[4])
+        .catch(() => {
+          message.react("❌");
+        });
+    const sourceconfig = await config.find({
+      guildId: fields[2],
     });
-  const sourceconfig = await config.find({
-    guildId: fields[2],
-  });
-  let blocked = sourceconfig[0].blocked;
-  if (blocked.includes(fields[3])) return;
+    let blocked = sourceconfig[0].blocked;
+  if (blocked.includes(fields[3])) return message.react('❌');
   if (!source || source == null || typeof source === "undefined") return;
-  let username;
-  let avatarURL;
-  let content = `${source.content || " "}`; //might break
-  let sourceuser = source.guild.members.cache.get(source.author.id);
+    let username;
+    let avatarURL;
+    let content = `${source.content || " "}`; //might break
+    let sourceuser = source.guild.members.cache.get(source.author.id);
   if (sourceuser !== undefined) {
     username = sourceuser.user.tag;
     avatarURL = sourceuser.user.displayAvatarURL({ dynamic: true });
@@ -58,14 +57,14 @@ client.on("messageCreate", async (message) => {
     username = "Unknown User";
     avatarURL = null;
   }
-  let webhook;
-  let thread = message.channel.isThread();
-  let attachment = source.attachments.first();
-  let attachmenturl;
+    let webhook;
+    let thread = message.channel.isThread();
+    let attachment = source.attachments.first();
+    let attachmenturl;
   if (typeof attachment !== "undefined") {
     attachmenturl = attachment.url;
   }
-  let embeds = source.embeds;
+    let embeds = source.embeds;
   embeds.forEach(function (embed, index) {
     if (embed.type == "image" || embed.type == "video") {
       embeds.splice(index, 1);

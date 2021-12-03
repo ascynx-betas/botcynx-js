@@ -1,4 +1,3 @@
-const fs = require("fs");
 const client = require("../index");
 const logchannel = "903281241594413176";
 const { MessageEmbed } = require("discord.js");
@@ -11,7 +10,7 @@ client.on("guildCreate", (guild) => {
       .setTitle("Joined Server")
       .addField(
         "Guild Info",
-        `${guild.name} (${guild.id})\n ${guild.membercount} members`
+        `${guild.name} (${guild.id})\n ${guild.memberCount} members`
       )
       .setFooter(`Now in ${client.guilds.cache.size} guilds`)
       .setTimestamp()
@@ -50,7 +49,7 @@ client.on("guildDelete", (guild) => {
       .setTitle("Left Server")
       .addField(
         "Guild Info",
-        `${guild.name} (${guild.id})\n ${guild.membercount} members`
+        `${guild.name} (${guild.id})\n ${guild.memberCount} members`
       )
       .setFooter(`Now in ${client.guilds.cache.size} guilds`)
       .setTimestamp()
@@ -60,10 +59,7 @@ client.on("guildDelete", (guild) => {
       embeds: [embed],
     });
     const guildId = guild.id;
-    configmodel.deleteOne({ guildId: `${guildId}` }).then(() => {
-      const time = mp.getTimeOfDay();
-      console.log(time, `left a guild`);
-    });
+    configmodel.deleteOne({ guildId: `${guildId}` })
   } catch (err) {
     console.log(err);
   }
