@@ -42,11 +42,11 @@ client.on("messageCreate", async (message) => {
     guildId: fields[2],
   });
   let blocked = sourceconfig[0].blocked;
-  if (blocked.includes(fields[3])) return console.log(`blocked channel`);
+  if (blocked.includes(fields[3])) return;
   if (!source || source == null || typeof source === "undefined") return;
   let username;
   let avatarURL;
-  let content = `${source.content || "_ _"}`;
+  let content = `${source.content || " "}`; //might break
   let sourceuser = source.guild.members.cache.get(source.author.id);
   if (sourceuser !== undefined) {
     username = sourceuser.user.tag;
@@ -73,28 +73,28 @@ client.on("messageCreate", async (message) => {
   });
   if (thread == true) {
     webhook = await message.channel.parent.fetchWebhooks(
-      Webhook => Webhook.owner.id === client.user.id
+      (Webhook) => Webhook.owner.id === client.user.id
     );
   } else {
     webhook = await message.channel.fetchWebhooks(
-      Webhook => Webhook.owner.id === client.user.id
+      (Webhook) => Webhook.owner.id === client.user.id
     );
   }
   if (webhook.size != 0) {
-  webhook.forEach(function(webhook) {
-    if (webhook.owner.id === client.user.id) {
-      result = true
-      return result;
-    }
-    result = false
-  })
-}
-  if (result === false || typeof webhook === 'undefined' || webhook.size == 0) {
+    webhook.forEach(function (webhook) {
+      if (webhook.owner.id === client.user.id) {
+        result = true;
+        return result;
+      }
+      result = false;
+    });
+  }
+  if (result === false || typeof webhook === "undefined" || webhook.size == 0) {
     webhook = await message.channel.createWebhook("Botcynx link reader", {
       avatar: `${client.user.displayAvatarURL({ dynamic: true })}`,
       reason: "request for non existing webhook",
     });
-    message.react('💀')
+    message.react("💀");
     return;
   }
   let id;

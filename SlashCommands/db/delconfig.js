@@ -25,13 +25,25 @@ module.exports = new Command({
           name: "bypass",
           value: "bypass",
         },
+        {
+          name: "unblock channel",
+          value: "blockchannel",
+        },
       ],
     },
     {
       name: "role",
       description: `the role that will be removed`,
-      required: true,
+      required: false,
       type: "ROLE",
+    },
+    {
+      name: "channel",
+      description:
+        "the channel that will be removed (only for unblock channel)",
+      required: false,
+      type: "CHANNEL",
+      channelTypes: ["GUILD_TEXT"],
     },
   ],
 
@@ -39,6 +51,7 @@ module.exports = new Command({
     try {
       const type = interaction.options.getString("type");
       const guildId = interaction.guild.id;
+      const channel = interaction.options.getChannel("channel");
       const guildconfig = await configmodel.find({
         guildId: guildId,
       });
@@ -51,6 +64,7 @@ module.exports = new Command({
           removable: [],
           logchannel: "",
           su: [],
+          blocked: [],
         }).save();
         return interaction.followUp({
           content: `configuration was missing, please re-use the command`,
@@ -131,6 +145,32 @@ module.exports = new Command({
         configmodel.updateOne(
           { guildId: `${guildId}` },
           { $pull: { trigger: `${roleId}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
+          }
+        );
+
+        interaction
+          .followUp({
+            content: `the changes to ${type} have been made, it may take a few minutes for the config to notice the changes`,
+          })
+          .catch(() =>
+            console.log(
+              `I don't have permission to send a message in ${channel} in ${guild.name}`
+            )
+          );
+      } else if (type === "blockchannel") {
+        let blockchannel = channel.id;
+        if (!guildconfig[0].blocked.includes(blockchannel))
+          return interaction.editReply({
+            content: `${channel} is missing from config, if you want to add it please use /setconfig`,
+          });
+        configmodel.updateOne(
+          { guildId: `${guildId}` },
+          { $pull: { blocked: `${blockchannel}` } },
           function (err, doc) {
             if (err)
               return interaction.followUp({

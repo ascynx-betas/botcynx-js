@@ -24,6 +24,7 @@ module.exports = new Command({
           removable: [],
           logchannel: "",
           su: [],
+          blocked: [],
         }).save();
         return interaction.followUp({
           content: `configuration was missing, please re-use the command`,
@@ -35,10 +36,13 @@ module.exports = new Command({
       const trigger = guildconfig.trigger;
       const bypass = guildconfig.bypass;
       const su = guildconfig.su;
+      const blocked = guildconfig.blocked;
+      let logchannel = guildconfig.logchannel;
       var suspliced = [];
       var removablespliced = [];
       var bypassspliced = [];
       var triggerspliced = [];
+      var blockspliced = [];
       let test = 0;
       if (su) {
         if (su.length > 1) {
@@ -107,6 +111,26 @@ module.exports = new Command({
           triggerspliced = `~~**unset value**~~`;
         }
       }
+      if (blocked) {
+        if (blocked.length > 1) {
+          blocked.forEach(function (blocked) {
+            if (blocked != "" && blocked != "NoRead") {
+              let blocksplice = `<#${blocked}>`;
+              blockspliced.splice(test, test, blocksplice);
+            }
+            test += 1;
+            return blockspliced;
+          });
+        } else if (
+          (blocked.length = 1 && blocked != "" && blocked != "NoRead")
+        ) {
+          blockspliced = `<#${blocked}>`;
+        } else if ((blocked.length = 1 && blocked == "NoRead")) {
+          blockspliced = `All channels`;
+        } else {
+          blockspliced = `~~**no blocked channels**~~`;
+        }
+      }
 
       const description = `${name || `not set`}'s config \n
              \`\`guild id:\`\` ${guildId || `unset value`} \n
@@ -118,6 +142,8 @@ module.exports = new Command({
                  \`\`Elevated permissions:\`\` ${
                    suspliced || `no super users added`
                  }\n
+                 \`\`Log Channel:\`\` <#${logchannel}>\n
+                 \`\`Blocked channels:\`\` ${blockspliced}\n
                   \`\`(when using the /delconfig command, a slot is 1 role (it's id)), as it's an array each config starts with the slot [0]\`\``;
 
       const embed = new MessageEmbed()

@@ -29,6 +29,10 @@ module.exports = new Command({
           name: "logchannel",
           value: "logchannel",
         },
+        {
+          name: "blocked channel",
+          value: "blockchannel",
+        },
       ],
     },
     {
@@ -67,6 +71,7 @@ module.exports = new Command({
           removable: [],
           logchannel: "",
           su: [],
+          blocked: [],
         }).save();
         return interaction.followUp({
           content: `configuration was missing, please re-use the command`,
@@ -190,6 +195,33 @@ module.exports = new Command({
         interaction
           .editReply({
             content: `${type} is now <#${logchannel}>\nmodifications after this one will also be logged there`,
+          })
+          .catch(() =>
+            console.log(
+              `I don't have permission to send a message in ${channel} in ${guild.name}`
+            )
+          );
+      } else if (type === "blockchannel") {
+        let blockchannel = channel.id;
+        if (guildconfig.blocked) {
+          if (guildconfig.blocked.includes(blockchannel))
+            return interaction.reply({ content: `channel is already blocked` });
+        }
+
+        configmodel.updateOne(
+          { guildId: `${guildId}` },
+          { $addToSet: { blocked: `${blockchannel}` } },
+          function (err, doc) {
+            if (err)
+              return interaction.followUp({
+                content: `there was an error while trying to update values \`\`${err}\`\``,
+              });
+          }
+        );
+
+        interaction
+          .editReply({
+            content: `${type} now contains <#${blockchannel}>\nwhen a channel is blocked, it means the bot cannot read messages from there`,
           })
           .catch(() =>
             console.log(
