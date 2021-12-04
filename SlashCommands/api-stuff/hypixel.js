@@ -68,6 +68,7 @@ module.exports = new Command({
         var uuid = await mojang
           .getUuidbyUsername(ign)
           .catch(() => `failed to fetch uuid`);
+          uuid = uuid.id
       } else {
         const data = await hypixel
           .getPlayerByUuid(uuid)
@@ -79,6 +80,14 @@ module.exports = new Command({
           });
         }
       }
+      var isverified;
+      //verified
+      const verified = await verify.find({
+        minecraftuuid: uuid,
+      })
+      if (typeof verified === 'undefined' || !verified || verified.length == 0) {isverified = false} else {isverified = true}
+     if (isverified === false) isverified = 'verified: ❌';
+     if (isverified === true) isverified = 'verified: ✅';
 
       const discord = await slothpixel
         .getDiscord(uuid)
@@ -116,12 +125,12 @@ module.exports = new Command({
       } else {
         on = `there was an error while trying to fetch the activity`;
       }
-      if (uuid.id) {
+      if (uuid) {
         embed = new MessageEmbed()
           .setTitle(`|WIP|informations about ${ign}`)
           .setColor(`BLURPLE`)
           .setDescription(
-            `Username: \`\`${ign}\`\`\nUUID: \`\`${uuid.id}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`
+            `Username: \`\`${ign}\`\`\nUUID: \`\`${uuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}\n ${isverified}`
           )
           .setFooter(`powered by slothpixel api`)
           .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
@@ -130,7 +139,7 @@ module.exports = new Command({
           .setTitle(`|WIP|informations about ${ign}`)
           .setColor(`BLURPLE`)
           .setDescription(
-            `Username: \`\`${ign}\`\`\nUUID: \`\`${info.minecraftuuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}`
+            `Username: \`\`${ign}\`\`\nUUID: \`\`${info.minecraftuuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}\n ${isverified}`
           )
           .setFooter(`powered by slothpixel api`)
           .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);

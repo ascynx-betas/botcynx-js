@@ -1,4 +1,5 @@
 const { Client, Collection } = require("discord.js");
+const mp = require('./personal-modules/testfor')
 
 const client = new Client({
   disableMention: "everyone",
@@ -16,5 +17,6 @@ require("./handler")(client);
 client.login(client.config.token);
 
 process.on("unhandledRejection", (error) => {
-  console.error("Unhandled promise rejection", error);
+  const time = mp.getTimeOfDay()
+  console.error("[" + time + "]" + " Unhandled promise rejection" + error);
 });

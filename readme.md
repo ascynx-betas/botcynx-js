@@ -6,16 +6,22 @@ the handler used for this project is a modified version of https://github.com/re
 
 ButtonCreate
 currently only for /weight and it's buttons but will later be used for most if not all button interactions
+
 copyLink
 based on Fire's feature, allows to paste the message at a message link if the bot is also in that server
+
 GuildCreate
 the event that happens when a guild is created, what more is there to say
+
 interactionCreate
 happens when an interaction is created works along with ButtonCreate
+
 messageCreate
 happens when a message appears, is used to detect a prefix command
+
 ready
 happens when the bot loads up
+
 RoleChange
 linked to guild configs
 
@@ -86,13 +92,18 @@ returns the target's info from the linked accounts database
 
 move
 moves users from a voice channel to another
+
 su
 adds / remove the user from the server's super user list
+
 webhookdelete
 deletes the specified webhook using it's link
+
 ping
 just a ping command
+
 kill
 destroys the client, disconnects from mongodb and kills the process
+
 label / removelabel
 adds / remove a label from specified users
