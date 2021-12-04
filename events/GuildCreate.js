@@ -59,7 +59,7 @@ client.on("guildDelete", (guild) => {
       embeds: [embed],
     });
     const guildId = guild.id;
-    configmodel.deleteOne({ guildId: `${guildId}` })
+    configmodel.deleteOne({ guildId: `${guildId}` });
   } catch (err) {
     console.log(err);
   }

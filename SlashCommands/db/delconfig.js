@@ -74,7 +74,6 @@ module.exports = new Command({
       const role = interaction.options.getRole("role");
       let logchannel = guildconfig[0].logchannel;
 
-
       if (type === "bypass") {
         const roleId = role.id;
         if (!guildconfig[0].bypass.includes(roleId))

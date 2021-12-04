@@ -1,5 +1,4 @@
 const { Command } = require("reconlx");
-const slothpixel = require("../../personal-modules/slothpixel.js");
 const hypixel = require("../../personal-modules/hypixel.js");
 const mojang = require("../../personal-modules/mojang");
 const { MessageEmbed } = require("discord.js");
@@ -17,6 +16,7 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction }) => {
+    //I still need to get last login and current time to calculate time since last online. Pretty sure I can get last login in the player endpoint
     const ign = interaction.options.getString("username");
     var on = ``;
     try {
@@ -92,6 +92,36 @@ module.exports = new Command({
             )
           );
         return;
+      }
+      let TimeSince;
+      let biggest;
+      if (data.session.online == false) {
+        const PlayerData = await hypixel
+          .getPlayerByUuid(uuid.id)
+          .catch(`failed to fetch player data`);
+        const LastLogout = PlayerData.player.lastLogout;
+        const CurrentTime = Date.now();
+        TimeSince = CurrentTime - LastLogout;
+        biggest = "";
+        TimeSince = TimeSince / 1000;
+        biggest = " seconds";
+        if (TimeSince > 60) {
+          TimeSince = TimeSince / 60; //seconds to minutes
+          biggest = " minutes";
+          if (TimeSince > 60) {
+            TimeSince = TimeSince / 60; //minutes to hours
+            biggest = " hours";
+            if (TimeSince > 24) {
+              TimeSince = TimeSince / 24; //hours to days
+              biggest = " days";
+              if (TimeSince > 7) {
+                TimeSince = TimeSince / 7; //days to weeks
+                biggest = " weeks";
+              }
+            }
+          }
+        }
+        TimeSince = Math.round(TimeSince * 10) / 10;
       }
 
       if (data.session != null) {
@@ -173,7 +203,7 @@ module.exports = new Command({
                 )
               );
           } else if (typeof gametype == "undefined") {
-            const description = `\`\`${uuid.name}\`\` appears to be offline`;
+            const description = `\`\`${uuid.name}\`\` appears to be offline\n last time online was ${TimeSince} ${biggest} ago`;
             const embed = new MessageEmbed()
               .setAuthor(`${uuid.name}`)
               .setDescription(description)
@@ -185,7 +215,7 @@ module.exports = new Command({
               .followUp({ embeds: [embed] })
               .catch(() =>
                 console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
+                  `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
                 )
               );
             return;
@@ -202,7 +232,7 @@ module.exports = new Command({
               .followUp({ embeds: [embed] })
               .catch(() =>
                 console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
+                  `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
                 )
               );
           }
@@ -220,7 +250,7 @@ module.exports = new Command({
             .followUp({ embeds: [embed] })
             .catch(() =>
               console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
+                `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
               )
             );
         }
