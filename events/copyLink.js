@@ -5,13 +5,8 @@ const calc = require("../personal-modules/bitfieldcalc");
 const mp = require("../personal-modules/testfor");
 client.on("messageCreate", async (message) => {
   if (message.author.bot || !message.guild) return;
-  const guildconfig = await config.find({
-    guildId: message.guild.id,
-  });
   let permissions = calc.permissions(Number(message.guild.me.permissions));
   if (!permissions.includes("MANAGE_WEBHOOKS")) return;
-  let b = guildconfig[0].blocked;
-  if (b.includes("NoRead")) return;
   let link = message.content;
   let results = mp.containsLink(link);
   if (results.length == 0) return;
@@ -24,24 +19,24 @@ client.on("messageCreate", async (message) => {
   let result = plugin.isId(fields[2]);
   let rg = /[^[0-9]/gi;
   fields[2] = fields[2].replace(rg, "");
-  if (result == false) return;
+  if (result == false) return message.react('❌');
   result = plugin.isId(fields[3]);
   fields[3] = fields[3].replace(rg, "");
-  if (result == false) return;
+  if (result == false) return message.react('❌');
   result = plugin.isId(fields[4]);
   fields[4] = fields[4].replace(rg, "");
-  if (result == false) return;
+  if (result == false) return message.react('❌');
   const source = await client.channels.cache
     .get(fields[3])
     .messages.fetch(fields[4])
     .catch(() => {
-      message.react("❌");
+      message.react("📵");
     });
   const sourceconfig = await config.find({
     guildId: fields[2],
   });
   let blocked = sourceconfig[0].blocked;
-  if (blocked.includes(fields[3])) return message.react("❌");
+  if (blocked.includes(fields[3])) return message.react("🚫");
   if (!source || source == null || typeof source === "undefined") return;
   let username;
   let avatarURL;
@@ -115,7 +110,7 @@ client.on("messageCreate", async (message) => {
           allowedMentions: { parse: [] },
           files: [attachmenturl],
         })
-        .catch((err) => console.log(err));
+        .catch(() => message.react("🔇"));
     } else {
       webhookclient
         .send({
@@ -127,7 +122,7 @@ client.on("messageCreate", async (message) => {
           components: source.components,
           allowedMentions: { parse: [] },
         })
-        .catch((err) => console.log(err));
+        .catch(() => message.react("🔇"));
     }
   } else {
     if (typeof attachment !== "undefined") {
@@ -141,7 +136,7 @@ client.on("messageCreate", async (message) => {
           allowedMentions: { parse: [] },
           files: [attachmenturl],
         })
-        .catch((err) => console.log(err));
+        .catch(() => message.react("🔇"));
     } else {
       webhookclient
         .send({
@@ -152,7 +147,7 @@ client.on("messageCreate", async (message) => {
           components: source.components,
           allowedMentions: { parse: [] },
         })
-        .catch((err) => console.log(err));
+        .catch(() => message.react("🔇"));
     }
   }
 });

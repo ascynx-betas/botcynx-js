@@ -33,7 +33,7 @@ exports.isId = function (potentialId) {
 };
 exports.isInvite = function (potentialInvite) {
   if (typeof potentialInvite !== "string") return Error(`is not a string`)
-  let invite = /discord\.gg\/.+$|discord\.com\/invite\/.+$/gim
+  let invite = /.discord\.gg\/.+$|.discord\.com\/invite\/.+$|.discordapp\.com\/+$/gim
   if (!invite.test(potentialInvite)) return false;
   return true;
 }
