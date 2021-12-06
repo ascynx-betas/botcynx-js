@@ -8,7 +8,7 @@ ButtonCreate
 currently only for /weight and it's buttons but will later be used for most if not all button interactions
 
 copyLink
-based on Fire's feature, allows to paste the message at a message link if the bot is also in that server
+based on Fire's Link quote feature, allows to paste the message at a message link if the bot is also in that server
 
 GuildCreate
 the event that happens when a guild is created, what more is there to say
