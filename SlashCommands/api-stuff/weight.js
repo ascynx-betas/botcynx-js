@@ -182,15 +182,16 @@ module.exports = new Command({
       const rfskill = Math.round(fullskillweight * 10) / 10;
       const rfslayer = Math.round(fullslayerweight * 10) / 10;
       const rfdungeon = Math.round(fdungeonweight * 10) / 10;
+      const frf = Math.round(fullweight)
       const rf = Math.round(fullweight * 10) / 10;
       let gamestage;
-      if (rf <= 2000) {
+      if (frf <= 2000) {
         gamestage = "early game";
-      } else if (rf >= 2000 && rf <= 7000) {
+      } else if (frf >= 2000 && frf <= 7000) {
         gamestage = "mid game";
-      } else if (rf >= 7000 && rf <= 13000) {
+      } else if (frf >= 7000 && frf <= 13000) {
         gamestage = "late game";
-      } else if (rf >= 15000) {
+      } else if (frf >= 15000) {
         gamestage = "end game";
       } else {
         gamestage = null;
@@ -204,7 +205,7 @@ module.exports = new Command({
           <:beheaded:914859571351269447> Slayer weight is \`\`${rfslayer}\`\`(\`\`${rslayer}\`\`/\`\`${roslayer}\`\` overflow)
         <:skill:914859774187814932> Skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`
         )
-        .setFooter(`powered by senither api`)
+        .setFooter(`requested by ${interaction.user.tag}`)
         .setColor(`RED`)
         .setAuthor(
           `${ign}'s senither Weight`,
