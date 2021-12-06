@@ -105,24 +105,25 @@ client.on("interactionCreate", async (interaction, message) => {
         const rfslayer = Math.round(fullslayerweight * 10) / 10;
         const rfdungeon = Math.round(fdungeonweight * 10) / 10;
         const rf = Math.round(fullweight * 10) / 10;
+        const frf = Math.round(fullweight);
 
         let gamestage;
-        if (rf >= 2000) {
-          gamestage = "early game";
-        } else if (rf <= 2000 && rf >= 7000) {
-          gamestage = "mid game";
-        } else if (rf <= 7000 && rf >= 13000) {
-          gamestage = "late game";
-        } else if (rf <= 15000) {
-          gamestage = "end game";
-        } else {
-          gamestage = null;
-        }
+      if (frf <= 2000) {
+        gamestage = "early game";
+      } else if (frf >= 2000 && frf <= 7000) {
+        gamestage = "mid game";
+      } else if (frf >= 7000 && frf <= 13000) {
+        gamestage = "late game";
+      } else if (frf >= 15000) {
+        gamestage = "end game";
+      } else {
+        gamestage = null;
+      }
 
         //embed
         const embed = new MessageEmbed()
           .setDescription(
-            `Total weight is **\`\`${rf}\`\`** Current stage is: ${gamestage}\n
+            `Total weight is **\`\`${rf}\`\`** Current stage is: **\`\`${gamestage}\`\`**\n
             <:catacombs:914860327978532874> Dungeon weight is \`\`${rfdungeon}\`\`(\`\`${rdungeon}\`\`/\`\`${rodungeon}\`\` overflow)
                     <:beheaded:914859571351269447> Slayer weight is \`\`${rfslayer}\`\`(\`\`${rslayer}\`\`/\`\`${roslayer}\`\` overflow)
                     <:skill:914859774187814932> Skill weight is \`\`${rfskill}\`\`(\`\`${rskill}\`\`/\`\`${roskill}\`\` overflow)`

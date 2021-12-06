@@ -72,13 +72,6 @@ exports.getTime = function () {
   return sd;
 };
 
-exports.Errorlog = function (err) {
-  const time = getTimeOfDay();
-  console.log(`[${time}] ${err}`);
-
-  return;
-};
-
 exports.b2a = function (a) {
   var c,
     d,
