@@ -28,10 +28,10 @@ exports.getKeyInformation = function () {
   });
 };
 exports.getProfile = async function (uuid) {
-  let Url = `https://api.hypixel.net/skyblock/profiles?key=${key}&uuid=${uuid}`
+  let Url = `https://api.hypixel.net/skyblock/profiles?key=${key}&uuid=${uuid}`;
 
   return rp(Url).then((body) => {
     let data = JSON.parse(body);
     return data;
   });
-}
+};

@@ -108,17 +108,17 @@ client.on("interactionCreate", async (interaction, message) => {
         const frf = Math.round(fullweight);
 
         let gamestage;
-      if (frf <= 2000) {
-        gamestage = "early game";
-      } else if (frf >= 2000 && frf <= 7000) {
-        gamestage = "mid game";
-      } else if (frf >= 7000 && frf <= 13000) {
-        gamestage = "late game";
-      } else if (frf >= 15000) {
-        gamestage = "end game";
-      } else {
-        gamestage = null;
-      }
+        if (frf <= 2000) {
+          gamestage = "early game";
+        } else if (frf >= 2000 && frf <= 7000) {
+          gamestage = "mid game";
+        } else if (frf >= 7000 && frf <= 13000) {
+          gamestage = "late game";
+        } else if (frf >= 15000) {
+          gamestage = "end game";
+        } else {
+          gamestage = null;
+        }
 
         //embed
         const embed = new MessageEmbed()

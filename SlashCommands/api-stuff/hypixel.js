@@ -68,7 +68,7 @@ module.exports = new Command({
         var uuid = await mojang
           .getUuidbyUsername(ign)
           .catch(() => `failed to fetch uuid`);
-          uuid = uuid.id
+        uuid = uuid.id;
       } else {
         const data = await hypixel
           .getPlayerByUuid(uuid)
@@ -84,10 +84,18 @@ module.exports = new Command({
       //verified
       const verified = await verify.find({
         minecraftuuid: uuid,
-      })
-      if (typeof verified === 'undefined' || !verified || verified.length == 0) {isverified = false} else {isverified = true}
-     if (isverified === false) isverified = 'verified: ❌';
-     if (isverified === true) isverified = 'verified: ✅';
+      });
+      if (
+        typeof verified === "undefined" ||
+        !verified ||
+        verified.length == 0
+      ) {
+        isverified = false;
+      } else {
+        isverified = true;
+      }
+      if (isverified === false) isverified = "verified: ❌";
+      if (isverified === true) isverified = "verified: ✅";
 
       const discord = await slothpixel
         .getDiscord(uuid)

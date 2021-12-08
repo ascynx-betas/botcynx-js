@@ -6,7 +6,11 @@ const mp = require("../personal-modules/testfor");
 client.on("messageCreate", async (message) => {
   if (message.author.bot || !message.guild) return;
   let permissions = calc.permissions(Number(message.guild.me.permissions));
-  if (!permissions.includes("MANAGE_WEBHOOKS") && !permissions.includes('ADMINISTRATOR')) return;
+  if (
+    !permissions.includes("MANAGE_WEBHOOKS") &&
+    !permissions.includes("ADMINISTRATOR")
+  )
+    return;
   let link = message.content;
   let results = mp.containsLink(link);
   if (results.length == 0) return;
@@ -19,13 +23,13 @@ client.on("messageCreate", async (message) => {
   let result = plugin.isId(fields[2]);
   let rg = /[^[0-9]/gi;
   fields[2] = fields[2].replace(rg, "");
-  if (result == false) return message.react('❌'); //link contains a non-id
+  if (result == false) return message.react("❌"); //link contains a non-id
   result = plugin.isId(fields[3]);
   fields[3] = fields[3].replace(rg, "");
-  if (result == false) return message.react('❌'); //link contains a non-id
+  if (result == false) return message.react("❌"); //link contains a non-id
   result = plugin.isId(fields[4]);
   fields[4] = fields[4].replace(rg, "");
-  if (result == false) return message.react('❌'); //link contains a non-id
+  if (result == false) return message.react("❌"); //link contains a non-id
   const source = await client.channels.cache
     .get(fields[3])
     .messages.fetch(fields[4])

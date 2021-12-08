@@ -182,7 +182,7 @@ module.exports = new Command({
       const rfskill = Math.round(fullskillweight * 10) / 10;
       const rfslayer = Math.round(fullslayerweight * 10) / 10;
       const rfdungeon = Math.round(fdungeonweight * 10) / 10;
-      const frf = Math.round(fullweight)
+      const frf = Math.round(fullweight);
       const rf = Math.round(fullweight * 10) / 10;
       let gamestage;
       if (frf <= 2000) {
