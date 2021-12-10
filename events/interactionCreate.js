@@ -3,6 +3,8 @@ const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 const testfor = require("../personal-modules/testfor");
 const configmodel = require("../models/config");
 const ticketmodel = require("../models/ticket");
+const dm = require("../personal-modules/discordp");
+const bc = require("../personal-modules/bitfieldcalc");
 try {
   client.on("interactionCreate", async (interaction, message) => {
     // Slash Command Handling
@@ -92,6 +94,7 @@ try {
       const channel = interaction.channel;
       const customId = interaction.customId;
       let blacklisted = client.config.tbn;
+      let target = interaction.user;
       const success = testfor.testfor(blacklisted, interaction.customId);
       if (success != true) {
         const buttonrow = new MessageActionRow().addComponents(
@@ -105,13 +108,32 @@ try {
           guildId: guildId,
           name: customId,
         });
+        const permissions = channel.permissionOverwrites.cache.map(
+          (role) => role
+        );
+        let r;
+        await dm.permOverride(permissions).then((permissions) => {
+          let plist = permissions.permlist;
+          let dlist = permissions.denied;
+          let result;
+          plist.forEach(function (plist, index) {
+            if (plist.includes(`<@${target.id}>`)) return (result = index);
+          });
+          if (typeof result !== "undefined") {
+            let userp = Number(dlist[result]);
+            let arruserp = bc.permissions(userp);
+            if (arruserp.includes("SEND_MESSAGES_IN_THREADS"))
+              return (r = "blacklisted");
+          }
+        });
+        if (r === "blacklisted") return;
         if (guild.features.includes("PRIVATE_THREADS")) {
           const thread = await channel.threads
             .create({
               name: `${interaction.user.tag}-${customId}`,
               autoArchiveDuration: 60,
               type: "GUILD_PRIVATE_THREAD",
-              reason: `dafuk is a reason`,
+              reason: `hello`,
             })
             .catch(() =>
               console.log(
@@ -128,7 +150,7 @@ try {
             .create({
               name: `${interaction.user.username}-${customId}`,
               autoArchiveDuration: 60,
-              reason: `dafuk is a reason`,
+              reason: `hello`,
             })
             .catch(() =>
               console.log(

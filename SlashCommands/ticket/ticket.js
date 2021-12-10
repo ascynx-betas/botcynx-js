@@ -183,6 +183,19 @@ module.exports = new Command({
         }
       } else {
         //code of del
+        let userId = interaction.user.id;
+        let guild = interaction.guild;
+        let guildmember = guild.members.fetch(userId);
+        let userp = Number((await guildmember).permissions);
+        userp = bitfieldcalc.permissions(userp);
+        if (
+          !userp.includes("ADMINISTRATOR") &&
+          userId !== guild.ownerId &&
+          userId !== client.config.developerId
+        )
+          return interaction.followUp({
+            content: `you do not have \`\`ADMINISTRATOR\`\` permission`,
+          });
         if (!config)
           return interaction.followUp({ content: `please specify config` });
         if (
