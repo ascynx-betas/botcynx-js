@@ -137,6 +137,9 @@ exports.isLink = function (potentiallink) {
     return true;
   } else return false;
 };
+/**
+ * @param  {} message
+ */
 exports.containsLink = function (message) {
   const mp = require("./testfor");
   let fields = message.split(" ");

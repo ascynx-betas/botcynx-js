@@ -39,6 +39,9 @@ const permissions = {
   SEND_MESSAGES_IN_THREADS: 0x4000000000,
   START_EMBEDDED_ACTIVITIES: 0x8000000000,
 };
+/**
+ * @param  {} permBitfield
+ */
 exports.permissions = (permBitfield) => {
   let currentPermissions = [];
   const permissionUpper = Math.floor(permBitfield / 0x100000000);
@@ -56,6 +59,9 @@ exports.permissions = (permBitfield) => {
   }
   return currentPermissions;
 };
+/**
+ * @param  {} bitfield
+ */
 exports.bitfield = (bitfield) => {
   if (permissions[bitfield]) {
     return permissions[bitfield];

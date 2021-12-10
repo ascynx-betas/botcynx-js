@@ -1,3 +1,7 @@
+/**
+ * @param  {number} number
+ * @param  {number} decimal
+ */
 exports.dround = function (number, decimal) {
   let dfactor, result;
   if (decimal > 0) {

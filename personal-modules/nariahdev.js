@@ -7,6 +7,8 @@ const fetch = require("node-fetch");
 
 //do not do a direct call of this function except if you send the data
 
+//!this function does not work
+//TODO fix this thing
 exports.fetchNetworth = async function (data) {
   const url = `https://nariah-dev.com/api/networth/categories`;
 

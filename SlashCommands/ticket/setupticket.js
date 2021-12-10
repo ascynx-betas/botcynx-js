@@ -1,8 +1,8 @@
 const { Command } = require("reconlx");
-const fs = require("fs");
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 const disabled = require("../../personal-modules/testfor");
 const ticketmodel = require("../../models/ticket");
+const bc = require('../../personal-modules/bitfieldcalc')
 
 module.exports = new Command({
   name: "setup-ticket",
@@ -44,7 +44,9 @@ module.exports = new Command({
     const name = interaction.options.getString("config-name");
     const welcome = interaction.options.getString("welcome-message");
     const welcomebutton = interaction.options.getString("description");
-
+    let permissions = Number(interaction.guild.me.permissions);
+    permissions = bc.permissions(permissions);
+    if (!permissions.includes('USE_PRIVATE_THREADS') && !permissions.includes('USE_PUBLIC_THREADS') && !permissions.includes('ADMINISTRATOR')) return interaction.followUp('Missing permissions to create threads').catch(() => null)
     try {
       const blacklisted = client.config.tbn;
       const success = disabled.testfor(blacklisted, name);
