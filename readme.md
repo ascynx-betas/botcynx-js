@@ -91,19 +91,25 @@ returns the target's info from the linked accounts database
 # non-slash commands
 
 move
+
 moves users from a voice channel to another
 
 su
+
 adds / remove the user from the server's super user list
 
 webhookdelete
+
 deletes the specified webhook using it's link
 
 ping
+
 just a ping command
 
 kill
+
 destroys the client, disconnects from mongodb and kills the process
 
 label / removelabel
+
 adds / remove a label from specified users
