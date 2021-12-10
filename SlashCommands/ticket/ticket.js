@@ -31,6 +31,10 @@ module.exports = new Command({
           name: "block",
           value: "block",
         },
+        {
+          name: "modify",
+          value: "modify",
+        },
       ],
     },
     {
@@ -46,6 +50,28 @@ module.exports = new Command({
       required: false,
       type: "USER",
     },
+    {
+      name: "edit",
+      description: "what will be modified",
+      required: false,
+      type: "STRING",
+      choices: [
+        {
+          name: "description",
+          value: "description",
+        },
+        {
+          name: "welcome message",
+          value: "welcome_message",
+        },
+      ],
+    },
+    {
+      name: "change",
+      description: "to what it's changed",
+      required: false,
+      type: "STRING",
+    },
   ],
 
   run: async ({ interaction, client }) => {
@@ -53,10 +79,12 @@ module.exports = new Command({
       const action = interaction.options.getString("sub-command");
       const config = interaction.options.getString("config-name");
       const target = interaction.options.getUser("user");
+      const change = interaction.options.getString("change");
+      const edit = interaction.options.getString("edit");
       const guildId = interaction.guild.id;
       const channel = interaction.channel;
       if (action != "del") {
-        if (interaction.channel.isThread() === false) {
+        if (interaction.channel.isThread() === false && action != "modify") {
           return interaction
             .followUp({
               content: `the channel in which you executed this command is not a thread`,
@@ -170,6 +198,59 @@ module.exports = new Command({
                     );
                   }
                 });
+            }
+          } else if (action == "modify") {
+            if (
+              typeof config === "undefined" ||
+              !config ||
+              typeof edit === "undefined" ||
+              !edit ||
+              typeof change === "undefined" ||
+              !change
+            )
+              return interaction.followUp({
+                content: `please specify config name`,
+              });
+            const tc = await ticketmodel.find({
+              guildId: guildId,
+              name: config,
+            });
+            if (tc.length === 0)
+              return interaction.followUp({
+                content: `specified ticket id does not exist, please try again`,
+              });
+            if (edit === "description") {
+              //get the message using guild/channel/message then edit the embed using the change
+              const embed = new MessageEmbed()
+                .setColor(`#69696E`)
+                .setDescription(
+                  `${
+                    change ||
+                    "press create to enter in contact with staff members"
+                  }`
+                );
+              await client.channels.cache
+                .get(tc[0].channel)
+                .messages.fetch(tc[0].linkedmessage)
+                .then((message) =>
+                  message.edit({ embeds: [embed] }).then(() => {
+                    return interaction.followUp({ content: `(edited)` });
+                  })
+                );
+            } else if (edit === "welcome_message") {
+              ticketmodel.updateOne(
+                { guildId: `${guildId}`, name: `${config}` },
+                { $set: { welcomemessage: `${change || undefined}` } },
+                function (err, doc) {
+                  if (err)
+                    return interaction.followUp({
+                      content: `there was an error while trying to update values \`\`${err}\`\``,
+                    });
+                }
+              );
+              return interaction.followUp({
+                content: `sucessfully changed the welcome message`,
+              });
             }
           } else {
             interaction

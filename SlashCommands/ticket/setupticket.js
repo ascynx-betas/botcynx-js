@@ -78,13 +78,15 @@ module.exports = new Command({
           }`
         );
 
-      let sent = await setupchannel
+      let sent;
+      await setupchannel
         .send({ embeds: [embed], components: [buttonrow] })
-        .then(() =>
+        .then((message) => {
           interaction.followUp(
             `success, successfully created a new ticket system in ${setupchannel}`
-          )
-        )
+          );
+          sent = message;
+        })
         .catch(() =>
           interaction.followUp({
             content:
