@@ -5,6 +5,10 @@ const client = new Client({
   disableMention: "everyone",
   intents: 32767,
 });
+const PORT = process.env.PORT || 3000;
+app.listen((PORT), () => {
+  console.log(`App is running on port ${PORT}`);
+});
 module.exports = client;
 // Global Variables
 client.commands = new Collection();
