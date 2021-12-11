@@ -293,16 +293,13 @@ module.exports = new Command({
           guildId: guildId,
         });
         if (existing.length !== 0) {
-          ticketmodel.deleteOne({ name: `${config}` }).then(() =>
-            interaction
-              .followUp({
-                content: `you can now delete the ticket message 👍`,
-              })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              )
+          ticketmodel.deleteOne({ name: `${config}` }).then(() => 
+            client.channels.cache
+                .get(existing[0].channel)
+                .messages.fetch(existing[0].linkedmessage)
+                .then((message) => message.delete()
+                .then(() => interaction.followUp({content: `sucessfully deleted message`})))
+            
           );
         } else {
           return interaction.followUp({ content: `ticket does not exist` });
