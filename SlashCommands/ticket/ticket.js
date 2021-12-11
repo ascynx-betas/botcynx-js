@@ -293,13 +293,12 @@ module.exports = new Command({
           guildId: guildId,
         });
         if (existing.length !== 0) {
-          ticketmodel.deleteOne({ name: `${config}` }).then(() => 
+          ticketmodel.deleteOne({ guildId: guildId, name: `${config}` }).then(() => 
             client.channels.cache
                 .get(existing[0].channel)
                 .messages.fetch(existing[0].linkedmessage)
                 .then((message) => message.delete()
                 .then(() => interaction.followUp({content: `sucessfully deleted message`})))
-            
           );
         } else {
           return interaction.followUp({ content: `ticket does not exist` });
