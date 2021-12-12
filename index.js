@@ -5,7 +5,6 @@ const client = new Client({
   disableMention: "everyone",
   intents: 32767,
 });
-console.log(process.env)
 module.exports = client;
 // Global Variables
 client.commands = new Collection();
