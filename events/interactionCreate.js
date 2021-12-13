@@ -148,7 +148,7 @@ try {
           const thread = await channel.threads
             .create({
               name: `${interaction.user.tag}-${customId}`,
-              autoArchiveDuration: 60,
+              autoArchiveDuration: 1440,
               type: "GUILD_PRIVATE_THREAD",
               reason: `hello`,
             })
@@ -166,7 +166,7 @@ try {
           const thread = await channel.threads
             .create({
               name: `${interaction.user.username}-${customId}`,
-              autoArchiveDuration: 60,
+              autoArchiveDuration: 1440,
               reason: `hello`,
             })
             .catch(() =>
