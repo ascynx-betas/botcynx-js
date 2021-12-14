@@ -1,8 +1,8 @@
 const { Message, Client, MessageEmbed } = require("discord.js");
 const d = require('../../personal-modules/discordp');
 module.exports = {
-  name: "exec",
-  aliases: ["eval","ev","e","ex","execute","evaluate"],
+  name: "execsilent",
+  aliases: ["es"],
   /**
    *
    * @param {Client} client
@@ -10,9 +10,7 @@ module.exports = {
    * @param {String[]} args
    */
   run: async (client, message, args) => {
-        const token = client.config.token;let mongooseConnectionString = client.config.mongooseConnectionString;const hypixelapikey = client.config.hypixelapikey;const logwb = client.config.logwb;
-
-
+    const token = client.config.token;let mongooseConnectionString = client.config.mongooseConnectionString;const hypixelapikey = client.config.hypixelapikey;const logwb = client.config.logwb;
           const clean = async (text) => {
             if (text && text.constructor.name == "Promise")
               text = await text;
@@ -37,7 +35,7 @@ module.exports = {
             }
 
         try {
-          let Cregexp = /client\.config\.?/gmi;
+          let Cregexp = /client\.config\.?/gmi
           let s = /.?(logwb|hypixelapikey|token|mongooseConnectionString).?/gmi;
           let r = Cregexp.test(args.join(" "))
           if (r === true) throw Error("not happening m8");
@@ -45,25 +43,13 @@ module.exports = {
           if (r === true) throw Error("not happening m8");
           evaled = eval(args.join(" "));
           let cleaned = await clean(evaled)
+
           cleaned = cleaned.replace( new RegExp ( [token, mongooseConnectionString, hypixelapikey, logwb].join ("|"), "gi"), "[REDACTED]" );
-          let cool = args.join(" ")
-          if (cool.includes("client") && cool.includes("config")) throw Error("nope")
-          cool = `\`\`\`js\n ${cool}\n\`\`\``
-          cleaned = `\`\`\`js\n ${cleaned}\n\`\`\``
-
-          if (cool.length > 1000) cool = c(cool)
-          if (cleaned.length > 1000) cleaned = c(cleaned)
-
-          const embed = new MessageEmbed()
-            .setFields([{name: "**input:**", value: cool},{name: "**output:**", value: cleaned}])
-            .setAuthor('Success ✅')
-
-          message.channel.send({embeds: [embed]})
-          
 
 
         } catch (err) {
           let cool = args.join(" ")
+          if (cool.includes("client") && cool.includes("config")) throw Error("nope")
           cool = `\`\`\`js\n${cool}\n\`\`\``
           err = `\`\`\`\n${err}\n\`\`\``
           if (cool.length > 1000) cool = c(cool)
