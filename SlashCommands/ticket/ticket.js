@@ -76,6 +76,7 @@ module.exports = new Command({
 
   run: async ({ interaction, client }) => {
     try {
+      //TODO should add an explanation for every of these and explain if necessary or not depending on the action taken
       const action = interaction.options.getString("sub-command");
       const config = interaction.options.getString("config-name");
       const target = interaction.options.getUser("user");
@@ -134,10 +135,6 @@ module.exports = new Command({
                 );
             }
           } else if (action == "block") {
-            //add as perm the person to block so they can't send messages in threads ? // that would be for all threads in that channel though
-            //if no user given then gives blocked user list
-            //if user is not blocked add the permissions "can't send messages in thread to user"
-            //if user is blocked remove perm override
             if (!target || typeof target === "undefined") {
               //if no target specified
               const channelparent = client.channels.cache.get(channel.parentId);
@@ -182,6 +179,10 @@ module.exports = new Command({
                 .permOverride(permissions)
                 .then((permissions) => {
                   if (permissions.permlist.includes(`<@${target.id}>`)) {
+                    /**
+                     * if exists 
+                      *TODO I should probably detect if there is multiple permissions, if there is then not delete and just change the permission override
+                    */
                     channelparent.permissionOverwrites.delete(
                       target.id,
                       `used command /ticket block (user)`
@@ -220,7 +221,6 @@ module.exports = new Command({
                 content: `specified ticket id does not exist, please try again`,
               });
             if (edit === "description") {
-              //get the message using guild/channel/message then edit the embed using the change
               const embed = new MessageEmbed()
                 .setColor(`#69696E`)
                 .setDescription(

@@ -1,7 +1,7 @@
 const client = require("../index");
 const configmodel = require("../models/config");
 
-//to rewrite
+//TODO to rewrite
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
   try {

@@ -40,7 +40,7 @@ const permissions = {
   START_EMBEDDED_ACTIVITIES: 0x8000000000,
 };
 /**
- * @param  {} permBitfield
+ * @param  {Number} permBitfield
  */
 exports.permissions = (permBitfield) => {
   let currentPermissions = [];
@@ -60,7 +60,7 @@ exports.permissions = (permBitfield) => {
   return currentPermissions;
 };
 /**
- * @param  {} bitfield
+ * @param  {Number} bitfield
  */
 exports.bitfield = (bitfield) => {
   if (permissions[bitfield]) {
@@ -69,4 +69,4 @@ exports.bitfield = (bitfield) => {
     return new Error("that is not a valid bitfield");
   }
 };
-//this function is an updated version of https://www.npmjs.com/package/discord-bitfield-calculator
+//! this function is an updated version of https://www.npmjs.com/package/discord-bitfield-calculator

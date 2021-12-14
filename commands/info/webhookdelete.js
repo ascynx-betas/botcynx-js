@@ -1,4 +1,4 @@
-const { Message, Client, Webhook } = require("discord.js");
+const { Message, Client } = require("discord.js");
 
 module.exports = {
   name: "webhook-delete",

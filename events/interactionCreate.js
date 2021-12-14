@@ -7,7 +7,17 @@ const dm = require("../personal-modules/discordp");
 const bc = require("../personal-modules/bitfieldcalc");
 try {
   client.on("interactionCreate", async (interaction, message) => {
-    // Slash Command Handling
+    
+
+
+
+
+
+
+
+
+
+    //Slash Command Handling
     if (interaction.isCommand()) {
       await interaction.deferReply({ ephemeral: false }).catch(() => {});
 
@@ -87,6 +97,14 @@ try {
       }
       cmd.run({ client, interaction, args, message });
     }
+
+
+
+
+
+
+
+
     // button interactions
     if (interaction.isButton()) {
       const guildId = interaction.guild.id;
@@ -103,7 +121,6 @@ try {
             .setLabel("close ticket")
             .setStyle("PRIMARY")
         );
-        //the where to put when ticket db is set up
         const config = await ticketmodel.find({
           guildId: guildId,
           name: customId,
@@ -131,7 +148,7 @@ try {
           const thread = await channel.threads
             .create({
               name: `${interaction.user.tag}-${customId}`,
-              autoArchiveDuration: 60,
+              autoArchiveDuration: 1440,
               type: "GUILD_PRIVATE_THREAD",
               reason: `hello`,
             })
@@ -149,7 +166,7 @@ try {
           const thread = await channel.threads
             .create({
               name: `${interaction.user.username}-${customId}`,
-              autoArchiveDuration: 60,
+              autoArchiveDuration: 1440,
               reason: `hello`,
             })
             .catch(() =>
@@ -245,7 +262,7 @@ try {
             return interaction.reply({
               content: `error: the interaction received doesn't match any resolvable interactions`,
               ephemeral: true,
-            });
+            });           //I think it's possible to use an object to store this.
           }
         } else {
           return interaction.reply({
@@ -255,6 +272,14 @@ try {
         }
       }
     }
+
+
+
+
+
+
+
+
 
     // Context Menu Handling
     if (interaction.isContextMenu()) {

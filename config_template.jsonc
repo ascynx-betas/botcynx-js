@@ -1,0 +1,8 @@
+{
+    "token": "BOT_TOKEN",
+    "prefix": "PREFIX",
+    "mongooseConnectionString": "MONGODB_CONNECTION_STRING",
+    "developerId": "USER_ID",
+    "hypixelapikey": "HYPIXEL_API_KEY",
+    "tbn": ["BLACKLISTED_TICKET_WORDS"]
+  } //remplace config_template.jsonc to config.json and remove this comment
