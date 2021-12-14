@@ -4,5 +4,6 @@
     "mongooseConnectionString": "MONGODB_CONNECTION_STRING",
     "developerId": "USER_ID",
     "hypixelapikey": "HYPIXEL_API_KEY",
-    "tbn": ["BLACKLISTED_TICKET_WORDS"]
+    "tbn": ["BLACKLISTED_TICKET_WORDS"],
+    "logwb": "LOG_WEBHOOK"
   } //remplace config_template.jsonc to config.json and remove this comment

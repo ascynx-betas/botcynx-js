@@ -69,4 +69,4 @@ exports.bitfield = (bitfield) => {
     return new Error("that is not a valid bitfield");
   }
 };
-//! this function is an updated version of https://www.npmjs.com/package/discord-bitfield-calculator
+//! this function is an "updated" version of https://www.npmjs.com/package/discord-bitfield-calculator

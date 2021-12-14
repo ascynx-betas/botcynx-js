@@ -1,4 +1,5 @@
 const { Message, Client, MessageEmbed } = require("discord.js");
+const d = require('../../personal-modules/discordp');
 module.exports = {
   name: "exec",
   aliases: ["eval","ev","e","ex","execute","evaluate"],
