@@ -135,7 +135,7 @@ module.exports = new Command({
       }
       if (uuid) {
         embed = new MessageEmbed()
-          .setTitle(`|WIP|informations about ${ign}`)
+          .setTitle(`informations about ${ign}`)
           .setColor(`BLURPLE`)
           .setDescription(
             `Username: \`\`${ign}\`\`\nUUID: \`\`${uuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}\n ${isverified}`
@@ -144,7 +144,7 @@ module.exports = new Command({
           .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
       } else {
         embed = new MessageEmbed()
-          .setTitle(`|WIP|informations about ${ign}`)
+          .setTitle(`informations about ${ign}`)
           .setColor(`BLURPLE`)
           .setDescription(
             `Username: \`\`${ign}\`\`\nUUID: \`\`${info.minecraftuuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}\n ${isverified}`

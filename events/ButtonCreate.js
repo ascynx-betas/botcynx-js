@@ -1,7 +1,7 @@
 const client = require("../index");
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 
-client.on("interactionCreate", async (interaction, message) => {
+client.on("interactionCreate", async (interaction) => {
   try {
     if (interaction.isButton()) {
       //weight lily

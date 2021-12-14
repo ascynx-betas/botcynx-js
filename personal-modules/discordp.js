@@ -38,3 +38,12 @@ exports.isInvite = function (potentialInvite) {
   if (!invite.test(potentialInvite)) return false;
   return true;
 };
+exports.webhook = function (webhooklink) {
+  link = webhooklink
+  link = link.slice(8, link.length);
+      let fields = link.split("/");
+      if (fields[2] != "webhooks") return;
+      const wbtoken = fields[4];
+      const wbid = fields[3];
+      return {id: wbid, token:wbtoken}
+}

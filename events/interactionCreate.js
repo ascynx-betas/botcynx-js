@@ -187,13 +187,13 @@ try {
             .reply({ content: `Locking thread...`, ephemeral: true })
             .then(thread.setLocked())
             .then(thread.setArchived())
-            .catch(() => console.log());
+            .catch(() => null);
         } else if (interaction.channel.type === "GUILD_PUBLIC_THREAD") {
           interaction
             .reply({ content: `Locking thread...`, ephemeral: true })
             .then(thread.setLocked())
             .then(thread.setArchived())
-            .catch(() => console.log());
+            .catch(() => null);
         } else {
           interaction.reply({
             content: `this is not a thread`,

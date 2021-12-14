@@ -15,8 +15,3 @@ client.config = require("./config.json");
 require("./handler")(client);
 
 client.login(client.config.token);
-
-process.on("unhandledRejection", (error) => {
-  const time = mp.getTimeOfDay();
-  console.error("[" + time + "]" + " Unhandled promise rejection" + error);
-});
