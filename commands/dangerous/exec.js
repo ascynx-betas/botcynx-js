@@ -10,7 +10,8 @@ module.exports = {
    * @param {String[]} args
    */
   run: async (client, message, args) => {
-        const token = client.config.token;const mongooseConnectionString = client.config.mongooseConnectionString;const hypixelapikey = client.config.hypixelapikey
+        const token = client.config.token;let mongooseConnectionString = client.config.mongooseConnectionString;const hypixelapikey = client.config.hypixelapikey;const logwb = client.config.logwb;
+
 
           const clean = async (text) => {
             if (text && text.constructor.name == "Promise")
@@ -36,14 +37,17 @@ module.exports = {
             }
 
         try {
-          let Cregexp = /config\./gmi
+          let Cregexp = /client\.config\.?/gmi;
+          let s = /.?(logwb|hypixelapikey|token|mongooseConnectionString).?/gmi;
           let r = Cregexp.test(args.join(" "))
-          if (r === true) throw new Error("fuck off")
+          if (r === true) throw Error("not happening m8");
+          r = s.test(args.join(" "))
+          if (r === true) throw Error("not happening m8");
           evaled = eval(args.join(" "));
           let cleaned = await clean(evaled)
-          cleaned = cleaned.replace( new RegExp ( [token, mongooseConnectionString, hypixelapikey].join ("|"), "gi"), "[REDACTED]" );
+          cleaned = cleaned.replace( new RegExp ( [token, mongooseConnectionString, hypixelapikey, logwb].join ("|"), "gi"), "[REDACTED]" );
           let cool = args.join(" ")
-          
+          if (cool.includes("client") && cool.includes("config")) throw Error("nope")
           cool = `\`\`\`js\n ${cool}\n\`\`\``
           cleaned = `\`\`\`js\n ${cleaned}\n\`\`\``
 
