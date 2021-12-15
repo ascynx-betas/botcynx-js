@@ -20,10 +20,8 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     let orr = mp.ct(ora, trigger); //error here, if you have multiple triggers it won't work
     let nrr = mp.ct(nra, trigger); //same here
     // if oldMember doesn't have and newMember has a trigger role
-    if (orr.breakingcount == nrr.breakingcount) return;
     if (orr.breakingcount < nrr.breakingcount || typeof orr.breakingcount === 'undefined' && nrr.breakingcount > 0) {
       let diff = nra.filter((x) => !ora.includes(x));
-      console.log('gain')
       return client.channels.cache
         .get(logchannel)
         .send({
@@ -33,7 +31,6 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     }
     // if oldMember has and newMember doesn't have a trigger role
     if (orr.breakingcount > nrr.breakingcount|| typeof nrr.breakingcount === 'undefined' && orr.breakingcount > 0) {
-      console.log('loss')
       let diff = ora.filter((x) => !nra.includes(x));
       client.channels.cache
         .get(logchannel)
