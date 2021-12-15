@@ -1,8 +1,15 @@
 const client = require("../index");
 const configmodel = require("../models/config");
+const calc = require("../personal-modules/bitfieldcalc");
 const mp = require("../personal-modules/testfor");
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
+  let permissions = calc.permissions(Number(message.guild.me.permissions));
+  if (
+    !permissions.includes("MANAGE_ROLES") &&
+    !permissions.includes("ADMINISTRATOR")
+  )
+    return;
   try {
     const guild = oldMember.guild;
     const config = await configmodel.find({
