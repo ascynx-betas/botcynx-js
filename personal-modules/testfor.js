@@ -46,6 +46,36 @@ exports.compare = function (array1, array2) {
   }
   return success;
 };
+exports.ct = function (array1, array2) {
+  if (typeof array1 !== "object") throw "parameter 1 is wrong variable type";
+  if (typeof array2 !== "object") throw "parameter 2 is wrong variable type";
+  if (!array1 || !array2) throw "missing variable";
+
+  let success;
+  let breakingpoint = [];
+  let result;
+  array1.forEach(function (array1) {
+    let testedvalue = 0;
+    do {
+      if (array1 == array2[testedvalue]) {
+        success = true;
+        breakingpoint.push(array2[testedvalue])
+        break;
+      } else {
+        testedvalue++;
+      }
+    } while (testedvalue != array2.length);
+  });
+
+let breakingcount = breakingpoint.length
+  if (success != true) {
+    success = false;
+    result = {success: success}
+  } else {
+    result = {success: success, breakingcount: breakingcount}
+  }
+  return result;
+}
 
 exports.getTimeOfDay = function () {
   let event = Date.now();
