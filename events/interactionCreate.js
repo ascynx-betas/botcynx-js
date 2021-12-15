@@ -10,13 +10,6 @@ try {
     
 
 
-
-
-
-
-
-
-
     //Slash Command Handling
     if (interaction.isCommand()) {
       await interaction.deferReply({ ephemeral: false }).catch(() => {});

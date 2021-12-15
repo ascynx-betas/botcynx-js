@@ -3,7 +3,12 @@ const configmodel = require("../models/config");
 const mp = require("../personal-modules/testfor");
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
-  try {
+
+  let permissions = calc.permissions(Number(oldMember.guild.me.permissions));
+  if (
+    !permissions.includes("MANAGE_ROLES") &&
+    !permissions.includes("ADMINISTRATOR")
+  ) return;
     const guild = oldMember.guild;
     const config = await configmodel.find({
       guildId: guild.id,
@@ -28,7 +33,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
         .send({
           content: `${oldMember.user.tag} now has trigger role <@&${diff[0]}>`,
           allowedMentions: { parse: [] },
-        });
+        }).catch(() => null)
     }
     // if oldMember has and newMember doesn't have a trigger role
     if (orr === true && nrr === false) {
@@ -38,7 +43,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
         .send({
           content: `${newMember.user.tag} lost trigger role <@&${diff[0]}>`,
           allowedMentions: { parse: [] },
-        });
+        }).catch(() => null)
       // fuse trigger into bypass then check for them bypass roles
       bypass = bypass.concat(trigger);
       let e = mp.compare(nra, bypass);
@@ -52,10 +57,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
           .send({
             content: `removed <@&${removable}> from ${newMember.user.tag}`,
             allowedMentions: { parse: [] },
-          });
+          }).catch(() => null)
       });
     }
-  } catch (err) {
-    if (err) return console.log(err);
-  }
 });
