@@ -1,6 +1,7 @@
 const client = require("../index");
 const configmodel = require("../models/config");
 const mp = require("../personal-modules/testfor");
+const calc = require("../personal-modules/bitfieldcalc");
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
 
