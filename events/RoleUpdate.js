@@ -1,15 +1,9 @@
 const client = require("../index");
 const configmodel = require("../models/config");
 const mp = require("../personal-modules/testfor");
-const calc = require("../personal-modules/bitfieldcalc");
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
-
-  let permissions = calc.permissions(Number(oldMember.guild.me.permissions));
-  if (
-    !permissions.includes("MANAGE_ROLES") &&
-    !permissions.includes("ADMINISTRATOR")
-  ) return;
+  try {
     const guild = oldMember.guild;
     const config = await configmodel.find({
       guildId: guild.id,
@@ -23,28 +17,30 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     const ora = oldMember._roles;
     const nra = newMember._roles;
 
-    let orr = mp.compare(ora, trigger);
-    let nrr = mp.compare(nra, trigger);
-
+    let orr = mp.ct(ora, trigger); //error here, if you have multiple triggers it won't work
+    let nrr = mp.ct(nra, trigger); //same here
     // if oldMember doesn't have and newMember has a trigger role
-    if (nrr === true && orr === false) {
+    if (orr.breakingcount == nrr.breakingcount) return;
+    if (orr.breakingcount < nrr.breakingcount || typeof orr.breakingcount === 'undefined' && nrr.breakingcount > 0) {
       let diff = nra.filter((x) => !ora.includes(x));
+      console.log('gain')
       return client.channels.cache
         .get(logchannel)
         .send({
           content: `${oldMember.user.tag} now has trigger role <@&${diff[0]}>`,
           allowedMentions: { parse: [] },
-        }).catch(() => null)
+        });
     }
     // if oldMember has and newMember doesn't have a trigger role
-    if (orr === true && nrr === false) {
+    if (orr.breakingcount > nrr.breakingcount|| typeof nrr.breakingcount === 'undefined' && orr.breakingcount > 0) {
+      console.log('loss')
       let diff = ora.filter((x) => !nra.includes(x));
       client.channels.cache
         .get(logchannel)
         .send({
           content: `${newMember.user.tag} lost trigger role <@&${diff[0]}>`,
           allowedMentions: { parse: [] },
-        }).catch(() => null)
+        });
       // fuse trigger into bypass then check for them bypass roles
       bypass = bypass.concat(trigger);
       let e = mp.compare(nra, bypass);
@@ -58,7 +54,10 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
           .send({
             content: `removed <@&${removable}> from ${newMember.user.tag}`,
             allowedMentions: { parse: [] },
-          }).catch(() => null)
+          });
       });
     }
+  } catch (err) {
+    if (err) return console.log(err);
+  }
 });
