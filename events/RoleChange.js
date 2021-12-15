@@ -4,6 +4,7 @@ const configmodel = require("../models/config");
 //TODO to rewrite
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
+  return;
   try {
     var newbypasscheck = 0;
     var bypasscheck = 0;
