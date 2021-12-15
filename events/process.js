@@ -16,6 +16,7 @@ process.on("unhandledRejection", async (reason, promise) => {
     JSON.stringify(promise);
   console.log(err);
   const info = d.webhook(client.config.logwb);
+  if (!info) return;
   return client
     .fetchWebhook(info.id, info.token)
     .then((webhook) =>
@@ -39,6 +40,7 @@ process.on("uncaughtException", async (reason, promise) => {
     JSON.stringify(promise);
   console.log(err);
   const info = d.webhook(client.config.logwb);
+  if (!info) return;
   return client
     .fetchWebhook(info.id, info.token)
     .then((webhook) =>
@@ -62,6 +64,7 @@ process.on("rejectionHandled", async (reason, promise) => {
     JSON.stringify(promise);
   console.log(err);
   const info = d.webhook(client.config.logwb);
+  if (!info) return;
   return client
     .fetchWebhook(info.id, info.token)
     .then((webhook) =>

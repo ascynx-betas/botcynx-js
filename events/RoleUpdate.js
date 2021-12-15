@@ -1,8 +1,15 @@
 const client = require("../index");
 const configmodel = require("../models/config");
 const mp = require("../personal-modules/testfor");
+const calc = require("../personal-modules/bitfieldcalc");
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
+  let permissions = calc.permissions(Number(message.guild.me.permissions));
+  if (
+    !permissions.includes("MANAGE_ROLES") &&
+    !permissions.includes("ADMINISTRATOR")
+  )
+    return;
   try {
     const guild = oldMember.guild;
     const config = await configmodel.find({
@@ -22,7 +29,6 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     // if oldMember doesn't have and newMember has a trigger role
     if (orr.breakingcount < nrr.breakingcount || typeof orr.breakingcount === 'undefined' && nrr.breakingcount > 0) {
       let diff = nra.filter((x) => !ora.includes(x));
-      console.log('gain')
       return client.channels.cache
         .get(logchannel)
         .send({
@@ -32,7 +38,6 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     }
     // if oldMember has and newMember doesn't have a trigger role
     if (orr.breakingcount > nrr.breakingcount|| typeof nrr.breakingcount === 'undefined' && orr.breakingcount > 0) {
-      console.log('loss')
       let diff = ora.filter((x) => !nra.includes(x));
       client.channels.cache
         .get(logchannel)
