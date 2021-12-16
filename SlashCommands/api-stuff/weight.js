@@ -124,16 +124,22 @@ module.exports = new Command({
           speprofile != "Zucchini" &&
           speprofile != "Peach"
         ) {
+          const embed = new MessageEmbed()
+            .setDescription(`${speprofile} doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`)
+              .setFooter('Error 502: Blocked Request')
           return interaction.followUp({
-            content: `The profile name doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`,
+            embeds:[embed],
           });
         }
         var profile = await senither
           .getSpecifiedProfile(uuid, speprofile)
           .catch(() => console.log());
         if (typeof profile === "undefined" || !profile) {
+          const embed = new MessageEmbed()
+            .setDescription(`player not found or profile provided does not exist`)
+              .setFooter("Error 404: Not found")
           return interaction.followUp({
-            content: `player not found or profile provided doesn't exist`,
+            embeds:[embed],
           });
         }
       } else {
@@ -141,8 +147,11 @@ module.exports = new Command({
           .getFatterProfile(uuid)
           .catch(() => console.log());
         if (typeof profile === "undefined" || !profile) {
+          const embed = new MessageEmbed()
+            .setDescription(`player not found or profile does not exist`)
+              .setFooter("Error 404: Not found")
           return interaction.followUp({
-            content: `player not found or profile doesn't exist`,
+            embeds:[embed],
           });
         }
       }
@@ -155,8 +164,12 @@ module.exports = new Command({
         !dataprofile.slayers.weight ||
         dataprofile.skills.apiEnabled == false
       ) {
+        const embed = new MessageEmbed()
+        .setDescription('couldn\'t fetch weight, please check if you have your api on')
+          .setFooter('Error 404: Not Found')
         return interaction.followUp({
-          content: `couldn't fetch weight, please check if you have your api on, https://sky.shiiyu.moe/resources/video/enable-api.webm`,
+          content: `https://sky.shiiyu.moe/resources/video/enable-api.webm`,
+          embeds: [embed],
         });
       }
       const profilename = dataprofile.name;

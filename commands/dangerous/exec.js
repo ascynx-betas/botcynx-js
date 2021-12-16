@@ -40,9 +40,9 @@ module.exports = {
           let Cregexp = /client\.config\.?/gmi;
           let s = /.?(logwb|hypixelapikey|token|mongooseConnectionString).?/gmi;
           let r = Cregexp.test(args.join(" "))
-          if (r === true) throw Error("not happening m8");
+          if (r === true) throw Error("TypeError: can't call variable outside of scope");
           r = s.test(args.join(" "))
-          if (r === true) throw Error("not happening m8");
+          if (r === true) throw Error("TypeError: can't call variable outside of scope");
           evaled = eval(args.join(" "));
           let cleaned = await clean(evaled)
           cleaned = cleaned.replace( new RegExp ( [token, mongooseConnectionString, hypixelapikey, logwb].join ("|"), "gi"), "[REDACTED]" );
