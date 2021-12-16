@@ -33,7 +33,7 @@ module.exports = {
       let length = text.length;
       length = length - 998;
       text = text.slice(0, 998);
-      text = text.concat(`\n${length} characters left\n\`\`\``);
+      text = text.concat(`\n${length} char left\n\`\`\``);
       return text;
     };
 

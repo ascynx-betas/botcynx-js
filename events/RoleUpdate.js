@@ -4,7 +4,7 @@ const mp = require("../personal-modules/testfor");
 const calc = require("../personal-modules/bitfieldcalc");
 
 client.on("guildMemberUpdate", async (oldMember, newMember) => {
-  let permissions = calc.permissions(Number(message.guild.me.permissions));
+  let permissions = calc.permissions(Number(oldMember.guild.me.permissions));
   if (
     !permissions.includes("MANAGE_ROLES") &&
     !permissions.includes("ADMINISTRATOR")

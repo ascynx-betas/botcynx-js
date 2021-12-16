@@ -121,7 +121,8 @@ module.exports = new Command({
           speprofile != "Strawberry" &&
           speprofile != "Tomato" &&
           speprofile != "Watermelon" &&
-          speprofile != "Zucchini"
+          speprofile != "Zucchini" &&
+          speprofile != "Peach"
         ) {
           return interaction.followUp({
             content: `The profile name doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`,
