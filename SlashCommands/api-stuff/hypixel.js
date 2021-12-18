@@ -97,12 +97,12 @@ module.exports = new Command({
       if (isverified === false) isverified = "verified: ❌";
       if (isverified === true) isverified = "verified: ✅";
 
-      const discord = await slothpixel
+      let discord = await slothpixel
         .getDiscord(uuid)
         .catch(
           () => `there was an error while trying to fetch the discord tag`
         );
-      const online = await slothpixel
+      let online = await slothpixel
         .getOnline(uuid)
         .catch(
           () =>
@@ -111,9 +111,7 @@ module.exports = new Command({
 
       //if not found
       if (
-        discord === null ||
         uuid === null ||
-        online === null ||
         ign === null
       ) {
         interaction
@@ -125,7 +123,8 @@ module.exports = new Command({
           );
         return;
       }
-
+        if (online == null) online = "not found";
+        if (discord == null) discord = "not found";
       if (online == true) {
         on = `🟢`;
       } else if (online == false) {
