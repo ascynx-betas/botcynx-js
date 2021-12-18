@@ -111,9 +111,7 @@ module.exports = new Command({
 
       //if not found
       if (
-        discord === null ||
         uuid === null ||
-        online === null ||
         ign === null
       ) {
         interaction
@@ -125,6 +123,9 @@ module.exports = new Command({
           );
         return;
       }
+
+      if (online == null) online = "not found";
+      if (discord == null) discord = "not found";
 
       if (online == true) {
         on = `🟢`;
