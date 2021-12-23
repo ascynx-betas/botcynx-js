@@ -59,7 +59,7 @@ exports.ct = function (array1, array2) {
     do {
       if (array1 == array2[testedvalue]) {
         success = true;
-        breakingpoint.push(array2[testedvalue])
+        breakingpoint.push(array2[testedvalue]);
         break;
       } else {
         testedvalue++;
@@ -67,15 +67,15 @@ exports.ct = function (array1, array2) {
     } while (testedvalue != array2.length);
   });
 
-let breakingcount = breakingpoint.length
+  let breakingcount = breakingpoint.length;
   if (success != true) {
     success = false;
-    result = {success: success}
+    result = { success: success };
   } else {
-    result = {success: success, breakingcount: breakingcount}
+    result = { success: success, breakingcount: breakingcount };
   }
   return result;
-}
+};
 
 exports.getTimeOfDay = function () {
   let event = Date.now();

@@ -110,10 +110,7 @@ module.exports = new Command({
         );
 
       //if not found
-      if (
-        uuid === null ||
-        ign === null
-      ) {
+      if (uuid === null || ign === null) {
         interaction
           .followUp({ content: `Player not found` })
           .catch(() =>
@@ -123,8 +120,8 @@ module.exports = new Command({
           );
         return;
       }
-        if (online == null) online = "not found";
-        if (discord == null) discord = "not found";
+      if (online == null) online = "not found";
+      if (discord == null) discord = "not found";
       if (online == true) {
         on = `🟢`;
       } else if (online == false) {

@@ -17,15 +17,13 @@ process.on("unhandledRejection", async (reason, promise) => {
   console.log(err);
   const info = d.webhook(client.config.logwb);
   if (!info) return;
-  return client
-    .fetchWebhook(info.id, info.token)
-    .then((webhook) =>
-      webhook.send({
-        content: `${err}`,
-        username: `${client.user.tag}`,
-        avatarURL: client.user.displayAvatarURL({ dynamic: true }),
-      })
-    );
+  return client.fetchWebhook(info.id, info.token).then((webhook) =>
+    webhook.send({
+      content: `${err}`,
+      username: `${client.user.tag}`,
+      avatarURL: client.user.displayAvatarURL({ dynamic: true }),
+    })
+  );
 });
 
 process.on("uncaughtException", async (reason, promise) => {
@@ -41,15 +39,13 @@ process.on("uncaughtException", async (reason, promise) => {
   console.log(err);
   const info = d.webhook(client.config.logwb);
   if (!info) return;
-  return client
-    .fetchWebhook(info.id, info.token)
-    .then((webhook) =>
-      webhook.send({
-        content: `${err}`,
-        username: `${client.user.tag}`,
-        avatarURL: client.user.displayAvatarURL({ dynamic: true }),
-      })
-    );
+  return client.fetchWebhook(info.id, info.token).then((webhook) =>
+    webhook.send({
+      content: `${err}`,
+      username: `${client.user.tag}`,
+      avatarURL: client.user.displayAvatarURL({ dynamic: true }),
+    })
+  );
 });
 
 process.on("rejectionHandled", async (reason, promise) => {
@@ -65,13 +61,11 @@ process.on("rejectionHandled", async (reason, promise) => {
   console.log(err);
   const info = d.webhook(client.config.logwb);
   if (!info) return;
-  return client
-    .fetchWebhook(info.id, info.token)
-    .then((webhook) =>
-      webhook.send({
-        content: `${err}`,
-        username: `${client.user.tag}`,
-        avatarURL: client.user.displayAvatarURL({ dynamic: true }),
-      })
-    );
+  return client.fetchWebhook(info.id, info.token).then((webhook) =>
+    webhook.send({
+      content: `${err}`,
+      username: `${client.user.tag}`,
+      avatarURL: client.user.displayAvatarURL({ dynamic: true }),
+    })
+  );
 });

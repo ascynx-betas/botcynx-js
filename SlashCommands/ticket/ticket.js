@@ -300,13 +300,11 @@ module.exports = new Command({
                 .get(existing[0].channel)
                 .messages.fetch(existing[0].linkedmessage)
                 .then((message) =>
-                  message
-                    .delete()
-                    .then(() =>
-                      interaction.followUp({
-                        content: `sucessfully deleted message`,
-                      })
-                    )
+                  message.delete().then(() =>
+                    interaction.followUp({
+                      content: `sucessfully deleted message`,
+                    })
+                  )
                 )
             );
         } else {

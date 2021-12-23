@@ -1,5 +1,7 @@
 const { Message, Client, MessageEmbed } = require("discord.js");
 const d = require("../../personal-modules/discordp");
+const bitfieldcalc = require("../../personal-modules/bitfieldcalc");
+//!You can access modules using /app/personal-modules/{module}.js
 module.exports = {
   name: "exec",
   aliases: ["eval", "ev", "e", "ex", "execute", "evaluate"],
