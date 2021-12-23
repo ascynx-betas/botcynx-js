@@ -8,6 +8,7 @@ module.exports = new Command({
   name: "setup-ticket",
   description: "used to setup a ticket system",
   userPermissions: ["MANAGE_CHANNELS"],
+  botPermissions: ["MANAGE_CHANNELS"],
   options: [
     {
       name: "channel",

@@ -5,6 +5,7 @@ module.exports = new Command({
   name: "timeout",
   description: "timeout a user for a specified amount of time",
   userPermissions: ["MODERATE_MEMBERS"],
+  botPermissions: ["MODERATE_MEMBERS"],
   options: [
     {
       name: "user",
