@@ -125,10 +125,12 @@ module.exports = new Command({
           speprofile != "Peach"
         ) {
           const embed = new MessageEmbed()
-            .setDescription(`${speprofile} doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`)
-              .setFooter('Error 502: Blocked Request')
+            .setDescription(
+              `${speprofile} doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`
+            )
+            .setFooter("Error 502: Blocked Request");
           return interaction.followUp({
-            embeds:[embed],
+            embeds: [embed],
           });
         }
         var profile = await senither
@@ -136,10 +138,12 @@ module.exports = new Command({
           .catch(() => console.log());
         if (typeof profile === "undefined" || !profile) {
           const embed = new MessageEmbed()
-            .setDescription(`player not found or profile provided does not exist`)
-              .setFooter("Error 404: Not found")
+            .setDescription(
+              `player not found or profile provided does not exist`
+            )
+            .setFooter("Error 404: Not found");
           return interaction.followUp({
-            embeds:[embed],
+            embeds: [embed],
           });
         }
       } else {
@@ -149,9 +153,9 @@ module.exports = new Command({
         if (typeof profile === "undefined" || !profile) {
           const embed = new MessageEmbed()
             .setDescription(`player not found or profile does not exist`)
-              .setFooter("Error 404: Not found")
+            .setFooter("Error 404: Not found");
           return interaction.followUp({
-            embeds:[embed],
+            embeds: [embed],
           });
         }
       }
@@ -165,8 +169,10 @@ module.exports = new Command({
         dataprofile.skills.apiEnabled == false
       ) {
         const embed = new MessageEmbed()
-        .setDescription('couldn\'t fetch weight, please check if you have your api on')
-          .setFooter('Error 404: Not Found')
+          .setDescription(
+            "couldn't fetch weight, please check if you have your api on"
+          )
+          .setFooter("Error 404: Not Found");
         return interaction.followUp({
           content: `https://sky.shiiyu.moe/resources/video/enable-api.webm`,
           embeds: [embed],

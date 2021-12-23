@@ -180,9 +180,9 @@ module.exports = new Command({
                 .then((permissions) => {
                   if (permissions.permlist.includes(`<@${target.id}>`)) {
                     /**
-                     * if exists 
-                      *TODO I should probably detect if there is multiple permissions, if there is then not delete and just change the permission override
-                    */
+                     * if exists
+                     *TODO I should probably detect if there is multiple permissions, if there is then not delete and just change the permission override
+                     */
                     channelparent.permissionOverwrites.delete(
                       target.id,
                       `used command /ticket block (user)`
@@ -293,13 +293,22 @@ module.exports = new Command({
           guildId: guildId,
         });
         if (existing.length !== 0) {
-          ticketmodel.deleteOne({ guildId: guildId, name: `${config}` }).then(() => 
-            client.channels.cache
+          ticketmodel
+            .deleteOne({ guildId: guildId, name: `${config}` })
+            .then(() =>
+              client.channels.cache
                 .get(existing[0].channel)
                 .messages.fetch(existing[0].linkedmessage)
-                .then((message) => message.delete()
-                .then(() => interaction.followUp({content: `sucessfully deleted message`})))
-          );
+                .then((message) =>
+                  message
+                    .delete()
+                    .then(() =>
+                      interaction.followUp({
+                        content: `sucessfully deleted message`,
+                      })
+                    )
+                )
+            );
         } else {
           return interaction.followUp({ content: `ticket does not exist` });
         }

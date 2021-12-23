@@ -7,9 +7,6 @@ const dm = require("../personal-modules/discordp");
 const bc = require("../personal-modules/bitfieldcalc");
 try {
   client.on("interactionCreate", async (interaction, message) => {
-    
-
-
     //Slash Command Handling
     if (interaction.isCommand()) {
       await interaction.deferReply({ ephemeral: false }).catch(() => {});
@@ -90,13 +87,6 @@ try {
       }
       cmd.run({ client, interaction, args, message });
     }
-
-
-
-
-
-
-
 
     // button interactions
     if (interaction.isButton()) {
@@ -255,7 +245,7 @@ try {
             return interaction.reply({
               content: `error: the interaction received doesn't match any resolvable interactions`,
               ephemeral: true,
-            });           //I think it's possible to use an object to store this.
+            }); //I think it's possible to use an object to store this.
           }
         } else {
           return interaction.reply({
@@ -265,14 +255,6 @@ try {
         }
       }
     }
-
-
-
-
-
-
-
-
 
     // Context Menu Handling
     if (interaction.isContextMenu()) {

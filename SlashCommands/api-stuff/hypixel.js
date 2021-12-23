@@ -110,10 +110,7 @@ module.exports = new Command({
         );
 
       //if not found
-      if (
-        uuid === null ||
-        ign === null
-      ) {
+      if (uuid === null || ign === null) {
         interaction
           .followUp({ content: `Player not found` })
           .catch(() =>
