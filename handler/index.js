@@ -41,6 +41,8 @@ module.exports = async (client) => {
     arrayOfSlashCommands.push(file);
   });
   client.on("ready", async () => {
+    //set Global parameters
+    global.maxTimeOut = "28 days";
     //add bot name / activity to here
     client.user.setPresence({
       activities: [{ name: "test", type: "WATCHING" }],

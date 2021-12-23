@@ -55,7 +55,7 @@ module.exports = new Command({
             })
             .catch(() =>
               console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
+                `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
               )
             );
         } else if (
@@ -77,7 +77,7 @@ module.exports = new Command({
               })
               .catch(() =>
                 console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
+                  `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
                 )
               );
           } else {
@@ -88,7 +88,7 @@ module.exports = new Command({
               })
               .catch(() =>
                 console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
+                  `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
                 )
               );
           }
@@ -99,7 +99,7 @@ module.exports = new Command({
             })
             .catch(() =>
               console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
+                `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
               )
             );
         }
@@ -116,7 +116,7 @@ module.exports = new Command({
             })
             .catch(() =>
               console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
+                `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
               )
             );
         if (
@@ -138,7 +138,7 @@ module.exports = new Command({
               })
               .catch(() =>
                 console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
+                  `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
                 )
               );
           } else {
@@ -149,7 +149,7 @@ module.exports = new Command({
               })
               .catch(() =>
                 console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
+                  `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
                 )
               );
           }
@@ -159,7 +159,7 @@ module.exports = new Command({
           .followUp({ content: `missing an argument` })
           .catch(() =>
             console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
+              `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
             )
           );
       }
@@ -169,7 +169,7 @@ module.exports = new Command({
         .followUp({ content: `there was an error executing this command` })
         .catch(() =>
           console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
+            `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
           )
         );
     }

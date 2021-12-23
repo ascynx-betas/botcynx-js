@@ -35,6 +35,11 @@ try {
           });
         }
       }
+      // brp = BotRequiredPermissions
+      const brp = cmd.BotPermissions;
+      if (brp) {
+        
+      }
       if (cmd.devonly) {
         const guild = interaction.guild;
         const guildconfig = await configmodel.find({
