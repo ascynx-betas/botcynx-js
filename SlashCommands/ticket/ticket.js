@@ -8,6 +8,7 @@ module.exports = new Command({
   name: "ticket",
   description: "allows to modify ticket config / execute ticket commands",
   userPermissions: ["MANAGE_THREADS"],
+  botPermissions: ["MANAGE_THREADS"],
   options: [
     {
       name: "sub-command",

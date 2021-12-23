@@ -36,10 +36,19 @@ try {
         }
       }
       // brp = BotRequiredPermissions
-      const brp = cmd.BotPermissions;
+      const brp = cmd.botPermissions; //Array
       if (brp) {
-        
-      }
+        let botpermissions = interaction.guild.me.permissions;
+        botpermissions = Number(botpermissions);
+        botpermissions = bc.permissions(botpermissions);
+
+        if (!botpermissions.includes(brp[0]) && !botpermissions.includes("ADMINISTRATOR")) {
+          let missingperm = global.readableperms[brp[0]]
+          return interaction.followUp({content: `I require to have \`\`${missingperm}\`\` to be able to execute this command`});
+        }
+
+
+      };
       if (cmd.devonly) {
         const guild = interaction.guild;
         const guildconfig = await configmodel.find({

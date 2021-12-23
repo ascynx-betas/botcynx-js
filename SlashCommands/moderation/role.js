@@ -4,6 +4,7 @@ module.exports = new Command({
   name: "role",
   description: "remove / add a role to the target",
   userPermissions: ["MANAGE_ROLES"],
+  botPermissions: ["MANAGE_ROLES"],
   options: [
     {
       name: "action",

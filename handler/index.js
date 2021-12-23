@@ -2,6 +2,7 @@ const { glob } = require("glob");
 const { promisify } = require("util");
 const { Client } = require("discord.js");
 const mongoose = require("mongoose");
+const globalvars = require('../globalvars');
 
 const globPromise = promisify(glob);
 
@@ -43,6 +44,7 @@ module.exports = async (client) => {
   client.on("ready", async () => {
     //set Global parameters
     global.maxTimeOut = "28 days";
+    global.readableperms = globalvars.readableperms;
     //add bot name / activity to here
     client.user.setPresence({
       activities: [{ name: "test", type: "WATCHING" }],
