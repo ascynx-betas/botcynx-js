@@ -18,7 +18,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 
     let trigger = config[0].trigger;
     let removable = config[0].removable;
-    let bypass = (config[0].bypass || []);
+    let bypass = config[0].bypass || [];
     let logchannel = config[0].logchannel;
 
     if (trigger.length == 0 || removable.length == 0) return;
@@ -27,7 +27,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
 
     let orr = mp.ct(ora, trigger);
     let nrr = mp.ct(nra, trigger);
-    
+
     if (
       orr.breakingcount < nrr.breakingcount ||
       (typeof orr.breakingcount === "undefined" && nrr.breakingcount > 0)

@@ -2,7 +2,7 @@ const { glob } = require("glob");
 const { promisify } = require("util");
 const { Client } = require("discord.js");
 const mongoose = require("mongoose");
-const globalvars = require('../globalvars');
+const globalvars = require("../globalvars");
 
 const globPromise = promisify(glob);
 

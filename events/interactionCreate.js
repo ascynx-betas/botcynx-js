@@ -35,19 +35,24 @@ try {
           });
         }
       }
-      
+
       // brp = BotRequiredPermissions
       const brp = cmd.botPermissions; //Array
       if (brp) {
-        let botpermissions = bc.permissions(Number(interaction.guild.me.permissions)); //Array(Number(BigInt))
+        let botpermissions = bc.permissions(
+          Number(interaction.guild.me.permissions)
+        ); //Array(Number(BigInt))
 
-        if (!botpermissions.includes(brp[0]) && !botpermissions.includes("ADMINISTRATOR")) {
-          let missingperm = global.readableperms[brp[0]]
-          return interaction.followUp({content: `I require to have \`\`${missingperm}\`\` to be able to execute this command`});
+        if (
+          !botpermissions.includes(brp[0]) &&
+          !botpermissions.includes("ADMINISTRATOR")
+        ) {
+          let missingperm = global.readableperms[brp[0]];
+          return interaction.followUp({
+            content: `I require to have \`\`${missingperm}\`\` to be able to execute this command`,
+          });
         }
-
-
-      };
+      }
 
       if (cmd.devonly) {
         const guild = interaction.guild;

@@ -1,5 +1,5 @@
 exports.readableperms = {
-    CREATE_INSTANT_INVITE: "Create invite",
+  CREATE_INSTANT_INVITE: "Create invite",
   KICK_MEMBERS: "Kick members",
   BAN_MEMBERS: "Ban members",
   ADMINISTRATOR: "Administrator",
@@ -39,4 +39,4 @@ exports.readableperms = {
   SEND_MESSAGES_IN_THREADS: "Send messages in threads",
   START_EMBEDDED_ACTIVITIES: "Use voice activity",
   MODERATE_MEMBERS: "timeout members",
-} // permissions to readable permissions
+}; // permissions to readable permissions

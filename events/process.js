@@ -5,21 +5,16 @@ const process = require("process");
 
 process.on("unhandledRejection", async (error) => {
   let stack = error.stack;
-  let fields = stack.split('\n');
-  stack = fields[0]+"\n"+fields[1];
+  let fields = stack.split("\n");
+  stack = fields[0] + "\n" + fields[1];
   const time = mp.getTimeOfDay();
-  const err =
-    "[" +
-    time +
-    "]" +
-    " Unhandled promise rejection: " +
-    stack;
+  const err = "[" + time + "]" + " Unhandled promise rejection: " + stack;
 
-    console.log("[",time,"]: ", error.stack);
+  console.log("[", time, "]: ", error.stack);
 
   const info = d.webhook(client.config.logwb);
   if (!info) return;
-  
+
   return client.fetchWebhook(info.id, info.token).then((webhook) =>
     webhook.send({
       content: `${err}`,
@@ -31,17 +26,12 @@ process.on("unhandledRejection", async (error) => {
 
 process.on("uncaughtException", async (error) => {
   let stack = error.stack;
-  let fields = stack.split('\n');
-  stack = fields[0]+"\n"+fields[1];
+  let fields = stack.split("\n");
+  stack = fields[0] + "\n" + fields[1];
 
   const time = mp.getTimeOfDay();
-  const err =
-    "[" +
-    time +
-    "]" +
-    " Unhandled Exception " +
-    stack;
-    console.log("[",time,"]: ", error.stack);
+  const err = "[" + time + "]" + " Unhandled Exception " + stack;
+  console.log("[", time, "]: ", error.stack);
   const info = d.webhook(client.config.logwb);
   if (!info) return;
   return client.fetchWebhook(info.id, info.token).then((webhook) =>
@@ -55,17 +45,12 @@ process.on("uncaughtException", async (error) => {
 
 process.on("rejectionHandled", async (error) => {
   let stack = error.stack;
-  let fields = stack.split('\n');
-  stack = fields[0]+"\n"+fields[1];
+  let fields = stack.split("\n");
+  stack = fields[0] + "\n" + fields[1];
   const time = mp.getTimeOfDay();
-  const err =
-    "[" +
-    time +
-    "]" +
-    " handled promise rejection " +
-    stack;
+  const err = "[" + time + "]" + " handled promise rejection " + stack;
 
-    console.log("[",time,"]: ", error.stack);
+  console.log("[", time, "]: ", error.stack);
 
   const info = d.webhook(client.config.logwb);
   if (!info) return;

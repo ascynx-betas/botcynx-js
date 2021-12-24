@@ -31,21 +31,31 @@ module.exports = new Command({
     let time = interaction.options.getString("time");
     let reason = interaction.options.getString("reason");
     if (time === null) time = "1 hour";
-    
+
     let TimeForTimeout = ms(time);
     const guildMember = interaction.guild.members.cache.get(target.id);
-    
-    if (target.bot == true) return interaction.followUp({content: `sorry if that bot annoys you, but I don't like hurting my friends :frowning2:`})
-    if (interaction.user.id == target.id) return interaction.followUp({content: `you cannot timeout yourself !`})
+
+    if (target.bot == true)
+      return interaction.followUp({
+        content: `sorry if that bot annoys you, but I don't like hurting my friends :frowning2:`,
+      });
+    if (interaction.user.id == target.id)
+      return interaction.followUp({ content: `you cannot timeout yourself !` });
     if (typeof guildMember === "undefined")
       return interaction.followUp({
         content: `user provided isn't in this server`,
       });
-      if (guildMember.roles.highest.position >= interaction.guild.members.cache.get(interaction.user.id).roles.highest.position &&
-         interaction.user.id != interaction.guild.ownerId &&
-          interaction.user.id != client.config.developerId ||
-          guildMember.id == interaction.guild.ownerId
-          ) return interaction.followUp({content: `you cannot timeout this user as it's either the owner or it's highest role is higher to yours !`});
+    if (
+      (guildMember.roles.highest.position >=
+        interaction.guild.members.cache.get(interaction.user.id).roles.highest
+          .position &&
+        interaction.user.id != interaction.guild.ownerId &&
+        interaction.user.id != client.config.developerId) ||
+      guildMember.id == interaction.guild.ownerId
+    )
+      return interaction.followUp({
+        content: `you cannot timeout this user as it's either the owner or it's highest role is higher to yours !`,
+      });
 
     guildMember
       .timeout(TimeForTimeout, reason || "reason not provided")
