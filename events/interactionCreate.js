@@ -35,12 +35,11 @@ try {
           });
         }
       }
+      
       // brp = BotRequiredPermissions
       const brp = cmd.botPermissions; //Array
       if (brp) {
-        let botpermissions = interaction.guild.me.permissions;
-        botpermissions = Number(botpermissions);
-        botpermissions = bc.permissions(botpermissions);
+        let botpermissions = bc.permissions(Number(interaction.guild.me.permissions)); //Array(Number(BigInt))
 
         if (!botpermissions.includes(brp[0]) && !botpermissions.includes("ADMINISTRATOR")) {
           let missingperm = global.readableperms[brp[0]]
@@ -49,6 +48,7 @@ try {
 
 
       };
+
       if (cmd.devonly) {
         const guild = interaction.guild;
         const guildconfig = await configmodel.find({
