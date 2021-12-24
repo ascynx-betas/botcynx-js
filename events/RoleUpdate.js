@@ -24,9 +24,9 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     const ora = oldMember._roles;
     const nra = newMember._roles;
 
-    let orr = mp.ct(ora, trigger); //error here, if you have multiple triggers it won't work
-    let nrr = mp.ct(nra, trigger); //same here
-    // if oldMember doesn't have and newMember has a trigger role
+    let orr = mp.ct(ora, trigger);
+    let nrr = mp.ct(nra, trigger);
+
     if (
       orr.breakingcount < nrr.breakingcount ||
       (typeof orr.breakingcount === "undefined" && nrr.breakingcount > 0)
