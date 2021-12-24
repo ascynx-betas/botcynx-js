@@ -8,8 +8,6 @@ module.exports = new Command({
   description: "allows the user to run the RoleUpdate event",
   userPermissions: ["MANAGE_ROLES"],
   botPermissions: ["MANAGE_ROLES"],
-  devonly: true,
-  globallydisabled: true,
   options: [
     {
       name: 'testrun',
@@ -76,8 +74,8 @@ module.exports = new Command({
 
             const embed = new MessageEmbed()
               .setDescription(description)
-              .setTitle('**Reloading results**')
-              .setFooter('Amogus beans')
+              .setTitle('**results**')
+              .setFooter('made by Ascynx')
             return interaction.followUp({embeds: [embed]}); 
           } //end of interaction
           if (index >= r.length-1) return;
