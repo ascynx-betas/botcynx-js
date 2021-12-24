@@ -21,8 +21,8 @@ module.exports = new Command({
       let r = removable = guildconfig[0].removable;
 
       if (removable.length < 1) return interaction.followUp({content: `I have no idea what to say here, tbf but for some reason, you can't use that command`})
-      let bypass = guildconfig[0].bypass;
-      let trigger = guildconfig[0].trigger;
+      let bypass = (guildconfig[0].bypass || []);
+      let trigger = (guildconfig[0].trigger || []);
       bypass = bypass.concat(trigger); //add trigger to bypass
       let affectedMembers = [];
 
@@ -35,7 +35,12 @@ module.exports = new Command({
           let roles = guild.members.cache.get(member.id)._roles //Array of roles
 
           if (roles.includes(removable)) {
-            const has = mp.ct(roles, bypass);
+            let has;
+            if (bypass.length > 0) { 
+            has = mp.ct(roles, bypass);
+            } else {
+              has = {success: false}
+            }
             if (has.success === false) {
               guild.members.cache.get(member.id).roles.remove(removable).then(affectedMembers.push(`${member}`));
 

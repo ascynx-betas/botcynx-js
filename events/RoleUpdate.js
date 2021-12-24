@@ -21,6 +21,7 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
     let bypass = config[0].bypass;
     let logchannel = config[0].logchannel;
 
+    if (bypass.length == 0 || trigger.length == 0 || removable.length == 0) return;
     const ora = oldMember._roles;
     const nra = newMember._roles;
 
