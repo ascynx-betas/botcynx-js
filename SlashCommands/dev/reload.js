@@ -1,69 +1,58 @@
 const { Command } = require("reconlx");
 const mp = require("../../personal-modules/testfor");
+const config = require('../../models/config');
+const { MessageEmbed } = require('discord.js')
 
 module.exports = new Command({
   name: "reload",
-  description: "allows the user to run the RoleChange event",
+  description: "allows the user to run the RoleUpdate event",
   userPermissions: ["MANAGE_ROLES"],
+  botPermissions: ["MANAGE_ROLES"],
   devonly: true,
   globallydisabled: true,
 
   run: async ({ client, interaction }) => {
-    try {
+
       const guild = interaction.guild;
       const guildId = guild.id;
-      const guildconfig = require(`../../guild-only/${guildId}/config.json`);
-      let removable = guildconfig.removable;
-      let bypass = guildconfig.bypass;
-      let channel = guildconfig.logchannel;
-      let trigger = guildconfig.trigger;
-
-      interaction
-        .followUp({ content: `starting interaction`, ephemeral: true })
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
-          )
-        );
-      guild.members.fetch();
-      removable.forEach(function (removable) {
-        const role = guild.roles.cache.get(removable);
-        const members = role.members;
-        members.forEach(function (members) {
-          const roles = members.roles.cache.map((role) => role.id);
-          const bypasscheck = mp.compare(roles, bypass);
-          const triggercheck = mp.compare(roles, trigger);
-
-          if (bypasscheck == false && triggercheck == false) {
-            members.roles
-              .remove(removable)
-              .catch(() =>
-                interaction.followUp(
-                  "I don't have permission to remove that role"
-                )
-              );
-            client.channels.cache
-              .get(channel)
-              .send({
-                content: `<@&${removable}> was removed from ${members.user.tag}`,
-                allowedMentions: { parse: [] },
-              })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              );
-            interaction.followUp({
-              content: `<@&${removable}> has been removed from ${members.user.tag}`,
-              allowedMentions: { parse: [] },
-            });
-          }
-        });
+      const guildconfig = await config.find({
+        guildId: guildId
       });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-});
+      let r = removable = guildconfig[0].removable;
 
-//Might be fixed
+      if (removable.length < 1) return interaction.followUp({content: `I have no idea what to say here, tbf but for some reason, you can't use that command`})
+      let bypass = guildconfig[0].bypass;
+      let trigger = guildconfig[0].trigger;
+      bypass = bypass.concat(trigger); //add trigger to bypass
+      let affectedMembers = [];
+
+      guild.members.fetch(); //fetch all guild users
+
+      removable.forEach(function(removable) {
+        const members = guild.members.cache.filter((m) => m._roles.includes(removable)); //ALL MEMBERS THAT HAVE THE CURRENT REMOVABLE ROLE
+
+        members.forEach(function (member) {
+          let roles = guild.members.cache.get(member.id)._roles //Array of roles
+
+          if (roles.includes(removable)) {
+            const has = mp.ct(roles, bypass);
+            if (has.success === false) {
+              guild.members.cache.get(member.id).roles.remove(removable).then(affectedMembers.push(`${member}`));
+
+            } // if doesn't have a bypass / trigger role
+          }; //check for the current check role (removable)
+        })
+        let index = r.indexOf(removable) //the current index
+          if (index >= r.length-1) {
+            const affectedString = (affectedMembers.join('\n') || "**no members were affected**")
+            const description = `**Affected members**:\n${affectedString}`
+            const embed = new MessageEmbed()
+              .setDescription(description)
+              .setTitle('**Reloading results**')
+              .setFooter('Amogus beans')
+            return interaction.followUp({embeds: [embed]}); 
+          } //end of interaction
+      })
+
+  }
+});
