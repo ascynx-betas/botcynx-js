@@ -8,8 +8,6 @@ module.exports = new Command({
   description: "allows the user to run the RoleUpdate event",
   userPermissions: ["MANAGE_ROLES"],
   botPermissions: ["MANAGE_ROLES"],
-  devonly: true,
-  globallydisabled: true,
   options: [
     {
       name: "testrun",
