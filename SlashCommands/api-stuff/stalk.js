@@ -123,7 +123,7 @@ module.exports = new Command({
         }
         TimeSince = Math.round(TimeSince * 10) / 10;
       }
-
+      if (TimeSince == NaN) {TimeSince = "Error: couldn't find time since last disconnect"};
       if (data.session != null) {
         const gametype = data.session.gameType;
         const gamemode = data.session.mode;

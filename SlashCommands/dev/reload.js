@@ -79,8 +79,8 @@ module.exports = new Command({
 
         const embed = new MessageEmbed()
           .setDescription(description)
-          .setTitle("**Reloading results**")
-          .setFooter("Amogus beans");
+          .setTitle("**results**")
+          .setFooter("made by Ascynx");
         return interaction.followUp({ embeds: [embed] });
       } //end of interaction
       if (index >= r.length - 1) return;
