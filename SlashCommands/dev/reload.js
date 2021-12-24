@@ -20,7 +20,8 @@ module.exports = new Command({
   ],
 
   run: async ({ client, interaction }) => {
-    const testrun = (interaction.options.getBoolean('test') || false);
+    let testrun = (interaction.options.getBoolean('testrun') || false);
+    
       const guild = interaction.guild;
       const guildId = guild.id;
       const guildconfig = await config.find({
