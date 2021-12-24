@@ -128,7 +128,7 @@ module.exports = new Command({
 
           interaction
             .followUp({
-              content: `added ${user.tag} as ${ign} to database\n disclaimer: this informations stored are your minecraft uuid and discord account id\nif you have a problem with this, please contact the developer.`,
+              content: `added ${user.tag} as ${ign} to database\n disclaimer: the informations stored are:\n your account id (discord) and minecraft uuid\nif you have a problem with it, please contact the developer.`,
             })
             .catch(() =>
               console.log(
@@ -161,7 +161,7 @@ module.exports = new Command({
         } else {
           interaction
             .followUp({
-              content: ` discord account is not linked to the specified minecraft account `,
+              content: ` discord account is not linked to the specified minecraft account.\nhttps://i.gyazo.com/3a2358687dae9b4333fd2fef932e0a17.mp4\nfollow the linked video to link your discord to minecraft.`,
             })
             .catch(() =>
               console.log(
