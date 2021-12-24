@@ -10,9 +10,17 @@ module.exports = new Command({
   botPermissions: ["MANAGE_ROLES"],
   devonly: true,
   globallydisabled: true,
+  options: [
+    {
+      name: 'testrun',
+      description: 'test run of the command',
+      type: 'BOOLEAN',
+      required: 'false',
+    }
+  ],
 
   run: async ({ client, interaction }) => {
-
+    const testrun = (interaction.options.getBoolean('test') || false);
       const guild = interaction.guild;
       const guildId = guild.id;
       const guildconfig = await config.find({
@@ -38,27 +46,40 @@ module.exports = new Command({
             let has;
             if (bypass.length > 0) { 
             has = mp.ct(roles, bypass);
-            
+
             } else {
               has = {success: false};
 
             }
             if (has.success === false) {
+              if (testrun == false) {
               guild.members.cache.get(member.id).roles.remove(removable).then(affectedMembers.push(`${member}`));
-
+              } else if (testrun == true) {
+                affectedMembers.push(`${member}`);
+              };
             } // if doesn't have a bypass / trigger role
           }; //check for the current check role (removable)
         })
         let index = r.indexOf(removable) //the current index
           if (index >= r.length-1) {
             const affectedString = (affectedMembers.join('\n') || "**no members were affected**")
-            const description = `**Affected members**:\n${affectedString}`
+            let description;
+
+            if (testrun == true) {
+              description = `Test Run\n**Affected members**:\n${affectedString}`;
+
+            } else {
+              description = `**Affected members**:\n${affectedString}`;
+
+          };
+
             const embed = new MessageEmbed()
               .setDescription(description)
               .setTitle('**Reloading results**')
               .setFooter('Amogus beans')
             return interaction.followUp({embeds: [embed]}); 
           } //end of interaction
+          if (index >= r.length-1) return;
       })
 
   }
