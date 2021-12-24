@@ -38,8 +38,10 @@ module.exports = new Command({
             let has;
             if (bypass.length > 0) { 
             has = mp.ct(roles, bypass);
+            
             } else {
-              has = {success: false}
+              has = {success: false};
+
             }
             if (has.success === false) {
               guild.members.cache.get(member.id).roles.remove(removable).then(affectedMembers.push(`${member}`));
