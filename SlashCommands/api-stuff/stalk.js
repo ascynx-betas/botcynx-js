@@ -156,37 +156,26 @@ module.exports = new Command({
         if (typeof map == "undefined") {
           if (gametype == "SKYBLOCK") {
             //if in skyblock
-
+            const gametranslate = {
+              combat_3: "The End",
+              dynamic: "private island",
+              combat_2: "blazing fortress",
+              combat_1: "spider's den",
+              hub: "the hub",
+              foraging_1: "the park",
+              mining_1: "the gold mines",
+              mining_2: "deep caverns",
+              mining_3: "dwarven mines",
+              crystal_hollows: "the crystal hollows",
+              dungeon_hub: "the dungeon hub",
+              farming_1: "the farming islands",
+              dungeon: "dungeons",
+            }
             //translate skyblock island ids into island names
-            if (gamemode == "combat_3") {
-              gamemodetranslated = "The End";
-            } else if (gamemode == "dynamic") {
-              gamemodetranslated = "private island";
-            } else if (gamemode == "combat_2") {
-              gamemodetranslated = "blazing fortress";
-            } else if (gamemode == "combat_2") {
-              gamemodetranslated = "spider's den";
-            } else if (gamemode == "hub") {
-              gamemodetranslated = "the hub";
-            } else if (gamemode == "foraging_1") {
-              gamemodetranslated = "the park";
-            } else if (gamemode == "mining_1") {
-              gamemodetranslated = "the gold mines";
-            } else if (gamemode == "mining_2") {
-              gamemodetranslated = "deep caverns";
-            } else if (gamemode == "mining_3") {
-              gamemodetranslated = "dwarven mines";
-            } else if (gamemode == "crystal_hollows") {
-              gamemodetranslated = "the crystal Hollows";
-            } else if (gamemode == "dungeon_hub") {
-              gamemodetranslated = "the dungeon hub";
-            } else if (gamemode == "farming_1") {
-              gamemodetranslated = "the farming islands";
-            } else if (gamemode == "dungeon") {
-              gamemodetranslated = "dungeons";
-            } else {
-              gamemodetranslated = "not currently coded in";
-              console.log(gamemode);
+            let gamemodetranslated = gametranslate[gamemode];
+            if (gamemodetranslated == null ||typeof gamemodetranslated == "undefined") {
+            gamemodetranslated = "not currently coded in";
+             console.log(gamemode)
             }
             const description = `\`\`${uuid.name}\`\` is currently ${on} \n in Skyblock in ${gamemodetranslated}`;
             const embed = new MessageEmbed()
@@ -260,7 +249,3 @@ module.exports = new Command({
     }
   },
 });
-
-//to add
-//get from api last logout + last login
-//detect if online and return the time they've been online or since when they've been offline
