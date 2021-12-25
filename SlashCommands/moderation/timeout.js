@@ -44,7 +44,7 @@ module.exports = new Command({
       } else {
         time = `<t:${time}:F>`
       }
-
+      
     if (target.bot == true)
       return interaction.followUp({
         content: `sorry if that bot annoys you, but I don't like hurting my friends :frowning2:`,

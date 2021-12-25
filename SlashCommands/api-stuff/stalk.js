@@ -16,7 +16,6 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction }) => {
-    //I still need to get last login and current time to calculate time since last online. Pretty sure I can get last login in the player endpoint
     const ign = interaction.options.getString("username");
     var on = ``;
     try {
@@ -25,11 +24,7 @@ module.exports = new Command({
           .followUp({
             content: `if the username you're trying to search is less than 3 characters then L cos I'm not accepting those for buggy reasons`,
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
         return;
       }
 
@@ -38,21 +33,13 @@ module.exports = new Command({
           .followUp({
             content: `a username cannot be longer than 16 characters.`,
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
         return;
       }
       if (ign.length == 32) {
         interaction
           .followUp({ content: `I asked for a username not a uuid :(` })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       }
 
       const uuid = await mojang
@@ -62,17 +49,13 @@ module.exports = new Command({
         const description = `Player not found`;
         const embed = new MessageEmbed()
           .setDescription(description)
-          .setTitle(`error: player does not exist`)
+          .setTitle(`Error 404:`)
           .setThumbnail(
-            `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2014%2F04%2F02%2F10%2F44%2Fcross-mark-304374_640.png&f=1&nofb=1`
+            `https://http.cat/404`
           );
         interaction
           .followUp({ embeds: [embed] })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
         return;
       }
       const data = await hypixel
@@ -86,11 +69,7 @@ module.exports = new Command({
           .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
         interaction
           .followUp({ embeds: [embed] })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
         return;
       }
       let TimeSince;
@@ -145,11 +124,7 @@ module.exports = new Command({
             .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
           interaction
             .followUp({ embeds: [embed] })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
           return;
         }
 
@@ -186,11 +161,7 @@ module.exports = new Command({
               .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
             interaction
               .followUp({ embeds: [embed] })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              );
+              .catch(() => null);
           } else if (typeof gametype == "undefined") {
             const description = `\`\`${uuid.name}\`\` appears to be offline\n last time online was ${TimeSince} ${biggest} ago`;
             const embed = new MessageEmbed()
@@ -202,11 +173,7 @@ module.exports = new Command({
             //if offline? // if in appear offline status
             interaction
               .followUp({ embeds: [embed] })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
-                )
-              );
+              .catch(() => null);
             return;
           } else {
             const description = `\`\`${uuid.name}\`\` is currently ${on} \n is in ${gametype} in the gamemode ${gamemode}`;
@@ -219,11 +186,7 @@ module.exports = new Command({
             //if in other gamemodes than skyblock
             interaction
               .followUp({ embeds: [embed] })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
-                )
-              );
+              .catch(() => null);
           }
           return;
         } else {
@@ -237,11 +200,7 @@ module.exports = new Command({
           //if there is a map, probably for skywars, bedwars and games like that // not sure what gamemap is used for tho
           interaction
             .followUp({ embeds: [embed] })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         }
       }
     } catch (err) {
