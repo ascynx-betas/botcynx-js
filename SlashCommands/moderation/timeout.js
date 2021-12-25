@@ -35,6 +35,16 @@ module.exports = new Command({
     let TimeForTimeout = ms(time);
     const guildMember = interaction.guild.members.cache.get(target.id);
 
+    let D = Date.now();
+      time = Math.floor((D + TimeForTimeout) / 1000);
+      // if under 60 seconds since the Date.now() then do a :T instead of a :F
+      D = Math.floor(D / 1000);
+      if (time-60 <= D) {
+        time = `<t:${time}:T>`
+      } else {
+        time = `<t:${time}:F>`
+      }
+
     if (target.bot == true)
       return interaction.followUp({
         content: `sorry if that bot annoys you, but I don't like hurting my friends :frowning2:`,
@@ -61,7 +71,7 @@ module.exports = new Command({
       .timeout(TimeForTimeout, reason || "reason not provided")
       .then(() =>
         interaction.followUp({
-          content: `success, timed out ${target} for ${time}`,
+          content: `success, ${target} is now timed out until ${time}`, //time will be "<t:TimeStamp:F(Full date) or T(Hour:Minute:Seconds)>"
           allowedMentions: { parse: [] },
         })
       )
