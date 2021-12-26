@@ -228,7 +228,7 @@ module.exports = new Command({
         .setColor(`RED`)
         .setAuthor({
           name:`${ign}'s senither Weight`,
-          url:`https://sky.shiiyu.moe/stats/${username}/${nameprofile}`
+          url:`https://sky.shiiyu.moe/stats/${ign}/${speprofile}`
         })
         .setThumbnail(`https://mc-heads.net/avatar/${uuid}/100`)
         .setTitle(
