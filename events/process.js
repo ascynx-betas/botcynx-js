@@ -18,7 +18,7 @@ process.on("unhandledRejection", async (error) => {
     console.log("[",time,"]: ", error.stack);
 
   const info = d.webhook(client.config.logwb);
-  if (!info) return;
+  if (!info) return console.log('webhook not found');
   
   return client.fetchWebhook(info.id, info.token).then((webhook) =>
     webhook.send({
@@ -43,7 +43,7 @@ process.on("uncaughtException", async (error) => {
     stack;
     console.log("[",time,"]: ", error.stack);
   const info = d.webhook(client.config.logwb);
-  if (!info) return;
+  if (!info) return console.log('webhook not found');
   return client.fetchWebhook(info.id, info.token).then((webhook) =>
     webhook.send({
       content: `${err}`,
@@ -68,7 +68,7 @@ process.on("rejectionHandled", async (error) => {
     console.log("[",time,"]: ", error.stack);
 
   const info = d.webhook(client.config.logwb);
-  if (!info) return;
+  if (!info) return console.log('webhook not found');
 
   return client.fetchWebhook(info.id, info.token).then((webhook) =>
     webhook.send({
