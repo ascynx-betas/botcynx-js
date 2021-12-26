@@ -10,7 +10,7 @@ process.on("unhandledRejection", async (error) => {
   const time = mp.getTimeOfDay();
   const err = "[" + time + "]" + " Unhandled promise rejection: " + stack;
 
-  console.log("[", time, "]: ", error.stack);
+  console.log(err)
 
   const info = d.webhook(client.config.logwb);
   if (!info) return;
@@ -31,7 +31,7 @@ process.on("uncaughtException", async (error) => {
 
   const time = mp.getTimeOfDay();
   const err = "[" + time + "]" + " Unhandled Exception " + stack;
-  console.log("[", time, "]: ", error.stack);
+  console.log(err)
   const info = d.webhook(client.config.logwb);
   if (!info) return;
   return client.fetchWebhook(info.id, info.token).then((webhook) =>
@@ -49,9 +49,7 @@ process.on("rejectionHandled", async (error) => {
   stack = fields[0] + "\n" + fields[1];
   const time = mp.getTimeOfDay();
   const err = "[" + time + "]" + " handled promise rejection " + stack;
-
-  console.log("[", time, "]: ", error.stack);
-
+  console.log(err)
   const info = d.webhook(client.config.logwb);
   if (!info) return;
 
