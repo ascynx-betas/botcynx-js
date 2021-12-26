@@ -39,6 +39,7 @@ exports.isInvite = function (potentialInvite) {
   return true;
 };
 exports.webhook = function (webhooklink) {
+  console.log('entered webhook')
   link = webhooklink;
   link = link.slice(8, link.length);
   let fields = link.split("/");
