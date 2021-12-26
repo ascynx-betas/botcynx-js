@@ -178,59 +178,17 @@ module.exports = new Command({
             gamemodetranslated = "not currently coded in";
              console.log(gamemode)
             }
-            const description = `\`\`${uuid.name}\`\` is currently ${on} \n in Skyblock in ${gamemodetranslated}`;
-            const embed = new MessageEmbed()
-              .setAuthor(`${uuid.name}`)
-              .setDescription(description)
-              .setFooter(`powered by hypixel api`)
-              .setColor(`RANDOM`)
-              .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
-            interaction
-              .followUp({ embeds: [embed] })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              );
+            description = `\`\`${uuid.name}\`\` is currently ${on} \n in Skyblock in ${gamemodetranslated}`;
           } else if (typeof gametype == "undefined") {
-            const description = `\`\`${uuid.name}\`\` appears to be offline\n last time online was ${TimeSince} ${biggest} ago`;
-            const embed = new MessageEmbed()
-              .setAuthor(`${uuid.name}`)
-              .setDescription(description)
-              .setFooter(`powered by hypixel api`)
-              .setColor(`RANDOM`)
-              .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
-            //if offline? // if in appear offline status
-            interaction
-              .followUp({ embeds: [embed] })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
-                )
-              );
-            return;
+            description = `\`\`${uuid.name}\`\` appears to be offline\n last time online was ${TimeSince} ${biggest} ago`;
           } else {
-            const description = `\`\`${uuid.name}\`\` is currently ${on} \n is in ${gametype} in the gamemode ${gamemode}`;
-            const embed = new MessageEmbed()
-              .setAuthor(`${uuid.name}`)
-              .setDescription(description)
-              .setFooter(`powered by hypixel api`)
-              .setColor(`RANDOM`)
-              .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
-            //if in other gamemodes than skyblock
-            interaction
-              .followUp({ embeds: [embed] })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
-                )
-              );
+            description = `\`\`${uuid.name}\`\` is currently ${on} \n is in ${gametype} in the gamemode ${gamemode}`;
           }
-          return;
         } else {
-          const description = `\`\`${uuid.name}\`\` is currently ${on}\n in the game ${gametype} in the gamemode ${gamemode}\n in ${map}`;
-          const embed = new MessageEmbed()
-            .setAuthor(`${uuid.name}`)
+          description = `\`\`${uuid.name}\`\` is currently ${on}\n in the game ${gametype} in the gamemode ${gamemode}\n in ${map}`;
+        }
+        const embed = new MessageEmbed()
+          .setAuthor({name:`${uuid.name}`})
             .setDescription(description)
             .setFooter(`powered by hypixel api`)
             .setColor(`RANDOM`)
@@ -238,12 +196,7 @@ module.exports = new Command({
           //if there is a map, probably for skywars, bedwars and games like that // not sure what gamemap is used for tho
           interaction
             .followUp({ embeds: [embed] })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${interaction.channel} in ${guild.name}`
-              )
-            );
-        }
+            .catch(() => null);
       }
     } catch (err) {
       console.log(err);

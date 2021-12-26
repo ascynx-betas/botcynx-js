@@ -7,6 +7,20 @@ client.on("interactionCreate", async (interaction) => {
       //weight lily
       if (!interaction.customId.startsWith("weight")) return;
       if (interaction.message.webhookId != client.user.id) return;
+      let current = Date.now();
+      let creation = interaction.message.createdTimestamp;
+        let time = current - creation;
+        if (time >= 900000) {
+          const buttonrow = new MessageActionRow().addComponents(
+            new MessageButton()
+              .setCustomId(interaction.customId)
+              .setLabel('Timed out')
+              .setStyle("DANGER")
+              .setDisabled(true)
+          );
+          return interaction.update({components: [buttonrow]})
+        };
+
       const interactioncreator = interaction.message.interaction.user.id;
       if (interaction.user.id != interactioncreator) return;
       if (interaction.customId == "weight lily") {
@@ -50,11 +64,10 @@ client.on("interactionCreate", async (interaction) => {
             `profile: **\`\`${profile}\`\`** username: **\`\`${username}\`\`**`
           )
           .setColor(`RED`)
-          .setAuthor(
-            `${username}'s Lily Weight`,
-            ``,
-            `https://sky.shiiyu.moe/stats/${username}/${profile}`
-          );
+          .setAuthor({
+            name:`${username}'s Lily Weight`,
+            url:`https://sky.shiiyu.moe/stats/${username}/${profile}`
+          });
         const buttonrow = new MessageActionRow().addComponents(
           new MessageButton()
             .setCustomId(`weight senither`)
@@ -130,11 +143,10 @@ client.on("interactionCreate", async (interaction) => {
           )
           .setFooter(`powered by senither api`)
           .setColor(`RED`)
-          .setAuthor(
-            `${username}'s senither Weight`,
-            ``,
-            `https://sky.shiiyu.moe/stats/${username}/${nameprofile}`
-          )
+          .setAuthor({
+            name:`${username}'s senither Weight`,
+            url:`https://sky.shiiyu.moe/stats/${username}/${nameprofile}`
+          })
           .setThumbnail(`https://mc-heads.net/avatar/${uuid}/100`)
           .setTitle(
             `profile: **\`\`${nameprofile}\`\`** username: **\`\`${username}\`\`**`
