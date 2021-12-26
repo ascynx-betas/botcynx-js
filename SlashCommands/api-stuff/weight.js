@@ -208,11 +208,10 @@ module.exports = new Command({
         )
         .setFooter(`requested by ${interaction.user.tag}`)
         .setColor(`RED`)
-        .setAuthor(
-          `${ign}'s senither Weight`,
-          ``,
-          `https://sky.shiiyu.moe/stats/${ign}/${profilename}`
-        )
+        .setAuthor({
+          name:`${username}'s senither Weight`,
+          url:`https://sky.shiiyu.moe/stats/${username}/${nameprofile}`
+        })
         .setThumbnail(`https://mc-heads.net/avatar/${uuid}/100`)
         .setTitle(
           `profile: **\`\`${profilename}\`\`** username: **\`\`${ign}\`\`**`
