@@ -27,7 +27,6 @@ module.exports = new Command({
     var ign = interaction.options.getString("username");
     let speprofile = interaction.options.getString("profile");
     var profile;
-    //let profilenames = [""];
     //todo, detect if profile is ironman and putting a small something for if it's ironman
     //game stage according to weight value
     /**
@@ -228,7 +227,7 @@ module.exports = new Command({
         .setFooter(`requested by ${interaction.user.tag}`)
         .setColor(`RED`)
         .setAuthor({
-          name:`${username}'s senither Weight`,
+          name:`${ign}'s senither Weight`,
           url:`https://sky.shiiyu.moe/stats/${username}/${nameprofile}`
         })
         .setThumbnail(`https://mc-heads.net/avatar/${uuid}/100`)
