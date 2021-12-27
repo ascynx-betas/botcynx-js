@@ -19,7 +19,6 @@ module.exports = new Command({
   run: async ({ interaction }) => {
     var info;
     var embed;
-    try {
       var ign = interaction.options.getString("username");
       var on = ``;
       if (!ign) {
@@ -97,12 +96,12 @@ module.exports = new Command({
       if (isverified === false) isverified = "verified: ❌";
       if (isverified === true) isverified = "verified: ✅";
 
-      let discord = await slothpixel
+      const discord = await slothpixel
         .getDiscord(uuid)
         .catch(
           () => `there was an error while trying to fetch the discord tag`
         );
-      let online = await slothpixel
+      const online = await slothpixel
         .getOnline(uuid)
         .catch(
           () =>
@@ -113,15 +112,13 @@ module.exports = new Command({
       if (uuid === null || ign === null) {
         interaction
           .followUp({ content: `Player not found` })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
         return;
       }
+
       if (online == null) online = "not found";
       if (discord == null) discord = "not found";
+
       if (online == true) {
         on = `🟢`;
       } else if (online == false) {
@@ -131,7 +128,7 @@ module.exports = new Command({
       }
       if (uuid) {
         embed = new MessageEmbed()
-          .setTitle(`|WIP|informations about ${ign}`)
+          .setTitle(`informations about ${ign}`)
           .setColor(`BLURPLE`)
           .setDescription(
             `Username: \`\`${ign}\`\`\nUUID: \`\`${uuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}\n ${isverified}`
@@ -140,7 +137,7 @@ module.exports = new Command({
           .setThumbnail(`https://mc-heads.net/avatar/${ign}/100`);
       } else {
         embed = new MessageEmbed()
-          .setTitle(`|WIP|informations about ${ign}`)
+          .setTitle(`informations about ${ign}`)
           .setColor(`BLURPLE`)
           .setDescription(
             `Username: \`\`${ign}\`\`\nUUID: \`\`${info.minecraftuuid}\`\`\nLinked discord account: \`\`${discord}\`\`\n online: ${on}\n ${isverified}`
@@ -151,14 +148,7 @@ module.exports = new Command({
 
       interaction
         .followUp({ embeds: [embed] })
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
-          )
-        );
-    } catch (err) {
-      console.log(err);
-    }
+        .catch(() => null);
   },
 });
 //this command sucks

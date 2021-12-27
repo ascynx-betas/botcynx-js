@@ -55,7 +55,6 @@ module.exports = new Command({
       return interaction
         .followUp("Missing permissions to create threads")
         .catch(() => null);
-    try {
       const blacklisted = client.config.tbn;
       const success = disabled.testfor(blacklisted, name);
       if (success == true) {
@@ -108,8 +107,5 @@ module.exports = new Command({
           guildId: guildId,
         }).save();
       }
-    } catch (err) {
-      console.log(err);
-    }
   },
 });

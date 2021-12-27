@@ -27,13 +27,11 @@ module.exports = new Command({
     var ign = interaction.options.getString("username");
     let speprofile = interaction.options.getString("profile");
     var profile;
-    //let profilenames = [""];
     //todo, detect if profile is ironman and putting a small something for if it's ironman
     //game stage according to weight value
     /**
      * probably add intermedietary stages in late / end game
      */
-    try {
       if (!ign) {
         const userId = interaction.user.id;
 
@@ -48,11 +46,7 @@ module.exports = new Command({
               content: `please provide username or use the /verify command first`,
               ephemeral: true,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         var uuid = info.minecraftuuid;
       } else {
         if (ign.length < 3) {
@@ -77,14 +71,13 @@ module.exports = new Command({
       }
 
       if (typeof uuid === "undefined") {
-        var uuid = await ma.getUuidbyUsername(ign).catch(() => console.log());
+        var uuid = await ma.getUuidbyUsername(ign).catch(() => null);
         uuid = uuid.id;
       } else {
         const data = await hypixel
           .getPlayerByUuid(uuid)
-          .catch(() => console.log());
+          .catch(() => null);
         if (!data) {
-          console.log();
           return interaction.followUp({
             content: `error while trying to fetch player name`,
           });
@@ -124,16 +117,26 @@ module.exports = new Command({
           speprofile != "Zucchini" &&
           speprofile != "Peach"
         ) {
+          const embed = new MessageEmbed()
+            .setDescription(
+              `${speprofile} doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`
+            )
+            .setFooter("Error 502: Blocked Request");
           return interaction.followUp({
-            content: `The profile name doesn't seem to match the possible profile names\nif you feel like that's an error please contact the developer.`,
+            embeds: [embed],
           });
         }
         var profile = await senither
           .getSpecifiedProfile(uuid, speprofile)
           .catch(() => console.log());
         if (typeof profile === "undefined" || !profile) {
+          const embed = new MessageEmbed()
+            .setDescription(
+              `player not found or profile provided does not exist`
+            )
+            .setFooter("Error 404: Not found");
           return interaction.followUp({
-            content: `player not found or profile provided doesn't exist`,
+            embeds: [embed],
           });
         }
       } else {
@@ -141,8 +144,11 @@ module.exports = new Command({
           .getFatterProfile(uuid)
           .catch(() => console.log());
         if (typeof profile === "undefined" || !profile) {
+          const embed = new MessageEmbed()
+            .setDescription(`player not found or profile does not exist`)
+            .setFooter("Error 404: Not found");
           return interaction.followUp({
-            content: `player not found or profile doesn't exist`,
+            embeds: [embed],
           });
         }
       }
@@ -155,8 +161,14 @@ module.exports = new Command({
         !dataprofile.slayers.weight ||
         dataprofile.skills.apiEnabled == false
       ) {
+        const embed = new MessageEmbed()
+          .setDescription(
+            "couldn't fetch weight, please check if you have your api on"
+          )
+          .setFooter("Error 404: Not Found");
         return interaction.followUp({
-          content: `couldn't fetch weight, please check if you have your api on, https://sky.shiiyu.moe/resources/video/enable-api.webm`,
+          content: `https://sky.shiiyu.moe/resources/video/enable-api.webm`,
+          embeds: [embed],
         });
       }
       const profilename = dataprofile.name;
@@ -209,8 +221,8 @@ module.exports = new Command({
         .setFooter(`requested by ${interaction.user.tag}`)
         .setColor(`RED`)
         .setAuthor({
-          name:`${username}'s senither Weight`,
-          url:`https://sky.shiiyu.moe/stats/${username}/${nameprofile}`
+          name:`${ign}'s senither Weight`,
+          url:`https://sky.shiiyu.moe/stats/${ign}/${speprofile}`
         })
         .setThumbnail(`https://mc-heads.net/avatar/${uuid}/100`)
         .setTitle(
@@ -226,9 +238,6 @@ module.exports = new Command({
       //output
       interaction
         .followUp({ embeds: [embed], components: [buttonrow] })
-        .catch(() => console.log());
-    } catch (err) {
-      console.log(err);
-    }
+        .catch(() => null);
   },
 });

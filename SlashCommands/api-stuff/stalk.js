@@ -16,9 +16,9 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction }) => {
+    //I still need to get last login and current time to calculate time since last online. Pretty sure I can get last login in the player endpoint
     const ign = interaction.options.getString("username");
     var on = ``;
-    try {
       if (ign.length < 3) {
         interaction
           .followUp({
@@ -49,9 +49,9 @@ module.exports = new Command({
         const description = `Player not found`;
         const embed = new MessageEmbed()
           .setDescription(description)
-          .setTitle(`Error 404:`)
+          .setTitle(`error: player does not exist`)
           .setThumbnail(
-            `https://http.cat/404`
+            `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2014%2F04%2F02%2F10%2F44%2Fcross-mark-304374_640.png&f=1&nofb=1`
           );
         interaction
           .followUp({ embeds: [embed] })
@@ -73,7 +73,7 @@ module.exports = new Command({
         return;
       }
       let TimeSince;
-      let biggest;
+      let time;
       if (data.session.online == false) {
         const PlayerData = await hypixel
           .getPlayerByUuid(uuid.id)
@@ -81,31 +81,32 @@ module.exports = new Command({
         const LastLogout = PlayerData.player.lastLogout;
         const CurrentTime = Date.now();
         TimeSince = CurrentTime - LastLogout;
-        biggest = "";
+        time = "";
         TimeSince = TimeSince / 1000;
-        biggest = " seconds";
+        time = " seconds";
         if (TimeSince > 60) {
           TimeSince = TimeSince / 60; //seconds to minutes
-          biggest = " minutes";
+          time = " minutes";
           if (TimeSince > 60) {
             TimeSince = TimeSince / 60; //minutes to hours
-            biggest = " hours";
+            time = " hours";
             if (TimeSince > 24) {
               TimeSince = TimeSince / 24; //hours to days
-              biggest = " days";
+              time = " days";
               if (TimeSince > 7) {
                 TimeSince = TimeSince / 7; //days to weeks
-                biggest = " weeks";
+                time = " weeks";
               }
             }
           }
         }
         TimeSince = Math.round(TimeSince * 10) / 10;
       }
+      
       if (TimeSince == NaN) {TimeSince = "Error: couldn't find time since last disconnect"};
       if (data.session != null) {
-        const gametype = data.session.gameType;
-        const gamemode = data.session.mode;
+        const gameType = data.session.gameType;
+        const gameMode = data.session.mode;
         const map = data.session.map;
 
         if (data.session.online == true) {
@@ -127,39 +128,39 @@ module.exports = new Command({
             .catch(() => null);
           return;
         }
-        let description;
+
         if (typeof map == "undefined") {
-          if (gametype == "SKYBLOCK") {
+          if (gameType == "SKYBLOCK") {
             //if in skyblock
-            const gametranslate = {
+            const gameModetranslate = {
               combat_3: "The End",
-              dynamic: "private island",
-              combat_2: "blazing fortress",
-              combat_1: "spider's den",
-              hub: "the hub",
-              foraging_1: "the park",
-              mining_1: "the gold mines",
-              mining_2: "deep caverns",
-              mining_3: "dwarven mines",
-              crystal_hollows: "the crystal hollows",
-              dungeon_hub: "the dungeon hub",
-              farming_1: "the farming islands",
-              dungeon: "dungeons",
+              dynamic: "Private island",
+              combat_2: "Blazing fortress",
+              combat_1: "Spider's den",
+              hub: "The hub",
+              foraging_1: "The park",
+              mining_1: "The gold mines",
+              mining_2: "Deep caverns",
+              mining_3: "Dwarven mines",
+              crystal_hollows: "The crystal hollows",
+              dungeon_hub: "The dungeon hub",
+              farming_1: "The farming islands",
+              dungeon: "Dungeons",
             }
             //translate skyblock island ids into island names
-            let gamemodetranslated = gametranslate[gamemode];
-            if (gamemodetranslated == null ||typeof gamemodetranslated == "undefined") {
-            gamemodetranslated = "not currently coded in";
-             console.log(gamemode)
+            let gameModeTranslated = gameModetranslate[gameMode];
+            if (gameModeTranslated == null || typeof gameModeTranslated == "undefined") {
+            gameModetranslated = "not currently coded in";
+             console.log(gameMode)
             }
-            description = `\`\`${uuid.name}\`\` is currently ${on} \n in Skyblock in ${gamemodetranslated}`;
-          } else if (typeof gametype == "undefined") {
-            description = `\`\`${uuid.name}\`\` appears to be offline\n last time online was ${TimeSince} ${biggest} ago`;
+            description = `\`\`${uuid.name}\`\` is currently ${on} \n in Skyblock in ${gameModeTranslated}`;
+          } else if (typeof gameType == "undefined") {
+            description = `\`\`${uuid.name}\`\` appears to be offline\n last time online was ${TimeSince} ${time} ago`;
           } else {
-            description = `\`\`${uuid.name}\`\` is currently ${on} \n is in ${gametype} in the gamemode ${gamemode}`;
+            description = `\`\`${uuid.name}\`\` is currently ${on} \n is in ${gameType} in the gameMode ${gameMode}`;
           }
         } else {
-          description = `\`\`${uuid.name}\`\` is currently ${on}\n in the game ${gametype} in the gamemode ${gamemode}\n in ${map}`;
+          description = `\`\`${uuid.name}\`\` is currently ${on}\n in the game ${gameType} in the gameMode ${gameMode}\n in ${map}`;
         }
         const embed = new MessageEmbed()
           .setAuthor({name:`${uuid.name}`})
@@ -172,8 +173,5 @@ module.exports = new Command({
             .followUp({ embeds: [embed] })
             .catch(() => null);
       }
-    } catch (err) {
-      console.log(err);
-    }
   },
 });

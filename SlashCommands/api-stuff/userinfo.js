@@ -15,7 +15,6 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction }) => {
-    try {
       const user = interaction.options.getUser("target");
       const userId = user.id;
       let specificity;
@@ -31,11 +30,7 @@ module.exports = new Command({
             content: `the user isn't verified, tell them to use /verify`,
             ephemeral: true,
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       const uuid = info.minecraftuuid;
       if (typeof uuid !== "undefined") {
         const data = await hypixel.getPlayerByUuid(uuid).catch(console.log);
@@ -56,29 +51,18 @@ module.exports = new Command({
               }\'s username is \`\`${username}\`\` and has the label(s) ${labellist.toString()}`,
               ephemeral: true,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         } else {
           return interaction
             .followUp({
               content: `${user.tag}\'s username is \`\`${username}\`\``,
               ephemeral: true,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         }
       } else {
         return interaction.followUp({ content: ` couldn't fetch uuid` });
       }
-    } catch (err) {
-      console.log(err);
-    }
   },
 });
 

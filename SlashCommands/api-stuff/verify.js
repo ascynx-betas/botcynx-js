@@ -33,7 +33,6 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction }) => {
-    try {
       const ign = interaction.options.getString("username");
       const user = interaction.user;
       const usertag = interaction.user.tag;
@@ -89,11 +88,7 @@ module.exports = new Command({
             .followUp({
               content: `that account is already linked, if you want to change the linked account, use the update command`,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         }
 
         if (userInfo.length > 0) {
@@ -102,11 +97,7 @@ module.exports = new Command({
             if (!member.roles.cache.has(verifyrole)) {
               member.roles
                 .add(verifyrole)
-                .catch(() =>
-                  console.log(
-                    `I don't have permission to add ${verifyrole} in ${guildId}`
-                  )
-                );
+                .catch(() => null);
             }
           }
           return interaction
@@ -114,11 +105,7 @@ module.exports = new Command({
               content: `that account is already linked, if you want to change the linked account, use the update subcommand`,
               ephemeral: true,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         }
         if (usertag == linkedtag) {
           new verifyModel({
@@ -130,20 +117,12 @@ module.exports = new Command({
             .followUp({
               content: `added ${user.tag} as ${ign} to database\n disclaimer: the informations stored are:\n your account id (discord) and minecraft uuid\nif you have a problem with it, please contact the developer.`,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
           if (typeof config.verify !== "undefined") {
             const verifyrole = config.verify;
             member.roles
               .add(verifyrole)
-              .catch(() =>
-                console.log(
-                  `I don't have permission to add ${verifyrole} in ${guildId}`
-                )
-              );
+              .catch(() => null);
           }
         } else if (
           linkedtag ==
@@ -153,21 +132,13 @@ module.exports = new Command({
             .followUp({
               content: `the account either has no specified account or the username you provided is wrong`,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         } else {
           interaction
             .followUp({
               content: ` discord account is not linked to the specified minecraft account.\nhttps://i.gyazo.com/3a2358687dae9b4333fd2fef932e0a17.mp4\nfollow the linked video to link your discord to minecraft.`,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
           return;
         }
       } else {
@@ -178,11 +149,7 @@ module.exports = new Command({
               .followUp({
                 content: `that user isn't linked, please use the verify command`,
               })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              );
+              .catch(() => null);
           }
 
           if ((userInfo.length = 0)) {
@@ -191,11 +158,7 @@ module.exports = new Command({
                 content: `that user isn't linked, please use the verify command`,
                 ephemeral: true,
               })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              );
+              .catch(() => null);
           }
 
           if (usertag == linkedtag) {
@@ -257,8 +220,5 @@ module.exports = new Command({
           });
         }
       }
-    } catch (err) {
-      console.log(err);
-    }
   },
 });

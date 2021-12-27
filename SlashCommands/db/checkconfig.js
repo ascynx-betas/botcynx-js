@@ -10,7 +10,6 @@ module.exports = new Command({
   devonly: true,
 
   run: async ({ client, interaction }) => {
-    try {
       const guildId = interaction.guild.id;
       const config = await configmodel.find({
         guildId: guildId,
@@ -155,9 +154,6 @@ module.exports = new Command({
         embeds: [embed],
         allowedMentions: { parse: [] },
       });
-    } catch (err) {
-      console.log(err);
-    }
   },
 });
 //need to fix a stupid bug, that makes it so it requires a restart to take into account additions outside bot additions

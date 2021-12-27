@@ -37,7 +37,6 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction, client }) => {
-    try {
       const role = interaction.options.getRole("role");
       const target = interaction.options.getMember("target");
       const action = interaction.options.getString("action");
@@ -54,11 +53,7 @@ module.exports = new Command({
               content:
                 "You can't give this role as it's higher or equal to your current highest role",
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-              )
-            );
+            .catch(() => null);
         } else if (
           role.position < interaction.member.roles.highest.position ||
           interaction.member.id === interaction.guild.ownerId
@@ -76,33 +71,21 @@ module.exports = new Command({
                 content: `<@&${roleId}> was added to ${target.user.tag}`,
                 allowedMentions: { parse: [] },
               })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-                )
-              );
+              .catch(() => null);
           } else {
             interaction
               .followUp({
                 content: `<@&${roleId}> is managed by either a bot or discord`,
                 allowedMentions: { parse: [] },
               })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-                )
-              );
+              .catch(() => null);
           }
         } else {
           interaction
             .followUp({
               content: "there was an error while executing this command",
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-              )
-            );
+            .catch(() => null);
         }
       } else if (action === "remove") {
         if (
@@ -115,11 +98,7 @@ module.exports = new Command({
               content:
                 "You can't remove this role as it's higher or equal to your current highest role",
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-              )
-            );
+            .catch(() => null);
         if (
           role.position < interaction.member.roles.highest.position ||
           interaction.member.id === interaction.guild.ownerId
@@ -137,42 +116,20 @@ module.exports = new Command({
                 content: `<@&${roleId}> was removed from ${target.user.tag}`,
                 allowedMentions: { parse: [] },
               })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-                )
-              );
+              .catch(() => null);
           } else {
             interaction
               .followUp({
                 content: `<@&${roleId}> is managed by either a bot or discord`,
                 allowedMentions: { parse: [] },
               })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-                )
-              );
+              .catch(() => null);
           }
         }
       } else {
         interaction
           .followUp({ content: `missing an argument` })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-            )
-          );
+          .catch(() => null);
       }
-    } catch (err) {
-      console.log(err);
-      interaction
-        .followUp({ content: `there was an error executing this command` })
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${interaction.channel} in ${interaction.guild.name}`
-          )
-        );
-    }
   },
 });
