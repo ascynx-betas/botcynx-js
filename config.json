@@ -1,9 +1,0 @@
-{
-  "token": "ODkzMDcyNTI2MTQwMzkxNTE0.YVWImg.HtRCNiOne5iVi32vlMrpHo31X_A",
-  "prefix": "b!",
-  "mongooseConnectionString": "mongodb+srv://ascynx:B0kKXm80tTvL@cluster0.mfqdb.mongodb.net/data",
-  "developerId": "376647579653636096",
-  "hypixelapikey": "0e085f9f-0f28-4449-922d-1648b77085c1",
-  "tbn": ["info", "weight", "close", "config"],
-  "logwb": "https://ptb.discord.com/api/webhooks/920355470026371132/ZWHUrdzZ-iAxgMt6aTZpERMBENDXeIpGDrzAGSjfT4civl02S70zDQHAQ2MBFnNKXKw2"
-}
