@@ -19,7 +19,6 @@ module.exports = new Command({
   run: async ({ interaction }) => {
     var info;
     var embed;
-    try {
       var ign = interaction.options.getString("username");
       var on = ``;
       if (!ign) {
@@ -113,11 +112,7 @@ module.exports = new Command({
       if (uuid === null || ign === null) {
         interaction
           .followUp({ content: `Player not found` })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
         return;
       }
 
@@ -153,14 +148,7 @@ module.exports = new Command({
 
       interaction
         .followUp({ embeds: [embed] })
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
-          )
-        );
-    } catch (err) {
-      console.log(err);
-    }
+        .catch(() => null);
   },
 });
 //this command sucks

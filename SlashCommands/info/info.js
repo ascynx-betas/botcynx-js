@@ -5,7 +5,6 @@ module.exports = new Command({
   description: "gives informations about the bot and it's creator",
 
   run: async ({ interaction, client }) => {
-    try {
       const buttonrow = new MessageActionRow()
         .addComponents(
           new MessageButton()
@@ -50,13 +49,6 @@ module.exports = new Command({
 
       interaction
         .followUp({ embeds: [embed], components: [buttonrow] })
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
-          )
-        );
-    } catch (err) {
-      console.log(err);
-    }
+        .catch(() => null);
   },
 });

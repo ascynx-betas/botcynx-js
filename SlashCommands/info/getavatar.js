@@ -16,15 +16,11 @@ module.exports = new Command({
   run: async ({ interaction }) => {
     const user = interaction.options.getUser("target");
     const embed = new MessageEmbed()
-      .setAuthor(user.tag, ``, user.displayAvatarURL({ dynamic: true }))
+      .setAuthor({name:user.tag, iconURL:user.displayAvatarURL({ dynamic: true })})
       .setImage(user.displayAvatarURL({ dynamic: true }));
 
     interaction
       .followUp({ embeds: [embed] })
-      .catch(() =>
-        console.log(
-          `I don't have permission to send a message in ${channel} in ${guild.name}`
-        )
-      );
+      .catch(() => null);
   },
 });

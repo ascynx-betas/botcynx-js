@@ -38,7 +38,6 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction, client }) => {
-    try {
       const action = interaction.options.getString("action");
       const integerOption = interaction.options.getInteger("integer-option");
       const integerOption2 = interaction.options.getInteger("int-option2");
@@ -46,7 +45,7 @@ module.exports = new Command({
       const stringOption = interaction.options.getString("string-option");
 
       if (action == "meme") {
-        const memestash = {
+        const memeStash = {
           1: `https://cdn.discordapp.com/attachments/163382741491122176/894176854406230066/d64e7d41e9c1bde6a765a38068030b57.mp4`,
           2: `https://cdn.discordapp.com/attachments/788052445217030154/894307942743035995/unknown.png`,
           3: `https://cdn.discordapp.com/attachments/779549891890118686/893516964989898752/Sound_like_skill_issue-7iYEbHBwNYY.mp4`,
@@ -75,34 +74,26 @@ module.exports = new Command({
         let number;
         if (integerOption == null) {
           number =
-            Math.floor(Math.random() * Object.keys(memestash).length - 1) + 1;
+            Math.floor(Math.random() * Object.keys(memeStash).length - 1) + 1;
         } else {
           number = integerOption;
         }
 
-        if (typeof memestash[number] === "undefined")
+        if (typeof memeStash[number] === "undefined")
           return interaction.followUp({
             content: `there isn't an option ${number} available currently please choose from option 1 to ${
-              Object.keys(memestash).length
+              Object.keys(memeStash).length
             }`,
           });
-        interaction.followUp({ content: memestash[number] }).catch(() => null);
-
-        //************* */
-        //change the meme stash to an array would be a better option
-        //************ */
+        interaction.followUp({ content: memeStash[number] }).catch(() => null);
       } else if (action == "setusername") {
         if (stringOption !== null) {
-          client.user.setUsername(stringOption).catch(() => console.log());
+          client.user.setUsername(stringOption).catch(() => null);
           interaction
             .followUp({
               content: `successfully set bot name to ${stringOption}`,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
           console.log(
             `username was updated to ${stringOption} from ${client.user.tag}, by ${interaction.user.tag}`
           );
@@ -116,35 +107,20 @@ module.exports = new Command({
           return interaction
             .followUp({ content: `ADMINISTRATOR permission` })
             .catch(() => console.log())
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         }
 
         interaction
           .followUp({ content: `\`\`${perms.toString()}\`\`` })
           .catch(() => console.log())
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       } else {
         interaction
           .followUp({
             content: `there's no ${action} currently`,
             allowedMentions: { parse: [] },
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       }
-    } catch (err) {
-      console.log(err);
-    }
   },
 });

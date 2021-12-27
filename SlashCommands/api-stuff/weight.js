@@ -32,7 +32,6 @@ module.exports = new Command({
     /**
      * probably add intermedietary stages in late / end game
      */
-    try {
       if (!ign) {
         const userId = interaction.user.id;
 
@@ -47,11 +46,7 @@ module.exports = new Command({
               content: `please provide username or use the /verify command first`,
               ephemeral: true,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         var uuid = info.minecraftuuid;
       } else {
         if (ign.length < 3) {
@@ -76,14 +71,13 @@ module.exports = new Command({
       }
 
       if (typeof uuid === "undefined") {
-        var uuid = await ma.getUuidbyUsername(ign).catch(() => console.log());
+        var uuid = await ma.getUuidbyUsername(ign).catch(() => null);
         uuid = uuid.id;
       } else {
         const data = await hypixel
           .getPlayerByUuid(uuid)
-          .catch(() => console.log());
+          .catch(() => null);
         if (!data) {
-          console.log();
           return interaction.followUp({
             content: `error while trying to fetch player name`,
           });
@@ -244,9 +238,6 @@ module.exports = new Command({
       //output
       interaction
         .followUp({ embeds: [embed], components: [buttonrow] })
-        .catch(() => console.log());
-    } catch (err) {
-      console.log(err);
-    }
+        .catch(() => null);
   },
 });

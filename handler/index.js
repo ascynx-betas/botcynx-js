@@ -38,14 +38,13 @@ module.exports = async (client) => {
     if (!file?.name) return;
     client.slashCommands.set(file.name, file);
 
-    if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
+    if (["MESSAGE", "USER"].includes(file.type)) delete file.description; //if context menu
     arrayOfSlashCommands.push(file);
   });
   client.on("ready", async () => {
     //set Global parameters
     global.maxTimeOut = "28 days";
     global.readableperms = globalvars.readableperms;
-    //add bot name / activity to here
     client.user.setPresence({
       activities: [{ name: "test", type: "WATCHING" }],
     }); //PLAYING, STREAMING, LISTENING, WATCHING, CUSTOM_STATUS

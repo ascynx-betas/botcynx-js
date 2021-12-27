@@ -76,7 +76,6 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction, client }) => {
-    try {
       //TODO should add an explanation for every of these and explain if necessary or not depending on the action taken
       const action = interaction.options.getString("sub-command");
       const config = interaction.options.getString("config-name");
@@ -91,11 +90,7 @@ module.exports = new Command({
             .followUp({
               content: `the channel in which you executed this command is not a thread`,
             })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
+            .catch(() => null);
         } else {
           //code
           if (action == "close") {
@@ -104,11 +99,7 @@ module.exports = new Command({
               .followUp({ content: `Locking thread...`, ephemeral: true })
               .then(thread.setLocked())
               .then(thread.setArchived())
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              );
+              .catch(() => null);
           } else if (action == "add") {
             const thread = interaction.channel;
             if (typeof target == "undefined") {
@@ -116,11 +107,7 @@ module.exports = new Command({
                 .followUp({
                   content: ` please enter a valid user when executing this command`,
                 })
-                .catch(() =>
-                  console.log(
-                    `I don't have permission to send a message in ${channel} in ${guild.name}`
-                  )
-                );
+                .catch(() => null);
             } else {
               thread.members
                 .add(`${target.id}`)
@@ -129,11 +116,7 @@ module.exports = new Command({
                     content: `successfully added ${target.tag} to the thread`,
                   })
                 )
-                .catch(() =>
-                  console.log(
-                    `I don't have permission to send a message in ${channel} in ${guild.name}`
-                  )
-                );
+                .catch(() => null);
             }
           } else if (action == "block") {
             if (!target || typeof target === "undefined") {
@@ -256,11 +239,7 @@ module.exports = new Command({
           } else {
             interaction
               .followUp({ content: `this command is not currently coded in` })
-              .catch(() =>
-                console.log(
-                  `I don't have permission to send a message in ${channel} in ${guild.name}`
-                )
-              );
+              .catch(() => null);
           }
         }
       } else {
@@ -314,8 +293,5 @@ module.exports = new Command({
           return interaction.followUp({ content: `ticket does not exist` });
         }
       }
-    } catch (err) {
-      console.log(err);
-    }
   },
 });

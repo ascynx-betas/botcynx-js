@@ -48,7 +48,6 @@ module.exports = new Command({
   ],
 
   run: async ({ client, interaction }) => {
-    try {
       const type = interaction.options.getString("type");
       const guildId = interaction.guild.id;
       const guild = interaction.guild;
@@ -77,7 +76,7 @@ module.exports = new Command({
       if (type === "bypass") {
         const roleId = role.id;
         if (!guildconfig[0].bypass.includes(roleId))
-          return interaction.FollowUp({
+          return interaction.followUp({
             content: `${role} isn't in the configuration, if you want to add it please use /setconfig`,
             allowedMentions: { parse: [] },
           });
@@ -104,7 +103,7 @@ module.exports = new Command({
       } else if (type === "removable") {
         const roleId = role.id;
         if (!guildconfig[0].removable.includes(roleId))
-          return interaction.FollowUp({
+          return interaction.followUp({
             content: `${role} isn't in the configuration, if you want to add it please use /setconfig`,
             allowedMentions: { parse: [] },
           });
@@ -120,7 +119,7 @@ module.exports = new Command({
         );
 
         interaction
-          .FollowUp({
+          .followUp({
             content: `the changes to ${type} have been made, it may take a few minutes for the config to notice the changes`,
           })
           .catch(() =>
@@ -158,7 +157,7 @@ module.exports = new Command({
       } else if (type === "blockchannel") {
         let blockchannel = channel.id;
         if (!guildconfig[0].blocked.includes(blockchannel))
-          return interaction.FollowUp({
+          return interaction.followUp({
             content: `${channel} is missing from config, if you want to add it please use /setconfig`,
           });
         configmodel.updateOne(
@@ -195,11 +194,5 @@ module.exports = new Command({
           content: `configuration was modified by \`\`${interaction.user.tag}\`\`\nthe changes may take a few minutes for them to take effect`,
         });
       }
-    } catch (err) {
-      console.log(err);
-      if (typeof logchannel === !"undefined") {
-        channel.send({ content: err });
-      }
-    }
   },
 });

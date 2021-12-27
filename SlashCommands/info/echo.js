@@ -30,56 +30,26 @@ module.exports = new Command({
     const message = interaction.options.getString("message");
     const user = interaction.options.getUser("target");
     const channel = interaction.options.getChannel("channel");
-    try {
       if (user) {
         user
           .send({ content: message })
           .catch(() => interaction.followUp("Can't send DM to specified user"));
         interaction
           .followUp({ content: `sent message '${message}' to ${user.tag}` })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       } else if (channel) {
-        try {
           channel
             .send({ content: message, allowedMentions: { parse: [] } })
             .catch(() =>
-              interaction.followUp(
+              interaction.editReply(
                 "I don't have permission to send a message in the specified channel"
               )
             );
           interaction
             .followUp({ content: `sent message in ${channel}` })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
-        } catch (err) {
-          interaction
-            .followUp({ content: `failed to send message to ${channel}` })
-            .catch(() =>
-              console.log(
-                `I don't have permission to send a message in ${channel} in ${guild.name}`
-              )
-            );
-          console.log(err);
-        }
+            .catch(() => null);
       } else {
         interaction.followUp({ content: message });
       }
-    } catch (err) {
-      interaction
-        .followUp(`Command failed to execute`)
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
-          )
-        );
-      console.log(err);
-    }
   },
 });

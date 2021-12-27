@@ -51,7 +51,6 @@ module.exports = new Command({
   ],
 
   run: async ({ client, interaction }) => {
-    try {
       const role = interaction.options.getRole("role");
       const type = interaction.options.getString("type");
       const channel = interaction.options.getChannel("channel");
@@ -104,11 +103,7 @@ module.exports = new Command({
             content: `${role} has been added to ${type}`,
             allowedMentions: { parse: [] },
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       } else if (type === "trigger") {
         const roleId = role.id;
         if (guildconfig.trigger) {
@@ -133,11 +128,7 @@ module.exports = new Command({
             content: `${role} has been added to ${type}`,
             allowedMentions: { parse: [] },
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       } else if (type === "removable") {
         const roleId = role.id;
         if (guildconfig.removable) {
@@ -162,11 +153,7 @@ module.exports = new Command({
             content: `${role} has been added to ${type}`,
             allowedMentions: { parse: [] },
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       } else if (type === "logchannel") {
         let logchannel = channel.id;
         if (guildconfig.logchannel == `${logchannel}`)
@@ -189,11 +176,7 @@ module.exports = new Command({
           .editReply({
             content: `${type} is now <#${logchannel}>\nmodifications after this one will also be logged there`,
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       } else if (type === "blockchannel") {
         let blockchannel = channel.id;
         if (guildconfig.blocked) {
@@ -216,34 +199,16 @@ module.exports = new Command({
           .followUp({
             content: `${type} now contains <#${blockchannel}>\na channel blocked means that any person to use the bot's link reader on a link leading to a message in this channel will be ignored`,
           })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       } else {
         interaction
           .followUp({ content: `argument type not supported` })
-          .catch(() =>
-            console.log(
-              `I don't have permission to send a message in ${channel} in ${guild.name}`
-            )
-          );
+          .catch(() => null);
       }
       if (log) {
         client.channels.cache.get(log).send({
           content: `configuration was modified by \`\`${interaction.user.tag}\`\`\nthe changes may take a few minutes for them to take effect`,
         });
       }
-    } catch (err) {
-      console.log(err);
-      interaction
-        .editReply({ content: `there was an error executing this command` })
-        .catch(() =>
-          console.log(
-            `I don't have permission to send a message in ${channel} in ${guild.name}`
-          )
-        );
-    }
   },
 });
