@@ -1,141 +1,141 @@
 ## This bot was mostly coded by Ascynx#2020
 
-the handler used for this project is a modified version of https://github.com/reconlx/djs-base-handler
+The handler used for this project is a modified version of https://github.com/reconlx/djs-base-handler
 
-the new page for this project is [here](https://github.com/ascynx-betas/botcynx-typescript)
+The new page for this project is [here](https://github.com/ascynx-betas/botcynx-typescript)
 
-# events
+# Events
 
 #### ButtonCreate
 
-in this version, is only used for weight but in typescript is used for all types of buttons
+In this version, is only used for weight but in typescript is used for all types of buttons
 
-#### copyLink
+#### CopyLink
 
-based on Fire's Link quote feature, allows to paste the message at a message link if the bot is also in that server
+Based on Fire's Link quote feature, allows to paste the message at a message link if the bot is also in that server
 
 #### GuildCreate
 
-the event that happens when a guild is created, what more is there to say
+The event that happens when a guild is created, what more is there to say
 
 #### interactionCreate
 
-happens when an interaction is created works along with ButtonCreate
+Happens when an interaction is created works along with ButtonCreate
 
 #### messageCreate
 
-happens when a message appears, is used to detect a prefix command
+Happens when a message appears, is used to detect a prefix command
 
 #### ready
 
-happens when the bot loads up
+Happens when the bot loads up
 
 #### RoleChange
 
-linked to guild configs
+Linked to guild configs
 
-## currently the bot has the following commands
+## Currently the bot has the following commands
 
-### moderation
+### Moderation
 
 #### /role
 
-someone with MANAGE_ROLES perm can add / remove a role from/to someone, as long as they're either owner or have a higher role than the one given / removed
+Someone with MANAGE_ROLES perm can add / remove a role from/to someone, as long as they're either owner or have a higher role than the one given / removed
 
 #### /echo
 
-speak through the bot to a specified Text channel or DM channel
+Speak through the bot to a specified Text channel or DM channel
 
 #### /ping
 
-just a ping command
+Just a ping command
 
-### hypixel api
+### Hypixel API
 
 #### /hyinfo
 
-a user can see some informations on the specified minecraft user
+A user can see some informations on the specified minecraft user
 
 #### /stalk
 
-a user can see the current activity of the specified minecraft user
+A user can see the current activity of the specified minecraft user
 
 #### /userinfo
 
-gets information from the database about the user
+Gets information from the database about the user
 
 #### /verify
 
-adds the user and it's uuid to the database
+Adds the user and it's uuid to the database
 
 #### /weight
 
-a user can use this command to check someone's skyblock weight
+A user can use this command to check someone's skyblock weight
 
-### ticket
+### Ticket
 
 #### /setupticket
 
-someone with Admin perm can use this command to create a new thread ticket system in a specified channel
+Someone with Admin perm can use this command to create a new thread ticket system in a specified channel
 
 #### /ticket
 
-someone with MANAGE_THREADS perm can use this command to act on certain threads / ticket systems
+Someone with MANAGE_THREADS perm can use this command to act on certain threads / ticket systems
 
-### config
+### Config
 
 #### /setconfig
 
-someone with MANAGE_ROLES perm can use this command to add an entry to the guild's configuration
+Someone with MANAGE_ROLES perm can use this command to add an entry to the guild's configuration
 
 #### /delconfig
 
-someone with MANAGE_ROLES perm can use this command to remove an entry from the guild's configuration
+Someone with MANAGE_ROLES perm can use this command to remove an entry from the guild's configuration
 
 #### /dev
 
-a super-user / the dev can use this command to execute indev / dangerous commands
+A super-user / the dev can use this command to execute indev / dangerous commands
 
 #### /checkconfig
 
-someone with MANAGE_ROLES perm can use this command to see the current configuration of the guild they're in
+Someone with MANAGE_ROLES perm can use this command to see the current configuration of the guild they're in
 
 #### /reload
 
-globally disabled -- someone with MANAGE_ROLES perm can use this command to execute the "purge".
+Globally disabled -- someone with MANAGE_ROLES perm can use this command to execute the "purge".
 
-### context menu commands
+### Context Menu Commands
 
 #### User - getAvatar
 
-return's the target's avatar in an embed
+Return's the target's avatar in an embed
 
 #### User - getInfo
 
-returns the target's info from the linked accounts database
+Returns the target's info from the linked accounts database
 
-### non-slash commands
+### Non-slash Commands
 
 #### move
 
-moves users from a voice channel to another
+Moves users from a voice channel to another
 
 #### su
 
-adds / remove the user from the server's super user list
+Adds / remove the user from the server's super user list
 
 #### webhookdelete
 
-deletes the specified webhook using it's link
+Deletes the specified webhook using it's link
 
 #### ping
 
-just a ping command
+Just a ping command
 
 #### kill
 
-destroys the client, disconnects from mongodb and kills the process
+Destroys the client, disconnects from mongodb and kills the process
 
 #### label / removelabel
 
-adds / remove a label from specified users
+Adds / remove a label from specified users
