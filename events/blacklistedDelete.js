@@ -9,12 +9,12 @@ client.on("messageCreate", async (message) => {
     return;
 
     if (message.author.id == client.config.developerId) return;
-    const blacklisted = global.blacklistedwords;
+    const blacklisted = global.blacklistedWords;
     if (typeof blacklisted !== "object") return;
     blacklisted.forEach(function(blacklist) {
         const content = message?.content;
-        let  rg = new RegExp(`.?${blacklist}.?`, 'gi');
-        let contains = rg.test(content);
+        let  RegEx = new RegExp(`.?${blacklist}.?`, 'gi');
+        let contains = RegEx.test(content);
         if (contains != true) return;
         message.delete();
         return;

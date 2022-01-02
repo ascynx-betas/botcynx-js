@@ -16,7 +16,6 @@ module.exports = new Command({
   ],
 
   run: async ({ interaction }) => {
-    //I still need to get last login and current time to calculate time since last online. Pretty sure I can get last login in the player endpoint
     const ign = interaction.options.getString("username");
     var on = ``;
       if (ign.length < 3) {
@@ -150,7 +149,7 @@ module.exports = new Command({
             //translate skyblock island ids into island names
             let gameModeTranslated = gameModetranslate[gameMode];
             if (gameModeTranslated == null || typeof gameModeTranslated == "undefined") {
-            gameModetranslated = "not currently coded in";
+            gameModeTranslated = "not currently coded in";
              console.log(gameMode)
             }
             description = `\`\`${uuid.name}\`\` is currently ${on} \n in Skyblock in ${gameModeTranslated}`;

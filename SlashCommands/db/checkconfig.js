@@ -16,7 +16,7 @@ module.exports = new Command({
       });
       if (!config || config.length == 0) {
         new configmodel({
-          name: guild.name,
+          name: interaction.guild.name,
           guildId: guildId,
           trigger: [],
           bypass: [],

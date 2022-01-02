@@ -33,7 +33,13 @@ client.on("interactionCreate", async (interaction, message) => {
         var profilename = interaction.message.embeds[0].author.url;
         profilename = profilename.slice(29, profilename.length);
         const fields = profilename.split("/");
-        const profile = fields[1];
+        let profile = fields[1];
+        if (profile === "null") {
+         let profileName = interaction.message.embeds[0].title;
+         profileName = profileName.split('``');
+         console.log(profileName[1])
+         profile = profileName[1]
+        }
         const username = fields[0];
         const weight = await lily.getWeight(uuid).catch(() => console.log());
         //calculations

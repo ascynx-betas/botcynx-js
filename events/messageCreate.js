@@ -18,7 +18,7 @@ client.on("messageCreate", async (message) => {
     client.commands.find((c) => c.aliases?.includes(cmd.toLowerCase()));
 
   if (!command) return;
-  if (message.author != client.config.developerId) {
+  if (message.author.id != client.config.developerId) {
     return;
   }
   await command.run(client, message, args);

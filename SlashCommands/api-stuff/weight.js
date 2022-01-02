@@ -91,31 +91,29 @@ module.exports = new Command({
       //}
       if (speprofile) {
         const lowercase = speprofile.toLowerCase();
-        const uppercase = lowercase[0].toUpperCase();
-        const without = lowercase.substr(1, speprofile.length);
-        speprofile = uppercase + without;
+        speprofile = lowercase;
         if (
-          speprofile != "Apple" &&
-          speprofile != "Banana" &&
-          speprofile != "Blueberry" &&
-          speprofile != "Coconut" &&
-          speprofile != "Cucumber" &&
-          speprofile != "Grapes" &&
-          speprofile != "Kiwi" &&
-          speprofile != "Lemon" &&
-          speprofile != "Lime" &&
-          speprofile != "Mango" &&
-          speprofile != "Orange" &&
-          speprofile != "Papaya" &&
-          speprofile != "Pear" &&
-          speprofile != "Pineapple" &&
-          speprofile != "Pomegranate" &&
-          speprofile != "Raspberry" &&
-          speprofile != "Strawberry" &&
-          speprofile != "Tomato" &&
-          speprofile != "Watermelon" &&
-          speprofile != "Zucchini" &&
-          speprofile != "Peach"
+          speprofile != "apple" &&
+          speprofile != "banana" &&
+          speprofile != "blueberry" &&
+          speprofile != "coconut" &&
+          speprofile != "cucumber" &&
+          speprofile != "grapes" &&
+          speprofile != "kiwi" &&
+          speprofile != "lemon" &&
+          speprofile != "lime" &&
+          speprofile != "mango" &&
+          speprofile != "orange" &&
+          speprofile != "papaya" &&
+          speprofile != "pear" &&
+          speprofile != "pineapple" &&
+          speprofile != "pomegranate" &&
+          speprofile != "raspberry" &&
+          speprofile != "strawberry" &&
+          speprofile != "tomato" &&
+          speprofile != "watermelon" &&
+          speprofile != "zucchini" &&
+          speprofile != "peach"
         ) {
           const embed = new MessageEmbed()
             .setDescription(

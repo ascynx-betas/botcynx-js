@@ -130,7 +130,7 @@ module.exports = new Command({
       } else if (type === "trigger") {
         const roleId = role.id;
         if (!guildconfig[0].trigger.includes(roleId))
-          return interaction.FollowUp({
+          return interaction.followUp({
             content: `${role} isn't in the configuration, if you want to add it please use /setconfig`,
             allowedMentions: { parse: [] },
           });

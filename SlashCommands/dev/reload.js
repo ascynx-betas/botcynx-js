@@ -13,7 +13,7 @@ module.exports = new Command({
       name: 'testrun',
       description: 'test run of the command',
       type: 'BOOLEAN',
-      required: 'false',
+      required: false,
     }
   ],
 
