@@ -2,11 +2,13 @@
 
 the handler used for this project is a modified version of https://github.com/reconlx/djs-base-handler
 
+the new page for this project is [here](https://github.com/ascynx-betas/botcynx-typescript)
+
 # events
 
 #### ButtonCreate
 
-currently only for /weight and it's buttons but will later be used for most if not all button interactions
+in this version, is only used for weight but in typescript is used for all types of buttons
 
 #### copyLink
 
